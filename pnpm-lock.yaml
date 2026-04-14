@@ -66,6 +66,21 @@ importers:
         specifier: workspace:*
         version: link:../../core
 
+  packages/fetchers/morpho-blue:
+    dependencies:
+      '@1delta/chain-registry':
+        specifier: ^0.0.4
+        version: 0.0.4
+      '@1delta/data-sdk':
+        specifier: ^0.0.22
+        version: 0.0.22
+      '@1delta/initializer-sdk':
+        specifier: ^0.0.11
+        version: 0.0.11
+      '@lending-owners/core':
+        specifier: workspace:*
+        version: link:../../core
+
   packages/runner:
     dependencies:
       '@1delta/initializer-sdk':
@@ -83,6 +98,9 @@ importers:
       '@lending-owners/fetcher-compound-v3':
         specifier: workspace:*
         version: link:../fetchers/compound-v3
+      '@lending-owners/fetcher-morpho-blue':
+        specifier: workspace:*
+        version: link:../fetchers/morpho-blue
 
 packages:
 

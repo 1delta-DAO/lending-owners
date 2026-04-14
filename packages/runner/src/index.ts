@@ -3,6 +3,7 @@ import { fetchLenderMetaFromDirAndInitialize } from "@1delta/initializer-sdk";
 import { createAaveV3Fetcher } from "@lending-owners/fetcher-aave-v3";
 import { createCompoundV3Fetcher } from "@lending-owners/fetcher-compound-v3";
 import { createAaveV4Fetcher } from "@lending-owners/fetcher-aave-v4";
+import { createMorphoBlueFetcher } from "@lending-owners/fetcher-morpho-blue";
 
 function requireEnv(name: string): string {
   const v = process.env[name];
@@ -15,6 +16,7 @@ async function main() {
   await fetchLenderMetaFromDirAndInitialize({
     compoundV3Pools: true,
     aaveV4Spokes: true,
+    morphoPools: true,
   });
 
   const fetchers: OwnershipFetcher[] = [
@@ -24,6 +26,10 @@ async function main() {
       skipMetadataInit: true,
     }),
     createAaveV4Fetcher({ skipMetadataInit: true }),
+    createMorphoBlueFetcher({
+      subgraphApiKey: requireEnv("MORPHO_BLUE_SUBGRAPH_API_KEY"),
+      skipMetadataInit: true,
+    }),
   ];
 
   for (const f of fetchers) {

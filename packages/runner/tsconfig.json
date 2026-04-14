@@ -12,6 +12,7 @@
     { "path": "../fetchers/aave-v4" },
     { "path": "../fetchers/compound-v3" },
     { "path": "../fetchers/morpho-blue" },
-    { "path": "../fetchers/euler" }
+    { "path": "../fetchers/euler" },
+    { "path": "../fetchers/silo" }
   ]
 }

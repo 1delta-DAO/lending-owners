@@ -2,12 +2,14 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "dist",
-    "rootDir": "src"
+    "rootDir": "src",
+    "types": ["node"]
   },
   "include": ["src"],
   "references": [
     { "path": "../core" },
     { "path": "../fetchers/aave-v3" },
+    { "path": "../fetchers/aave-v4" },
     { "path": "../fetchers/compound-v3" }
   ]
 }

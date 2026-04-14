@@ -1,6 +1,8 @@
 import type { OwnershipFetcher } from "@lending-owners/core";
+import { fetchLenderMetaFromDirAndInitialize } from "@1delta/initializer-sdk";
 import { createAaveV3Fetcher } from "@lending-owners/fetcher-aave-v3";
 import { createCompoundV3Fetcher } from "@lending-owners/fetcher-compound-v3";
+import { createAaveV4Fetcher } from "@lending-owners/fetcher-aave-v4";
 
 function requireEnv(name: string): string {
   const v = process.env[name];
@@ -8,12 +10,22 @@ function requireEnv(name: string): string {
   return v;
 }
 
-const fetchers: OwnershipFetcher[] = [
-  createAaveV3Fetcher({ subgraphApiKey: requireEnv("AAVE_V3_SUBGRAPH_API_KEY") }),
-  createCompoundV3Fetcher({ subgraphApiKey: requireEnv("COMPOUND_V3_SUBGRAPH_API_KEY") }),
-];
-
 async function main() {
+  // Initialize all protocol metadata once so individual fetchers skip redundant fetches.
+  await fetchLenderMetaFromDirAndInitialize({
+    compoundV3Pools: true,
+    aaveV4Spokes: true,
+  });
+
+  const fetchers: OwnershipFetcher[] = [
+    createAaveV3Fetcher({ subgraphApiKey: requireEnv("AAVE_V3_SUBGRAPH_API_KEY") }),
+    createCompoundV3Fetcher({
+      subgraphApiKey: requireEnv("COMPOUND_V3_SUBGRAPH_API_KEY"),
+      skipMetadataInit: true,
+    }),
+    createAaveV4Fetcher({ skipMetadataInit: true }),
+  ];
+
   for (const f of fetchers) {
     try {
       const snap = await f.fetch();

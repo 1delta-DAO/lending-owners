@@ -1,8 +1,17 @@
 import type { OwnershipFetcher } from "@lending-owners/core";
-import { aaveV3Fetcher } from "@lending-owners/fetcher-aave-v3";
-import { compoundV3Fetcher } from "@lending-owners/fetcher-compound-v3";
+import { createAaveV3Fetcher } from "@lending-owners/fetcher-aave-v3";
+import { createCompoundV3Fetcher } from "@lending-owners/fetcher-compound-v3";
 
-const fetchers: OwnershipFetcher[] = [aaveV3Fetcher, compoundV3Fetcher];
+function requireEnv(name: string): string {
+  const v = process.env[name];
+  if (!v) throw new Error(`missing required env var: ${name}`);
+  return v;
+}
+
+const fetchers: OwnershipFetcher[] = [
+  createAaveV3Fetcher({ subgraphApiKey: requireEnv("AAVE_V3_SUBGRAPH_API_KEY") }),
+  createCompoundV3Fetcher({ subgraphApiKey: requireEnv("COMPOUND_V3_SUBGRAPH_API_KEY") }),
+];
 
 async function main() {
   for (const f of fetchers) {

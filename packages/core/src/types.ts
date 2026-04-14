@@ -1,5 +1,7 @@
+import type { Chain } from "@1delta/chain-registry";
+
 export type LenderKey = string;
-export type ChainId = number;
+export type ChainId = Chain;
 export type Address = string;
 
 export type MarketUid = `${LenderKey}:${ChainId}:${Address}`;

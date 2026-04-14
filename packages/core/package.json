@@ -11,5 +11,8 @@
   "scripts": {
     "build": "tsc -b",
     "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@1delta/chain-registry": "^0.0.4"
   }
 }

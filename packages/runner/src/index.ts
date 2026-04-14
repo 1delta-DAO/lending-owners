@@ -4,6 +4,7 @@ import { createAaveV3Fetcher } from "@lending-owners/fetcher-aave-v3";
 import { createCompoundV3Fetcher } from "@lending-owners/fetcher-compound-v3";
 import { createAaveV4Fetcher } from "@lending-owners/fetcher-aave-v4";
 import { createMorphoBlueFetcher } from "@lending-owners/fetcher-morpho-blue";
+import { createEulerFetcher } from "@lending-owners/fetcher-euler";
 
 function requireEnv(name: string): string {
   const v = process.env[name];
@@ -17,6 +18,7 @@ async function main() {
     compoundV3Pools: true,
     aaveV4Spokes: true,
     morphoPools: true,
+    eulerVaults: true,
   });
 
   const fetchers: OwnershipFetcher[] = [
@@ -30,6 +32,7 @@ async function main() {
       subgraphApiKey: requireEnv("MORPHO_BLUE_SUBGRAPH_API_KEY"),
       skipMetadataInit: true,
     }),
+    createEulerFetcher({ skipMetadataInit: true }),
   ];
 
   for (const f of fetchers) {

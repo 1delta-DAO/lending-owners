@@ -14,6 +14,7 @@
     "@lending-owners/fetcher-aave-v3": "workspace:*",
     "@lending-owners/fetcher-aave-v4": "workspace:*",
     "@lending-owners/fetcher-compound-v3": "workspace:*",
-    "@lending-owners/fetcher-morpho-blue": "workspace:*"
+    "@lending-owners/fetcher-morpho-blue": "workspace:*",
+    "@lending-owners/fetcher-euler": "workspace:*"
   }
 }

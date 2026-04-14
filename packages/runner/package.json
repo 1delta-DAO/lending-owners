@@ -1,0 +1,16 @@
+{
+  "name": "@lending-owners/runner",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "tsx src/index.ts",
+    "build": "tsc -b",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@lending-owners/core": "workspace:*",
+    "@lending-owners/fetcher-aave-v3": "workspace:*",
+    "@lending-owners/fetcher-compound-v3": "workspace:*"
+  }
+}

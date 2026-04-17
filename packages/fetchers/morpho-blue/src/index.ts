@@ -1,10 +1,13 @@
 import {
   type Address,
+  type ChainFreshness,
   type ChainId,
   type FetcherContext,
   type MarketOwnership,
   type OwnershipFetcher,
   type OwnershipSnapshot,
+  OWNER_FRACTION_BY_LENDER,
+  checkSubgraphFreshness,
   makeMarketUid,
 } from "@lending-owners/core";
 import { morphoPools } from "@1delta/data-sdk";
@@ -35,28 +38,35 @@ const SUBGRAPH_IDS: Partial<Record<ChainId, string>> = {
   [Chain.HEMI_NETWORK]: "2JZScBV6sD7BdoU9JBAwYPrbzUarPGGz9P1xVWFQxmdX",
 };
 
-// Chains with both a subgraph and confirmed Morpho Blue deployment (via morphoPools SDK data).
-// This list is the intersection; SDK init at runtime can further validate.
 const SUPPORTED_CHAINS = Object.keys(SUBGRAPH_IDS) as ChainId[];
 
 export interface MorphoBlueConfig {
   subgraphApiKey: string;
-  /** Page size for subgraph pagination (max 1000). Default 1000. */
   pageSize?: number;
-  /** Skip fetching SDK metadata (caller already initialized it). */
   skipMetadataInit?: boolean;
+  /** Minimum owner fraction of market total to include. Defaults to OWNER_FRACTION_BY_LENDER["MORPHO_BLUE"]. */
+  minOwnerFraction?: number;
 }
 
-// ── GraphQL types ────────────────────────────────────────────────────────────
+// ── GraphQL types ─────────────────────────────────────────────────────────────
 
 // Morpho Blue uses "SUPPLIER" for supply-side positions (not "LENDER").
 // "COLLATERAL" is a separate side for pure collateral deposits — excluded here.
 type PositionSide = "SUPPLIER" | "BORROWER" | "COLLATERAL";
 
+interface RawMarket {
+  id: string;
+  inputToken: { id: string };
+  inputTokenBalance: string;
+}
+
+interface MarketsResponse {
+  markets: RawMarket[];
+}
+
 interface RawPosition {
   id: string;
   account: { id: string };
-  asset: { id: string };
   balance: string;
 }
 
@@ -64,25 +74,34 @@ interface PositionsResponse {
   positions: RawPosition[];
 }
 
-// ── GraphQL query ────────────────────────────────────────────────────────────
+// ── GraphQL queries ───────────────────────────────────────────────────────────
+
+const MARKETS_QUERY = /* GraphQL */ `
+  query Markets($first: Int!) {
+    markets(first: $first orderBy: id orderDirection: asc) {
+      id
+      inputToken { id }
+      inputTokenBalance
+    }
+  }
+`;
 
 const POSITIONS_QUERY = /* GraphQL */ `
-  query Positions($side: PositionSide!, $first: Int!, $lastId: String!) {
+  query Positions($marketId: String!, $side: PositionSide!, $minBalance: BigInt!, $first: Int!, $lastId: String!) {
     positions(
       first: $first
-      where: { side: $side, balance_gt: "0", id_gt: $lastId }
+      where: { market: $marketId, side: $side, balance_gt: $minBalance, id_gt: $lastId }
       orderBy: id
       orderDirection: asc
     ) {
       id
       account { id }
-      asset { id }
       balance
     }
   }
 `;
 
-// ── HTTP helper ──────────────────────────────────────────────────────────────
+// ── HTTP helper ───────────────────────────────────────────────────────────────
 
 async function queryGraphQL<T>(
   url: string,
@@ -100,20 +119,30 @@ async function queryGraphQL<T>(
     throw new Error(`[${LENDER_KEY}] subgraph HTTP ${res.status}`);
   }
   const json = (await res.json()) as { data?: T; errors?: Array<{ message: string }> };
-  if (json.errors?.length) {
-    throw new Error(`[${LENDER_KEY}] subgraph errors: ${json.errors.map((e) => e.message).join("; ")}`);
-  }
   if (!json.data) {
-    throw new Error(`[${LENDER_KEY}] subgraph returned no data`);
+    const msg = json.errors?.map((e) => e.message).join("; ") ?? "no data";
+    throw new Error(`[${LENDER_KEY}] subgraph errors: ${msg}`);
+  }
+  if (json.errors?.length) {
+    console.warn(
+      `[${LENDER_KEY}] subgraph partial errors: ${json.errors.slice(0, 3).map((e) => e.message).join("; ")}${json.errors.length > 3 ? ` (+${json.errors.length - 3} more)` : ""}`,
+    );
   }
   return json.data;
 }
 
-// ── Data fetching ────────────────────────────────────────────────────────────
+// ── Data fetching ─────────────────────────────────────────────────────────────
 
-async function fetchAllPositions(
+async function fetchMarkets(url: string, pageSize: number, signal?: AbortSignal): Promise<RawMarket[]> {
+  const data = await queryGraphQL<MarketsResponse>(url, MARKETS_QUERY, { first: pageSize }, signal);
+  return data.markets;
+}
+
+async function fetchMarketPositions(
   url: string,
+  marketId: string,
   side: PositionSide,
+  minBalance: string,
   pageSize: number,
   signal?: AbortSignal,
 ): Promise<RawPosition[]> {
@@ -123,10 +152,10 @@ async function fetchAllPositions(
     const data = await queryGraphQL<PositionsResponse>(
       url,
       POSITIONS_QUERY,
-      { side, first: pageSize, lastId },
+      { marketId, side, minBalance, first: pageSize, lastId },
       signal,
     );
-    const batch = data.positions;
+    const batch = data.positions.filter(Boolean);
     if (batch.length === 0) break;
     all.push(...batch);
     if (batch.length < pageSize) break;
@@ -135,40 +164,34 @@ async function fetchAllPositions(
   return all;
 }
 
-// ── Market grouping ──────────────────────────────────────────────────────────
+// ── Market grouping ───────────────────────────────────────────────────────────
 
-function groupByAsset(
+function buildMarketOwnership(
   positions: RawPosition[],
+  underlying: Address,
   chainId: ChainId,
-): Record<string, MarketOwnership> {
-  const byAsset: Record<string, MarketOwnership> = {};
+): MarketOwnership | null {
+  const owners: Record<Address, number> = {};
   for (const p of positions) {
-    const asset = p.asset.id.toLowerCase() as Address;
     const account = p.account.id.toLowerCase() as Address;
     const balance = Number(p.balance);
     if (!Number.isFinite(balance) || balance <= 0) continue;
-    const uid = makeMarketUid(LENDER_KEY, chainId, asset);
-    let market = byAsset[uid];
-    if (!market) {
-      market = { marketUid: uid, lenderKey: LENDER_KEY, chainId, underlying: asset, owners: {} };
-      byAsset[uid] = market;
-    }
-    market.owners[account] = (market.owners[account] ?? 0) + balance;
+    owners[account] = (owners[account] ?? 0) + balance;
   }
-  for (const market of Object.values(byAsset)) {
-    const sorted = Object.entries(market.owners).sort((a, b) => b[1] - a[1]);
-    market.owners = Object.fromEntries(sorted);
-  }
-  return byAsset;
+  if (Object.keys(owners).length === 0) return null;
+  const uid = makeMarketUid(LENDER_KEY, chainId, underlying);
+  const sorted = Object.fromEntries(Object.entries(owners).sort((a, b) => b[1] - a[1]));
+  return { marketUid: uid, lenderKey: LENDER_KEY, chainId, underlying, owners: sorted };
 }
 
-// ── Factory ──────────────────────────────────────────────────────────────────
+// ── Factory ───────────────────────────────────────────────────────────────────
 
 export function createMorphoBlueFetcher(config: MorphoBlueConfig): OwnershipFetcher {
   if (!config.subgraphApiKey) {
     throw new Error(`[${LENDER_KEY}] subgraphApiKey is required`);
   }
   const pageSize = Math.min(Math.max(config.pageSize ?? 1000, 1), 1000);
+  const minOwnerFraction = config.minOwnerFraction ?? OWNER_FRACTION_BY_LENDER[LENDER_KEY] ?? 0.01;
 
   return {
     lenderKey: LENDER_KEY,
@@ -179,8 +202,6 @@ export function createMorphoBlueFetcher(config: MorphoBlueConfig): OwnershipFetc
         await fetchLenderMetaFromDirAndInitialize({ morphoPools: true });
       }
 
-      // Use SDK to confirm which chains have a live Morpho Blue deployment,
-      // then intersect with chains we also have a subgraph for.
       const pools = morphoPools() ?? {};
       const deployedChains = new Set(Object.keys(pools[SDK_PROTOCOL_KEY] ?? {}));
 
@@ -189,19 +210,27 @@ export function createMorphoBlueFetcher(config: MorphoBlueConfig): OwnershipFetc
         lenderKey: LENDER_KEY,
         fetchedAt: new Date().toISOString(),
         markets: {},
+        chainFreshness: {},
       };
 
       for (const chainId of chains) {
         const subgraphId = SUBGRAPH_IDS[chainId];
         if (!subgraphId) continue;
-        // Skip chains where SDK has no record of a Morpho deployment (may be stale data).
         if (deployedChains.size > 0 && !deployedChains.has(String(chainId))) continue;
 
+        const url = subgraphUrl(config.subgraphApiKey, subgraphId);
         try {
-          const url = subgraphUrl(config.subgraphApiKey, subgraphId);
-          const positions = await fetchAllPositions(url, "SUPPLIER", pageSize, ctx?.signal);
-          const markets = groupByAsset(positions, chainId);
-          Object.assign(snapshot.markets, markets);
+          const freshness = await checkSubgraphFreshness(LENDER_KEY, url, chainId, ctx?.signal);
+          if (freshness) snapshot.chainFreshness![chainId] = freshness;
+
+          const markets = await fetchMarkets(url, pageSize, ctx?.signal);
+          for (const market of markets) {
+            const underlying = market.inputToken.id.toLowerCase() as Address;
+            const minBalance = (BigInt(market.inputTokenBalance) * BigInt(Math.round(minOwnerFraction * 1e6)) / 1000000n).toString();
+            const positions = await fetchMarketPositions(url, market.id, "SUPPLIER", minBalance, pageSize, ctx?.signal);
+            const ownership = buildMarketOwnership(positions, underlying, chainId);
+            if (ownership) snapshot.markets[ownership.marketUid] = ownership;
+          }
         } catch (err) {
           console.warn(`[${LENDER_KEY}] chain ${chainId} skipped: ${(err as Error).message}`);
         }

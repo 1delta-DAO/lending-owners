@@ -16,10 +16,18 @@ export interface MarketOwnership {
   owners: OwnerBalances;
 }
 
+export interface ChainFreshness {
+  subgraphBlock: number;
+  rpcBlock: number;
+  blocksBehind: number;
+  minutesBehind: number;
+}
+
 export interface OwnershipSnapshot {
   lenderKey: LenderKey;
   fetchedAt: string;
   markets: Record<MarketUid, MarketOwnership>;
+  chainFreshness?: Partial<Record<ChainId, ChainFreshness>>;
 }
 
 export const makeMarketUid = (

@@ -1,10 +1,13 @@
 import {
   type Address,
+  type ChainFreshness,
   type ChainId,
   type FetcherContext,
   type MarketOwnership,
   type OwnershipFetcher,
   type OwnershipSnapshot,
+  OWNER_FRACTION_BY_LENDER,
+  checkSubgraphFreshness,
   makeMarketUid,
 } from "@lending-owners/core";
 import { Chain } from "@1delta/chain-registry";
@@ -34,19 +37,31 @@ export interface AaveV3Config {
   subgraphApiKey: string;
   side?: PositionSide;
   pageSize?: number;
+  /** Minimum owner fraction of market total to include. Defaults to OWNER_FRACTION_BY_LENDER["AAVE_V3"]. */
+  minOwnerFraction?: number;
+}
+
+interface RawMarket {
+  id: string;
+  inputToken: { id: string };
+  inputTokenBalance: string;
+}
+
+interface MarketsResponse {
+  markets: RawMarket[];
 }
 
 interface RawPosition {
   id: string;
-  side: PositionSide;
   account: { id: string };
-  asset: { id: string };
   balance: string;
 }
 
 interface PositionsResponse {
   positions: RawPosition[];
 }
+
+// ── HTTP helper ───────────────────────────────────────────────────────────────
 
 async function queryGraphQL<T>(
   url: string,
@@ -63,39 +78,90 @@ async function queryGraphQL<T>(
   if (!res.ok) {
     throw new Error(`[${LENDER_KEY}] subgraph HTTP ${res.status}`);
   }
-  const json = (await res.json()) as { data?: T; errors?: Array<{ message: string }> };
+  const json = (await res.json()) as {
+    data?: T;
+    errors?: Array<{ message: string }>;
+  };
   if (!json.data) {
     const msg = json.errors?.map((e) => e.message).join("; ") ?? "no data";
     throw new Error(`[${LENDER_KEY}] subgraph errors: ${msg}`);
   }
   if (json.errors?.length) {
-    // Partial data returned alongside errors (e.g. orphaned null-field entries).
-    // Warn and continue — valid positions are still processed.
-    console.warn(`[${LENDER_KEY}] subgraph partial errors: ${json.errors.slice(0, 3).map((e) => e.message).join("; ")}${json.errors.length > 3 ? ` (+${json.errors.length - 3} more)` : ""}`);
+    console.warn(
+      `[${LENDER_KEY}] subgraph partial errors: ${json.errors
+        .slice(0, 3)
+        .map((e) => e.message)
+        .join(
+          "; ",
+        )}${json.errors.length > 3 ? ` (+${json.errors.length - 3} more)` : ""}`,
+    );
   }
   return json.data;
 }
 
+// ── GraphQL queries ───────────────────────────────────────────────────────────
+
+const MARKETS_QUERY = /* GraphQL */ `
+  query Markets($first: Int!) {
+    markets(first: $first, orderBy: id, orderDirection: asc) {
+      id
+      inputToken {
+        id
+      }
+      inputTokenBalance
+    }
+  }
+`;
+
 const POSITIONS_QUERY = /* GraphQL */ `
-  query Positions($side: PositionSide!, $first: Int!, $lastId: String!) {
+  query Positions(
+    $marketId: String!
+    $side: PositionSide!
+    $minBalance: BigInt!
+    $first: Int!
+    $lastId: String!
+  ) {
     positions(
       first: $first
-      where: { side: $side, balance_gt: "0", id_gt: $lastId }
+      where: {
+        market: $marketId
+        side: $side
+        balance_gt: $minBalance
+        id_gt: $lastId
+      }
       orderBy: id
       orderDirection: asc
     ) {
       id
-      side
-      account { id }
-      asset { id }
+      account {
+        id
+      }
       balance
     }
   }
 `;
 
-async function fetchAllPositions(
+// ── Data fetching ─────────────────────────────────────────────────────────────
+
+async function fetchMarkets(
   url: string,
+  pageSize: number,
+  signal?: AbortSignal,
+): Promise<RawMarket[]> {
+  const data = await queryGraphQL<MarketsResponse>(
+    url,
+    MARKETS_QUERY,
+    { first: pageSize },
+    signal,
+  );
+  return data.markets;
+}
+
+async function fetchMarketPositions(
+  url: string,
+  marketId: string,
   side: PositionSide,
+  minBalance: string,
   pageSize: number,
   signal?: AbortSignal,
 ): Promise<RawPosition[]> {
@@ -105,7 +171,7 @@ async function fetchAllPositions(
     const data = await queryGraphQL<PositionsResponse>(
       url,
       POSITIONS_QUERY,
-      { side, first: pageSize, lastId },
+      { marketId, side, minBalance, first: pageSize, lastId },
       signal,
     );
     const batch = data.positions.filter(Boolean);
@@ -117,31 +183,35 @@ async function fetchAllPositions(
   return all;
 }
 
-function groupByAsset(
+// ── Market grouping ───────────────────────────────────────────────────────────
+
+function buildMarketOwnership(
   positions: RawPosition[],
-  lenderKey: string,
+  underlying: Address,
   chainId: ChainId,
-): Record<string, MarketOwnership> {
-  const byAsset: Record<string, MarketOwnership> = {};
+): MarketOwnership | null {
+  const owners: Record<Address, number> = {};
   for (const p of positions) {
-    const asset = p.asset.id.toLowerCase() as Address;
     const account = p.account.id.toLowerCase() as Address;
     const balance = Number(p.balance);
     if (!Number.isFinite(balance) || balance <= 0) continue;
-    const uid = makeMarketUid(lenderKey, chainId, asset);
-    let market = byAsset[uid];
-    if (!market) {
-      market = { marketUid: uid, lenderKey, chainId, underlying: asset, owners: {} };
-      byAsset[uid] = market;
-    }
-    market.owners[account] = (market.owners[account] ?? 0) + balance;
+    owners[account] = (owners[account] ?? 0) + balance;
   }
-  for (const market of Object.values(byAsset)) {
-    const sorted = Object.entries(market.owners).sort((a, b) => b[1] - a[1]);
-    market.owners = Object.fromEntries(sorted);
-  }
-  return byAsset;
+  if (Object.keys(owners).length === 0) return null;
+  const uid = makeMarketUid(LENDER_KEY, chainId, underlying);
+  const sorted = Object.fromEntries(
+    Object.entries(owners).sort((a, b) => b[1] - a[1]),
+  );
+  return {
+    marketUid: uid,
+    lenderKey: LENDER_KEY,
+    chainId,
+    underlying,
+    owners: sorted,
+  };
 }
+
+// ── Factory ───────────────────────────────────────────────────────────────────
 
 export function createAaveV3Fetcher(config: AaveV3Config): OwnershipFetcher {
   if (!config.subgraphApiKey) {
@@ -149,6 +219,8 @@ export function createAaveV3Fetcher(config: AaveV3Config): OwnershipFetcher {
   }
   const side: PositionSide = config.side ?? "COLLATERAL";
   const pageSize = Math.min(Math.max(config.pageSize ?? 1000, 1), 1000);
+  const minOwnerFraction =
+    config.minOwnerFraction ?? OWNER_FRACTION_BY_LENDER[LENDER_KEY] ?? 0.01;
 
   return {
     lenderKey: LENDER_KEY,
@@ -160,18 +232,49 @@ export function createAaveV3Fetcher(config: AaveV3Config): OwnershipFetcher {
         lenderKey: LENDER_KEY,
         fetchedAt: new Date().toISOString(),
         markets: {},
+        chainFreshness: {},
       };
 
       for (const chainId of chains) {
         const subgraphId = SUBGRAPH_IDS[chainId];
         if (!subgraphId) continue;
+        const url = subgraphUrl(config.subgraphApiKey, subgraphId);
         try {
-          const url = subgraphUrl(config.subgraphApiKey, subgraphId);
-          const positions = await fetchAllPositions(url, side, pageSize, ctx?.signal);
-          const markets = groupByAsset(positions, LENDER_KEY, chainId);
-          Object.assign(snapshot.markets, markets);
+          const freshness = await checkSubgraphFreshness(
+            LENDER_KEY,
+            url,
+            chainId,
+            ctx?.signal,
+          );
+          if (freshness) snapshot.chainFreshness![chainId] = freshness;
+
+          const markets = await fetchMarkets(url, pageSize, ctx?.signal);
+          for (const market of markets) {
+            const underlying = market.inputToken.id.toLowerCase() as Address;
+            const minBalance = (
+              (BigInt(market.inputTokenBalance) *
+                BigInt(Math.round(minOwnerFraction * 1e6))) /
+              1000000n
+            ).toString();
+            const positions = await fetchMarketPositions(
+              url,
+              market.id,
+              side,
+              minBalance,
+              pageSize,
+              ctx?.signal,
+            );
+            const ownership = buildMarketOwnership(
+              positions,
+              underlying,
+              chainId,
+            );
+            if (ownership) snapshot.markets[ownership.marketUid] = ownership;
+          }
         } catch (err) {
-          console.warn(`[${LENDER_KEY}] chain ${chainId} skipped: ${(err as Error).message}`);
+          console.warn(
+            `[${LENDER_KEY}] chain ${chainId} skipped: ${(err as Error).message}`,
+          );
         }
       }
 

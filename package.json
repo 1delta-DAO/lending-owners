@@ -5,7 +5,17 @@
   "scripts": {
     "build": "pnpm -r build",
     "typecheck": "pnpm -r typecheck",
-    "fetch:owners": "pnpm --filter @lending-owners/runner run start"
+    "fetch:owners": "pnpm --filter @lending-owners/runner run start",
+    "fetch:aave-v3": "pnpm --filter @lending-owners/runner run start -- --lender AAVE_V3",
+    "fetch:aave-v4": "pnpm --filter @lending-owners/runner run start -- --lender AAVE_V4",
+    "fetch:compound-v3": "pnpm --filter @lending-owners/runner run start -- --lender COMPOUND_V3",
+    "fetch:morpho-blue": "pnpm --filter @lending-owners/runner run start -- --lender MORPHO_BLUE",
+    "fetch:euler": "pnpm --filter @lending-owners/runner run start -- --lender EULER",
+    "fetch:silo": "pnpm --filter @lending-owners/runner run start -- --lender SILO",
+    "fetch:spark": "pnpm --filter @lending-owners/runner run start -- --lender SPARK",
+    "fetch:venus": "pnpm --filter @lending-owners/runner run start -- --lender VENUS",
+    "fetch:dforce": "pnpm --filter @lending-owners/runner run start -- --lender DFORCE",
+    "fetch:moonwell": "pnpm --filter @lending-owners/runner run start -- --lender MOONWELL"
   },
   "devDependencies": {
     "@types/node": "^25.6.0",

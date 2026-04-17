@@ -1,5 +1,19 @@
 {
   "lenderKey": "SILO",
-  "fetchedAt": "2026-04-17T08:43:36.948Z",
-  "markets": {}
+  "fetchedAt": "2026-04-17T10:37:26.439Z",
+  "markets": {},
+  "chainFreshness": {
+    "1": {
+      "subgraphBlock": 24899019,
+      "rpcBlock": 24899019,
+      "blocksBehind": 0,
+      "minutesBehind": 0
+    },
+    "42161": {
+      "subgraphBlock": 453411982,
+      "rpcBlock": 453411980,
+      "blocksBehind": 0,
+      "minutesBehind": 0
+    }
+  }
 }

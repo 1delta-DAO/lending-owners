@@ -1,5 +1,6 @@
 {
   "lenderKey": "COMPOUND_V3",
-  "fetchedAt": "2026-04-17T08:41:52.597Z",
-  "markets": {}
+  "fetchedAt": "2026-04-17T10:23:18.333Z",
+  "markets": {},
+  "chainFreshness": {}
 }

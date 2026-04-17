@@ -1,0 +1,47 @@
+name: Fetch VENUS owners
+
+on:
+  schedule:
+    - cron: "0 1,5,9,13,17,21 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: fetch-venus
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Create .env
+        run: echo "VENUS_SUBGRAPH_API_KEY=${{ secrets.VENUS_SUBGRAPH_API_KEY }}" > .env
+
+      - name: Fetch owners
+        run: pnpm --filter @lending-owners/runner run start -- --lender VENUS
+
+      - name: Commit result
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/VENUS.json
+          git diff --staged --quiet && echo "no changes" || (
+            git commit -m "updating VENUS owners - $(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+            git pull --rebase origin main
+            git push
+          )

@@ -7,11 +7,25 @@ import { createAaveV4Fetcher } from "@lending-owners/fetcher-aave-v4";
 import { createMorphoBlueFetcher } from "@lending-owners/fetcher-morpho-blue";
 import { createEulerFetcher } from "@lending-owners/fetcher-euler";
 import { createSiloFetcher } from "@lending-owners/fetcher-silo";
+import { createSparkFetcher } from "@lending-owners/fetcher-spark";
+import { createVenusFetcher } from "@lending-owners/fetcher-venus";
+import { createDForceFetcher } from "@lending-owners/fetcher-dforce";
+import { createMoonwellFetcher } from "@lending-owners/fetcher-moonwell";
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-type LenderKey = "AAVE_V3" | "COMPOUND_V3" | "AAVE_V4" | "MORPHO_BLUE" | "EULER" | "SILO";
+type LenderKey =
+  | "AAVE_V3"
+  | "COMPOUND_V3"
+  | "AAVE_V4"
+  | "MORPHO_BLUE"
+  | "EULER"
+  | "SILO"
+  | "SPARK"
+  | "VENUS"
+  | "DFORCE"
+  | "MOONWELL";
 
 function requireEnv(name: string): string {
   const v = process.env[name];
@@ -28,6 +42,10 @@ function normalizeLenderKey(value: string): LenderKey {
     MORPHO_BLUE: true,
     EULER: true,
     SILO: true,
+    SPARK: true,
+    VENUS: true,
+    DFORCE: true,
+    MOONWELL: true,
   };
   if (!(normalized in allowed)) {
     throw new Error(
@@ -100,7 +118,6 @@ async function main() {
 
   // Initialize all protocol metadata once so individual fetchers skip redundant fetches.
   await fetchLenderMetaFromDirAndInitialize({
-    compoundV3Pools: true,
     aaveV4Spokes: true,
     morphoPools: true,
     eulerVaults: true,
@@ -110,11 +127,7 @@ async function main() {
 
   const fetcherFactories: Record<LenderKey, () => OwnershipFetcher> = {
     AAVE_V3: () => createAaveV3Fetcher({ subgraphApiKey: requireEnv("AAVE_V3_SUBGRAPH_API_KEY") }),
-    COMPOUND_V3: () =>
-      createCompoundV3Fetcher({
-        subgraphApiKey: requireEnv("COMPOUND_V3_SUBGRAPH_API_KEY"),
-        skipMetadataInit: true,
-      }),
+    COMPOUND_V3: () => createCompoundV3Fetcher({ subgraphApiKey: requireEnv("COMPOUND_V3_SUBGRAPH_API_KEY") }),
     AAVE_V4: () => createAaveV4Fetcher({ skipMetadataInit: true }),
     MORPHO_BLUE: () =>
       createMorphoBlueFetcher({
@@ -127,6 +140,10 @@ async function main() {
         subgraphApiKey: requireEnv("SILO_SUBGRAPH_API_KEY"),
         skipMetadataInit: true,
       }),
+    SPARK: () => createSparkFetcher({ subgraphApiKey: requireEnv("SPARK_SUBGRAPH_API_KEY") }),
+    VENUS: () => createVenusFetcher({ subgraphApiKey: requireEnv("VENUS_SUBGRAPH_API_KEY") }),
+    DFORCE: () => createDForceFetcher({ subgraphApiKey: requireEnv("DFORCE_SUBGRAPH_API_KEY") }),
+    MOONWELL: () => createMoonwellFetcher({ subgraphApiKey: requireEnv("MOONWELL_SUBGRAPH_API_KEY") }),
   };
 
   const lenderOrder: LenderKey[] = [
@@ -136,6 +153,10 @@ async function main() {
     "MORPHO_BLUE",
     "EULER",
     "SILO",
+    "SPARK",
+    "VENUS",
+    "DFORCE",
+    "MOONWELL",
   ];
 
   const targetLenders = selectedLenders

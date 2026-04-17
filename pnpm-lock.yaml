@@ -53,15 +53,15 @@ importers:
       '@1delta/chain-registry':
         specifier: ^0.0.4
         version: 0.0.4
-      '@1delta/data-sdk':
-        specifier: ^0.0.22
-        version: 0.0.22
-      '@1delta/initializer-sdk':
-        specifier: ^0.0.11
-        version: 0.0.11
-      '@1delta/lender-registry':
-        specifier: ^0.0.23
-        version: 0.0.23
+      '@lending-owners/core':
+        specifier: workspace:*
+        version: link:../../core
+
+  packages/fetchers/dforce:
+    dependencies:
+      '@1delta/chain-registry':
+        specifier: ^0.0.4
+        version: 0.0.4
       '@lending-owners/core':
         specifier: workspace:*
         version: link:../../core
@@ -77,6 +77,15 @@ importers:
       '@1delta/initializer-sdk':
         specifier: ^0.0.11
         version: 0.0.11
+      '@lending-owners/core':
+        specifier: workspace:*
+        version: link:../../core
+
+  packages/fetchers/moonwell:
+    dependencies:
+      '@1delta/chain-registry':
+        specifier: ^0.0.4
+        version: 0.0.4
       '@lending-owners/core':
         specifier: workspace:*
         version: link:../../core
@@ -111,6 +120,24 @@ importers:
         specifier: workspace:*
         version: link:../../core
 
+  packages/fetchers/spark:
+    dependencies:
+      '@1delta/chain-registry':
+        specifier: ^0.0.4
+        version: 0.0.4
+      '@lending-owners/core':
+        specifier: workspace:*
+        version: link:../../core
+
+  packages/fetchers/venus:
+    dependencies:
+      '@1delta/chain-registry':
+        specifier: ^0.0.4
+        version: 0.0.4
+      '@lending-owners/core':
+        specifier: workspace:*
+        version: link:../../core
+
   packages/runner:
     dependencies:
       '@1delta/initializer-sdk':
@@ -128,15 +155,27 @@ importers:
       '@lending-owners/fetcher-compound-v3':
         specifier: workspace:*
         version: link:../fetchers/compound-v3
+      '@lending-owners/fetcher-dforce':
+        specifier: workspace:*
+        version: link:../fetchers/dforce
       '@lending-owners/fetcher-euler':
         specifier: workspace:*
         version: link:../fetchers/euler
+      '@lending-owners/fetcher-moonwell':
+        specifier: workspace:*
+        version: link:../fetchers/moonwell
       '@lending-owners/fetcher-morpho-blue':
         specifier: workspace:*
         version: link:../fetchers/morpho-blue
       '@lending-owners/fetcher-silo':
         specifier: workspace:*
         version: link:../fetchers/silo
+      '@lending-owners/fetcher-spark':
+        specifier: workspace:*
+        version: link:../fetchers/spark
+      '@lending-owners/fetcher-venus':
+        specifier: workspace:*
+        version: link:../fetchers/venus
 
 packages:
 
@@ -150,10 +189,6 @@ packages:
 
   '@1delta/initializer-sdk@0.0.11':
     resolution: {integrity: sha512-6XtcAkSYWgtC/LdTvs0O6JCYkQtMWbUpowUw/OcpIhsttuOIRAIaGDIH+xZXSnqLYyAivoKWMedEbJu5un3fcA==}
-    engines: {node: '>=20'}
-
-  '@1delta/lender-registry@0.0.23':
-    resolution: {integrity: sha512-coLgzN3u3Nbnx1Tk5zqD2Ncv94Mwuekd7aOveW09OvrYtveCLlXAedqVnDpBCFKXdc37zAWV09Gi6wLLAEFKEg==}
     engines: {node: '>=20'}
 
   '@esbuild/aix-ppc64@0.27.7':
@@ -353,8 +388,6 @@ snapshots:
   '@1delta/initializer-sdk@0.0.11':
     dependencies:
       '@1delta/data-sdk': 0.0.22
-
-  '@1delta/lender-registry@0.0.23': {}
 
   '@esbuild/aix-ppc64@0.27.7':
     optional: true

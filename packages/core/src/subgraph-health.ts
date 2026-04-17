@@ -4,7 +4,10 @@ import type { ChainFreshness, ChainId } from "./types.js";
 const BLOCK_SECONDS: Partial<Record<string, number>> = {
   "1": 12, // Ethereum
   "10": 2, // Optimism
+  "56": 3, // BNB Smart Chain
+  "100": 5, // Gnosis
   "137": 2, // Polygon
+  "1284": 12, // Moonbeam
   "8453": 2, // Base
   "42161": 0.25, // Arbitrum One
   "43114": 2, // Avalanche

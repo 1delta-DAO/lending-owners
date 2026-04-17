@@ -166,7 +166,13 @@ async function fetchMarketPositions(
 
 // ── Market grouping ───────────────────────────────────────────────────────────
 
-function buildMarketOwnership(positions: RawPosition[], underlying: Address, chainId: ChainId, decimals: number): MarketOwnership | null {
+function buildMarketOwnership(
+  positions: RawPosition[],
+  lenderKey: string,
+  underlying: Address,
+  chainId: ChainId,
+  decimals: number,
+): MarketOwnership | null {
   const scalar = 10 ** decimals;
   const owners: Record<Address, number> = {};
   for (const p of positions) {
@@ -176,9 +182,9 @@ function buildMarketOwnership(positions: RawPosition[], underlying: Address, cha
     owners[account] = (owners[account] ?? 0) + balance;
   }
   if (Object.keys(owners).length === 0) return null;
-  const uid = makeMarketUid(LENDER_KEY, chainId, underlying);
+  const uid = makeMarketUid(lenderKey, chainId, underlying);
   const sorted = Object.fromEntries(Object.entries(owners).sort((a, b) => b[1] - a[1]));
-  return { marketUid: uid, lenderKey: LENDER_KEY, chainId, underlying, owners: sorted };
+  return { marketUid: uid, lenderKey, chainId, underlying, owners: sorted };
 }
 
 // ── Factory ───────────────────────────────────────────────────────────────────
@@ -211,9 +217,7 @@ export function createCompoundV3Fetcher(config: CompoundV3Config): OwnershipFetc
         const subgraphId = SUBGRAPH_IDS[chainId];
         if (!subgraphId) continue;
         const chainPools: Record<string, string> = pools[chainId] ?? {};
-        const comets = Object.entries(chainPools)
-          .filter(([lender]) => isCompoundV3(lender))
-          .map(([, comet]) => comet);
+        const comets = Object.entries(chainPools).filter(([lender]) => isCompoundV3(lender));
         if (comets.length === 0) continue;
 
         const url = subgraphUrl(config.subgraphApiKey, subgraphId);
@@ -221,11 +225,11 @@ export function createCompoundV3Fetcher(config: CompoundV3Config): OwnershipFetc
           const freshness = await checkSubgraphFreshness(LENDER_KEY, url, chainId, ctx?.signal);
           if (freshness) snapshot.chainFreshness![chainId] = freshness;
 
-          for (const comet of comets) {
+          for (const [cometLenderKey, comet] of comets) {
             try {
               const market = await fetchCometMarket(url, comet, ctx?.signal);
               if (!market) {
-                console.warn(`[${LENDER_KEY}] chain ${chainId} comet ${comet}: market not found in subgraph`);
+                console.warn(`[${LENDER_KEY}] chain ${chainId} ${cometLenderKey} (${comet}): market not found in subgraph`);
                 continue;
               }
               const underlying = market.configuration.baseToken.token.id.toLowerCase() as Address;
@@ -235,10 +239,10 @@ export function createCompoundV3Fetcher(config: CompoundV3Config): OwnershipFetc
                 1000000n
               ).toString();
               const positions = await fetchMarketPositions(url, comet.toLowerCase(), minPrincipal, pageSize, ctx?.signal);
-              const ownership = buildMarketOwnership(positions, underlying, chainId, market.configuration.baseToken.token.decimals);
+              const ownership = buildMarketOwnership(positions, cometLenderKey, underlying, chainId, market.configuration.baseToken.token.decimals);
               if (ownership) snapshot.markets[ownership.marketUid] = ownership;
             } catch (err) {
-              console.warn(`[${LENDER_KEY}] chain ${chainId} comet ${comet} skipped: ${(err as Error).message}`);
+              console.warn(`[${LENDER_KEY}] chain ${chainId} ${cometLenderKey} (${comet}) skipped: ${(err as Error).message}`);
             }
           }
         } catch (err) {

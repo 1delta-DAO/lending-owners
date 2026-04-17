@@ -1,6 +1,5 @@
 import {
   type Address,
-  type ChainFreshness,
   type ChainId,
   type FetcherContext,
   type MarketOwnership,
@@ -19,10 +18,8 @@ export * from "./hist/index.js";
 
 const LENDER_KEY = "COMPOUND_V3";
 
-// Messari-schema Compound V3 subgraphs (decentralized network).
-// Schema uses "COLLATERAL" for supply-side positions (suppliers of both base
-// asset and collateral share one PositionSide; they're separated downstream
-// by `asset.id`). PositionSide enum is {COLLATERAL, BORROWER}.
+// Paperclip Compound V3 community subgraphs (decentralized network).
+// https://github.com/papercliplabs/compound-v3-subgraph
 const SUBGRAPH_IDS: Partial<Record<ChainId, string>> = {
   [Chain.ETHEREUM_MAINNET]: "5nwMCSHaTqG3Kd2gHznbTXEnZ9QNWsssQfbHhDqQSQFp",
   [Chain.ARBITRUM_ONE]: "Ff7ha9ELmpmg81D6nYxy4t8aGP26dPztqD1LDJNPqjLS",
@@ -35,11 +32,8 @@ const SUPPORTED_CHAINS: ChainId[] = Object.keys(SUBGRAPH_IDS) as ChainId[];
 const subgraphUrl = (apiKey: string, id: string): string =>
   `https://gateway.thegraph.com/api/${apiKey}/subgraphs/id/${id}`;
 
-export type PositionSide = "COLLATERAL" | "BORROWER";
-
 export interface CompoundV3Config {
   subgraphApiKey: string;
-  side?: PositionSide;
   pageSize?: number;
   skipMetadataInit?: boolean;
   /** Minimum owner fraction of market total to include. Defaults to OWNER_FRACTION_BY_LENDER["COMPOUND_V3"]. */
@@ -48,20 +42,24 @@ export interface CompoundV3Config {
 
 // ── GraphQL types ─────────────────────────────────────────────────────────────
 
+// Paperclip schema: Market.configuration.baseToken.token.id = underlying address
+// Market.accounting.totalBaseSupply = total supply in base units (BigInt)
 interface RawMarket {
   id: string;
-  inputToken: { id: string };
-  inputTokenBalance: string;
+  configuration: { baseToken: { token: { id: string; decimals: number } } };
+  accounting: { totalBaseSupply: string };
 }
 
 interface MarketResponse {
   market: RawMarket | null;
 }
 
+// Position IDs are Bytes in the Paperclip schema.
+// Supply side: basePrincipal > 0. Borrow side: basePrincipal < 0.
 interface RawPosition {
   id: string;
   account: { id: string };
-  balance: string;
+  accounting: { basePrincipal: string };
 }
 
 interface PositionsResponse {
@@ -100,39 +98,43 @@ async function queryGraphQL<T>(
 
 // ── GraphQL queries ───────────────────────────────────────────────────────────
 
-// Fetch a single comet's market data by ID to get inputTokenBalance for threshold.
+// Fetch a single comet market. ID is the comet proxy address (Bytes).
 const MARKET_QUERY = /* GraphQL */ `
-  query Market($id: ID!) {
+  query Market($id: Bytes!) {
     market(id: $id) {
       id
-      inputToken { id }
-      inputTokenBalance
+      configuration {
+        baseToken {
+          token { id decimals }
+        }
+      }
+      accounting {
+        totalBaseSupply
+      }
     }
   }
 `;
 
+// Supply positions: basePrincipal_gt filters to accounts with positive principal (suppliers).
+// ID is Bytes — use "0x" as the initial cursor (empty bytes < all addresses).
 const POSITIONS_QUERY = /* GraphQL */ `
-  query Positions($marketId: String!, $side: PositionSide!, $minBalance: BigInt!, $first: Int!, $lastId: String!) {
+  query Positions($marketId: Bytes!, $minPrincipal: BigInt!, $first: Int!, $lastId: Bytes!) {
     positions(
       first: $first
-      where: { market: $marketId, side: $side, balance_gt: $minBalance, id_gt: $lastId }
+      where: { market: $marketId, accounting_: { basePrincipal_gt: $minPrincipal }, id_gt: $lastId }
       orderBy: id
       orderDirection: asc
     ) {
       id
       account { id }
-      balance
+      accounting { basePrincipal }
     }
   }
 `;
 
 // ── Data fetching ─────────────────────────────────────────────────────────────
 
-async function fetchCometMarket(
-  url: string,
-  comet: string,
-  signal?: AbortSignal,
-): Promise<RawMarket | null> {
+async function fetchCometMarket(url: string, comet: string, signal?: AbortSignal): Promise<RawMarket | null> {
   const data = await queryGraphQL<MarketResponse>(url, MARKET_QUERY, { id: comet.toLowerCase() }, signal);
   return data.market;
 }
@@ -140,18 +142,17 @@ async function fetchCometMarket(
 async function fetchMarketPositions(
   url: string,
   marketId: string,
-  side: PositionSide,
-  minBalance: string,
+  minPrincipal: string,
   pageSize: number,
   signal?: AbortSignal,
 ): Promise<RawPosition[]> {
   const all: RawPosition[] = [];
-  let lastId = "";
+  let lastId = "0x";
   for (;;) {
     const data = await queryGraphQL<PositionsResponse>(
       url,
       POSITIONS_QUERY,
-      { marketId, side, minBalance, first: pageSize, lastId },
+      { marketId, minPrincipal, first: pageSize, lastId },
       signal,
     );
     const batch = data.positions.filter(Boolean);
@@ -165,15 +166,12 @@ async function fetchMarketPositions(
 
 // ── Market grouping ───────────────────────────────────────────────────────────
 
-function buildMarketOwnership(
-  positions: RawPosition[],
-  underlying: Address,
-  chainId: ChainId,
-): MarketOwnership | null {
+function buildMarketOwnership(positions: RawPosition[], underlying: Address, chainId: ChainId, decimals: number): MarketOwnership | null {
+  const scalar = 10 ** decimals;
   const owners: Record<Address, number> = {};
   for (const p of positions) {
     const account = p.account.id.toLowerCase() as Address;
-    const balance = Number(p.balance);
+    const balance = Number(p.accounting.basePrincipal) / scalar;
     if (!Number.isFinite(balance) || balance <= 0) continue;
     owners[account] = (owners[account] ?? 0) + balance;
   }
@@ -189,7 +187,6 @@ export function createCompoundV3Fetcher(config: CompoundV3Config): OwnershipFetc
   if (!config.subgraphApiKey) {
     throw new Error(`[${LENDER_KEY}] subgraphApiKey is required`);
   }
-  const side: PositionSide = config.side ?? "COLLATERAL";
   const pageSize = Math.min(Math.max(config.pageSize ?? 1000, 1), 1000);
   const minOwnerFraction = config.minOwnerFraction ?? OWNER_FRACTION_BY_LENDER[LENDER_KEY] ?? 0.01;
 
@@ -215,8 +212,8 @@ export function createCompoundV3Fetcher(config: CompoundV3Config): OwnershipFetc
         if (!subgraphId) continue;
         const chainPools: Record<string, string> = pools[chainId] ?? {};
         const comets = Object.entries(chainPools)
-          .filter(([, lender]) => isCompoundV3(lender))
-          .map(([comet]) => comet);
+          .filter(([lender]) => isCompoundV3(lender))
+          .map(([, comet]) => comet);
         if (comets.length === 0) continue;
 
         const url = subgraphUrl(config.subgraphApiKey, subgraphId);
@@ -227,11 +224,18 @@ export function createCompoundV3Fetcher(config: CompoundV3Config): OwnershipFetc
           for (const comet of comets) {
             try {
               const market = await fetchCometMarket(url, comet, ctx?.signal);
-              const underlying = (market?.inputToken.id ?? comet).toLowerCase() as Address;
-              const totalBalance = market?.inputTokenBalance ?? "0";
-              const minBalance = (BigInt(totalBalance) * BigInt(Math.round(minOwnerFraction * 1e6)) / 1000000n).toString();
-              const positions = await fetchMarketPositions(url, comet.toLowerCase(), side, minBalance, pageSize, ctx?.signal);
-              const ownership = buildMarketOwnership(positions, underlying, chainId);
+              if (!market) {
+                console.warn(`[${LENDER_KEY}] chain ${chainId} comet ${comet}: market not found in subgraph`);
+                continue;
+              }
+              const underlying = market.configuration.baseToken.token.id.toLowerCase() as Address;
+              const totalSupply = market.accounting.totalBaseSupply;
+              const minPrincipal = (
+                (BigInt(totalSupply) * BigInt(Math.round(minOwnerFraction * 1e6))) /
+                1000000n
+              ).toString();
+              const positions = await fetchMarketPositions(url, comet.toLowerCase(), minPrincipal, pageSize, ctx?.signal);
+              const ownership = buildMarketOwnership(positions, underlying, chainId, market.configuration.baseToken.token.decimals);
               if (ownership) snapshot.markets[ownership.marketUid] = ownership;
             } catch (err) {
               console.warn(`[${LENDER_KEY}] chain ${chainId} comet ${comet} skipped: ${(err as Error).message}`);

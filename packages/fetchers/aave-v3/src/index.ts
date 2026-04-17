@@ -43,7 +43,7 @@ export interface AaveV3Config {
 
 interface RawMarket {
   id: string;
-  inputToken: { id: string };
+  inputToken: { id: string; decimals: number };
   inputTokenBalance: string;
 }
 
@@ -107,6 +107,7 @@ const MARKETS_QUERY = /* GraphQL */ `
       id
       inputToken {
         id
+        decimals
       }
       inputTokenBalance
     }
@@ -189,11 +190,13 @@ function buildMarketOwnership(
   positions: RawPosition[],
   underlying: Address,
   chainId: ChainId,
+  decimals: number,
 ): MarketOwnership | null {
+  const scalar = 10 ** decimals;
   const owners: Record<Address, number> = {};
   for (const p of positions) {
     const account = p.account.id.toLowerCase() as Address;
-    const balance = Number(p.balance);
+    const balance = Number(p.balance) / scalar;
     if (!Number.isFinite(balance) || balance <= 0) continue;
     owners[account] = (owners[account] ?? 0) + balance;
   }
@@ -268,6 +271,7 @@ export function createAaveV3Fetcher(config: AaveV3Config): OwnershipFetcher {
               positions,
               underlying,
               chainId,
+              market.inputToken.decimals,
             );
             if (ownership) snapshot.markets[ownership.marketUid] = ownership;
           }

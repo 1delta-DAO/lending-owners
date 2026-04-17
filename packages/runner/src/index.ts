@@ -118,6 +118,7 @@ async function main() {
 
   // Initialize all protocol metadata once so individual fetchers skip redundant fetches.
   await fetchLenderMetaFromDirAndInitialize({
+    compoundV3Pools: true,
     aaveV4Spokes: true,
     morphoPools: true,
     eulerVaults: true,
@@ -127,7 +128,11 @@ async function main() {
 
   const fetcherFactories: Record<LenderKey, () => OwnershipFetcher> = {
     AAVE_V3: () => createAaveV3Fetcher({ subgraphApiKey: requireEnv("AAVE_V3_SUBGRAPH_API_KEY") }),
-    COMPOUND_V3: () => createCompoundV3Fetcher({ subgraphApiKey: requireEnv("COMPOUND_V3_SUBGRAPH_API_KEY") }),
+    COMPOUND_V3: () =>
+      createCompoundV3Fetcher({
+        subgraphApiKey: requireEnv("COMPOUND_V3_SUBGRAPH_API_KEY"),
+        skipMetadataInit: true,
+      }),
     AAVE_V4: () => createAaveV4Fetcher({ skipMetadataInit: true }),
     MORPHO_BLUE: () =>
       createMorphoBlueFetcher({

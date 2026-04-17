@@ -40,7 +40,7 @@ export interface SparkConfig {
 
 interface RawMarket {
   id: string;
-  inputToken: { id: string };
+  inputToken: { id: string; decimals: number };
   inputTokenBalance: string;
 }
 
@@ -94,7 +94,7 @@ const MARKETS_QUERY = /* GraphQL */ `
   query Markets($first: Int!) {
     markets(first: $first, orderBy: id, orderDirection: asc) {
       id
-      inputToken { id }
+      inputToken { id decimals }
       inputTokenBalance
     }
   }
@@ -154,11 +154,13 @@ function buildMarketOwnership(
   positions: RawPosition[],
   underlying: Address,
   chainId: ChainId,
+  decimals: number,
 ): MarketOwnership | null {
+  const scalar = 10 ** decimals;
   const owners: Record<Address, number> = {};
   for (const p of positions) {
     const account = p.account.id.toLowerCase() as Address;
-    const balance = Number(p.balance);
+    const balance = Number(p.balance) / scalar;
     if (!Number.isFinite(balance) || balance <= 0) continue;
     owners[account] = (owners[account] ?? 0) + balance;
   }
@@ -208,7 +210,7 @@ export function createSparkFetcher(config: SparkConfig): OwnershipFetcher {
                 1000000n
               ).toString();
               const positions = await fetchMarketPositions(url, market.id, side, minBalance, pageSize, ctx?.signal);
-              const ownership = buildMarketOwnership(positions, underlying, chainId);
+              const ownership = buildMarketOwnership(positions, underlying, chainId, market.inputToken.decimals);
               if (ownership) snapshot.markets[ownership.marketUid] = ownership;
             } catch (err) {
               console.warn(`[${LENDER_KEY}] chain ${chainId} market ${market.id} skipped: ${(err as Error).message}`);

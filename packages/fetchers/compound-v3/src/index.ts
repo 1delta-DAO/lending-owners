@@ -46,7 +46,7 @@ export interface CompoundV3Config {
 // Market.accounting.totalBaseSupply = total supply in base units (BigInt)
 interface RawMarket {
   id: string;
-  configuration: { baseToken: { token: { id: string } } };
+  configuration: { baseToken: { token: { id: string; decimals: number } } };
   accounting: { totalBaseSupply: string };
 }
 
@@ -105,7 +105,7 @@ const MARKET_QUERY = /* GraphQL */ `
       id
       configuration {
         baseToken {
-          token { id }
+          token { id decimals }
         }
       }
       accounting {
@@ -166,11 +166,12 @@ async function fetchMarketPositions(
 
 // ── Market grouping ───────────────────────────────────────────────────────────
 
-function buildMarketOwnership(positions: RawPosition[], underlying: Address, chainId: ChainId): MarketOwnership | null {
+function buildMarketOwnership(positions: RawPosition[], underlying: Address, chainId: ChainId, decimals: number): MarketOwnership | null {
+  const scalar = 10 ** decimals;
   const owners: Record<Address, number> = {};
   for (const p of positions) {
     const account = p.account.id.toLowerCase() as Address;
-    const balance = Number(p.accounting.basePrincipal);
+    const balance = Number(p.accounting.basePrincipal) / scalar;
     if (!Number.isFinite(balance) || balance <= 0) continue;
     owners[account] = (owners[account] ?? 0) + balance;
   }
@@ -234,7 +235,7 @@ export function createCompoundV3Fetcher(config: CompoundV3Config): OwnershipFetc
                 1000000n
               ).toString();
               const positions = await fetchMarketPositions(url, comet.toLowerCase(), minPrincipal, pageSize, ctx?.signal);
-              const ownership = buildMarketOwnership(positions, underlying, chainId);
+              const ownership = buildMarketOwnership(positions, underlying, chainId, market.configuration.baseToken.token.decimals);
               if (ownership) snapshot.markets[ownership.marketUid] = ownership;
             } catch (err) {
               console.warn(`[${LENDER_KEY}] chain ${chainId} comet ${comet} skipped: ${(err as Error).message}`);

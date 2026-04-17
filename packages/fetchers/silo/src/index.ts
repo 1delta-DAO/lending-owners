@@ -51,7 +51,7 @@ export interface SiloConfig {
 
 interface RawMarket {
   id: string;
-  inputToken: { id: string };
+  inputToken: { id: string; decimals: number };
   supply: string;
 }
 
@@ -78,7 +78,7 @@ const MARKETS_QUERY = /* GraphQL */ `
   query Markets($first: Int!) {
     markets(first: $first orderBy: id orderDirection: asc) {
       id
-      inputToken { id }
+      inputToken { id decimals }
       supply
     }
   }
@@ -247,10 +247,11 @@ export function createSiloFetcher(config: SiloConfig): OwnershipFetcher {
               const minBalance = (BigInt(market.supply) * BigInt(Math.round(minOwnerFraction * 1e6)) / 1000000n).toString();
               const positions = await fetchMarketPositions(url, market.id, minBalance, pageSize, ctx?.signal);
 
+              const scalar = 10 ** market.inputToken.decimals;
               const owners: Record<Address, number> = {};
               for (const p of positions) {
                 const account = p.account.id.toLowerCase() as Address;
-                const balance = Number(p.balance);
+                const balance = Number(p.balance) / scalar;
                 if (!Number.isFinite(balance) || balance <= 0) continue;
                 owners[account] = (owners[account] ?? 0) + balance;
               }

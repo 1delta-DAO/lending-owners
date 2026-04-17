@@ -19,8 +19,15 @@ export * from "./hist/index.js";
 
 const LENDER_KEY = "COMPOUND_V3";
 
+// Messari-schema Compound V3 subgraphs (decentralized network).
+// Schema uses "COLLATERAL" for supply-side positions (suppliers of both base
+// asset and collateral share one PositionSide; they're separated downstream
+// by `asset.id`). PositionSide enum is {COLLATERAL, BORROWER}.
 const SUBGRAPH_IDS: Partial<Record<ChainId, string>> = {
-  [Chain.ETHEREUM_MAINNET]: "AwoxEZbiWLvv6e3QdvdMZw4WDURdGbvPfHmZRc8Dpfz9",
+  [Chain.ETHEREUM_MAINNET]: "5nwMCSHaTqG3Kd2gHznbTXEnZ9QNWsssQfbHhDqQSQFp",
+  [Chain.ARBITRUM_ONE]: "Ff7ha9ELmpmg81D6nYxy4t8aGP26dPztqD1LDJNPqjLS",
+  [Chain.POLYGON_MAINNET]: "AaFtUWKfFdj2x8nnE3RxTSJkHwGHvawH3VWFBykCGzLs",
+  [Chain.BASE]: "2hcXhs36pTBDVUmk5K2Zkr6N4UYGwaHuco2a6jyTsijo",
 };
 
 const SUPPORTED_CHAINS: ChainId[] = Object.keys(SUBGRAPH_IDS) as ChainId[];
@@ -28,7 +35,7 @@ const SUPPORTED_CHAINS: ChainId[] = Object.keys(SUBGRAPH_IDS) as ChainId[];
 const subgraphUrl = (apiKey: string, id: string): string =>
   `https://gateway.thegraph.com/api/${apiKey}/subgraphs/id/${id}`;
 
-export type PositionSide = "LENDER" | "BORROWER";
+export type PositionSide = "COLLATERAL" | "BORROWER";
 
 export interface CompoundV3Config {
   subgraphApiKey: string;
@@ -182,7 +189,7 @@ export function createCompoundV3Fetcher(config: CompoundV3Config): OwnershipFetc
   if (!config.subgraphApiKey) {
     throw new Error(`[${LENDER_KEY}] subgraphApiKey is required`);
   }
-  const side: PositionSide = config.side ?? "LENDER";
+  const side: PositionSide = config.side ?? "COLLATERAL";
   const pageSize = Math.min(Math.max(config.pageSize ?? 1000, 1), 1000);
   const minOwnerFraction = config.minOwnerFraction ?? OWNER_FRACTION_BY_LENDER[LENDER_KEY] ?? 0.01;
 

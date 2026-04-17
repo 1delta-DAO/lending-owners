@@ -235,16 +235,24 @@ export function createSiloFetcher(config: SiloConfig): OwnershipFetcher {
 
         // Query V2 subgraph for this chain (if available)
         if (v2SubgraphId) {
-          const url = subgraphUrl(config.subgraphApiKey, v2SubgraphId);
-          const positions = await fetchAllPositions(url, pageSize, ctx?.signal);
-          mergeMarkets(groupByUnderlying(positions, allowedSilos, chainId));
+          try {
+            const url = subgraphUrl(config.subgraphApiKey, v2SubgraphId);
+            const positions = await fetchAllPositions(url, pageSize, ctx?.signal);
+            mergeMarkets(groupByUnderlying(positions, allowedSilos, chainId));
+          } catch (err) {
+            console.warn(`[${LENDER_KEY}] chain ${chainId} V2 skipped: ${(err as Error).message}`);
+          }
         }
 
         // Query V3 subgraph for this chain (if available)
         if (v3SubgraphId) {
-          const url = subgraphUrl(config.subgraphApiKey, v3SubgraphId);
-          const positions = await fetchAllPositions(url, pageSize, ctx?.signal);
-          mergeMarkets(groupByUnderlying(positions, allowedSilos, chainId));
+          try {
+            const url = subgraphUrl(config.subgraphApiKey, v3SubgraphId);
+            const positions = await fetchAllPositions(url, pageSize, ctx?.signal);
+            mergeMarkets(groupByUnderlying(positions, allowedSilos, chainId));
+          } catch (err) {
+            console.warn(`[${LENDER_KEY}] chain ${chainId} V3 skipped: ${(err as Error).message}`);
+          }
         }
       }
 

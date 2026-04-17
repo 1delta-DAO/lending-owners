@@ -183,9 +183,13 @@ export function createCompoundV3Fetcher(config: CompoundV3Config): OwnershipFetc
         if (comets.length === 0) continue;
         const url = subgraphUrl(config.subgraphApiKey, subgraphId);
         for (const comet of comets) {
-          const positions = await fetchMarketPositions(url, comet, side, pageSize, ctx?.signal);
-          const markets = groupByAsset(positions, LENDER_KEY, chainId);
-          Object.assign(snapshot.markets, markets);
+          try {
+            const positions = await fetchMarketPositions(url, comet, side, pageSize, ctx?.signal);
+            const markets = groupByAsset(positions, LENDER_KEY, chainId);
+            Object.assign(snapshot.markets, markets);
+          } catch (err) {
+            console.warn(`[${LENDER_KEY}] chain ${chainId} comet ${comet} skipped: ${(err as Error).message}`);
+          }
         }
       }
 

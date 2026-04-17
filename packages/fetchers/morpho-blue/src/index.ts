@@ -197,10 +197,14 @@ export function createMorphoBlueFetcher(config: MorphoBlueConfig): OwnershipFetc
         // Skip chains where SDK has no record of a Morpho deployment (may be stale data).
         if (deployedChains.size > 0 && !deployedChains.has(String(chainId))) continue;
 
-        const url = subgraphUrl(config.subgraphApiKey, subgraphId);
-        const positions = await fetchAllPositions(url, "SUPPLIER", pageSize, ctx?.signal);
-        const markets = groupByAsset(positions, chainId);
-        Object.assign(snapshot.markets, markets);
+        try {
+          const url = subgraphUrl(config.subgraphApiKey, subgraphId);
+          const positions = await fetchAllPositions(url, "SUPPLIER", pageSize, ctx?.signal);
+          const markets = groupByAsset(positions, chainId);
+          Object.assign(snapshot.markets, markets);
+        } catch (err) {
+          console.warn(`[${LENDER_KEY}] chain ${chainId} skipped: ${(err as Error).message}`);
+        }
       }
 
       return snapshot;

@@ -11,13 +11,16 @@ import { Chain } from "@1delta/chain-registry";
 
 const LENDER_KEY = "AAVE_V3";
 
+// Subgraph IDs from Messari's Aave V3 deployment (decentralized network).
+// Schema uses "COLLATERAL" for supply-side positions (not "LENDER").
+// Source: https://github.com/messari/subgraphs/blob/master/deployment/deployment.json
 const SUBGRAPH_IDS: Partial<Record<ChainId, string>> = {
-  [Chain.ETHEREUM_MAINNET]: "Cd2gEDVeqnjBn1hSeqFMtw8Q1IiyV9FYUZkLNRcLB7g",
-  [Chain.BASE]: "GQFbb95cE6d8mV989mL5figjqGaKCQB3xqYrr1bRyXqF",
-  [Chain.ARBITRUM_ONE]: "DLuE98kEb5pQNXAcKFQGQgfSQ57Xdou4jnVbAEqMfy3B",
-  [Chain.POLYGON_MAINNET]: "Co2URyXjnxaw8WqxKyVHdirq9Ahhmsvcts4dMedAq211",
-  [Chain.OP_MAINNET]: "DSfLz8oQBUeU5atALgUFQKMTSYV9mZAVYp4noLSXAfvb",
-  [Chain.AVALANCHE_C_CHAIN]: "2h9woxy8RTjHu1HJsCEnmzpPHFArU33avmUh4f71JpVn",
+  [Chain.ETHEREUM_MAINNET]: "JCNWRypm7FYwV8fx5HhzZPSFaMxgkPuw4TnR3Gpi81zk",
+  [Chain.BASE]: "D7mapexM5ZsQckLJai2FawTKXJ7CqYGKM8PErnS3cJi9",
+  [Chain.ARBITRUM_ONE]: "4xyasjQeREe7PxnF6wVdobZvCw5mhoHZq3T7guRpuNPf",
+  [Chain.POLYGON_MAINNET]: "6yuf1C49aWEscgk5n9D1DekeG1BCk5Z9imJYJT3sVmAT",
+  [Chain.OP_MAINNET]: "3RWFxWNstn4nP3dXiDfKi9GgBoHx7xzc7APkXs1MLEgi",
+  [Chain.AVALANCHE_C_CHAIN]: "72Cez54APnySAn6h8MswzYkwaL9KjvuuKnKArnPJ8yxb",
 };
 
 const SUPPORTED_CHAINS = Object.keys(SUBGRAPH_IDS) as ChainId[];
@@ -25,7 +28,7 @@ const SUPPORTED_CHAINS = Object.keys(SUBGRAPH_IDS) as ChainId[];
 const subgraphUrl = (apiKey: string, id: string): string =>
   `https://gateway.thegraph.com/api/${apiKey}/subgraphs/id/${id}`;
 
-export type PositionSide = "LENDER" | "BORROWER";
+export type PositionSide = "COLLATERAL" | "LENDER" | "BORROWER";
 
 export interface AaveV3Config {
   subgraphApiKey: string;
@@ -61,11 +64,14 @@ async function queryGraphQL<T>(
     throw new Error(`[${LENDER_KEY}] subgraph HTTP ${res.status}`);
   }
   const json = (await res.json()) as { data?: T; errors?: Array<{ message: string }> };
-  if (json.errors?.length) {
-    throw new Error(`[${LENDER_KEY}] subgraph errors: ${json.errors.map((e) => e.message).join("; ")}`);
-  }
   if (!json.data) {
-    throw new Error(`[${LENDER_KEY}] subgraph returned no data`);
+    const msg = json.errors?.map((e) => e.message).join("; ") ?? "no data";
+    throw new Error(`[${LENDER_KEY}] subgraph errors: ${msg}`);
+  }
+  if (json.errors?.length) {
+    // Partial data returned alongside errors (e.g. orphaned null-field entries).
+    // Warn and continue — valid positions are still processed.
+    console.warn(`[${LENDER_KEY}] subgraph partial errors: ${json.errors.slice(0, 3).map((e) => e.message).join("; ")}${json.errors.length > 3 ? ` (+${json.errors.length - 3} more)` : ""}`);
   }
   return json.data;
 }
@@ -102,7 +108,7 @@ async function fetchAllPositions(
       { side, first: pageSize, lastId },
       signal,
     );
-    const batch = data.positions;
+    const batch = data.positions.filter(Boolean);
     if (batch.length === 0) break;
     all.push(...batch);
     if (batch.length < pageSize) break;
@@ -141,7 +147,7 @@ export function createAaveV3Fetcher(config: AaveV3Config): OwnershipFetcher {
   if (!config.subgraphApiKey) {
     throw new Error(`[${LENDER_KEY}] subgraphApiKey is required`);
   }
-  const side: PositionSide = config.side ?? "LENDER";
+  const side: PositionSide = config.side ?? "COLLATERAL";
   const pageSize = Math.min(Math.max(config.pageSize ?? 1000, 1), 1000);
 
   return {
@@ -159,10 +165,14 @@ export function createAaveV3Fetcher(config: AaveV3Config): OwnershipFetcher {
       for (const chainId of chains) {
         const subgraphId = SUBGRAPH_IDS[chainId];
         if (!subgraphId) continue;
-        const url = subgraphUrl(config.subgraphApiKey, subgraphId);
-        const positions = await fetchAllPositions(url, side, pageSize, ctx?.signal);
-        const markets = groupByAsset(positions, LENDER_KEY, chainId);
-        Object.assign(snapshot.markets, markets);
+        try {
+          const url = subgraphUrl(config.subgraphApiKey, subgraphId);
+          const positions = await fetchAllPositions(url, side, pageSize, ctx?.signal);
+          const markets = groupByAsset(positions, LENDER_KEY, chainId);
+          Object.assign(snapshot.markets, markets);
+        } catch (err) {
+          console.warn(`[${LENDER_KEY}] chain ${chainId} skipped: ${(err as Error).message}`);
+        }
       }
 
       return snapshot;

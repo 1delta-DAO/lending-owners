@@ -29,8 +29,8 @@ const SUBGRAPH_IDS: Partial<Record<ChainId, string>> = {
 
 const SUPPORTED_CHAINS: ChainId[] = Object.keys(SUBGRAPH_IDS) as ChainId[];
 
-const subgraphUrl = (apiKey: string, id: string): string =>
-  `https://gateway.thegraph.com/api/${apiKey}/subgraphs/id/${id}`;
+const subgraphUrl = (id: string): string =>
+  `https://gateway.thegraph.com/api/subgraphs/id/${id}`;
 
 export interface CompoundV3Config {
   subgraphApiKey: string;
@@ -70,13 +70,17 @@ interface PositionsResponse {
 
 async function queryGraphQL<T>(
   url: string,
+  apiKey: string,
   query: string,
   variables: Record<string, unknown>,
   signal?: AbortSignal,
 ): Promise<T> {
   const res = await fetch(url, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${apiKey}`,
+    },
     body: JSON.stringify({ query, variables }),
     signal,
   });
@@ -134,13 +138,14 @@ const POSITIONS_QUERY = /* GraphQL */ `
 
 // ── Data fetching ─────────────────────────────────────────────────────────────
 
-async function fetchCometMarket(url: string, comet: string, signal?: AbortSignal): Promise<RawMarket | null> {
-  const data = await queryGraphQL<MarketResponse>(url, MARKET_QUERY, { id: comet.toLowerCase() }, signal);
+async function fetchCometMarket(url: string, apiKey: string, comet: string, signal?: AbortSignal): Promise<RawMarket | null> {
+  const data = await queryGraphQL<MarketResponse>(url, apiKey, MARKET_QUERY, { id: comet.toLowerCase() }, signal);
   return data.market;
 }
 
 async function fetchMarketPositions(
   url: string,
+  apiKey: string,
   marketId: string,
   minPrincipal: string,
   pageSize: number,
@@ -151,6 +156,7 @@ async function fetchMarketPositions(
   for (;;) {
     const data = await queryGraphQL<PositionsResponse>(
       url,
+      apiKey,
       POSITIONS_QUERY,
       { marketId, minPrincipal, first: pageSize, lastId },
       signal,
@@ -220,14 +226,14 @@ export function createCompoundV3Fetcher(config: CompoundV3Config): OwnershipFetc
         const comets = Object.entries(chainPools).filter(([lender]) => isCompoundV3(lender));
         if (comets.length === 0) continue;
 
-        const url = subgraphUrl(config.subgraphApiKey, subgraphId);
+        const url = subgraphUrl(subgraphId);
         try {
-          const freshness = await checkSubgraphFreshness(LENDER_KEY, url, chainId, ctx?.signal);
+          const freshness = await checkSubgraphFreshness(LENDER_KEY, url, chainId, ctx?.signal, config.subgraphApiKey);
           if (freshness) snapshot.chainFreshness![chainId] = freshness;
 
           for (const [cometLenderKey, comet] of comets) {
             try {
-              const market = await fetchCometMarket(url, comet, ctx?.signal);
+              const market = await fetchCometMarket(url, config.subgraphApiKey, comet, ctx?.signal);
               if (!market) {
                 console.warn(`[${LENDER_KEY}] chain ${chainId} ${cometLenderKey} (${comet}): market not found in subgraph`);
                 continue;
@@ -238,7 +244,7 @@ export function createCompoundV3Fetcher(config: CompoundV3Config): OwnershipFetc
                 (BigInt(totalSupply) * BigInt(Math.round(minOwnerFraction * 1e6))) /
                 1000000n
               ).toString();
-              const positions = await fetchMarketPositions(url, comet.toLowerCase(), minPrincipal, pageSize, ctx?.signal);
+              const positions = await fetchMarketPositions(url, config.subgraphApiKey, comet.toLowerCase(), minPrincipal, pageSize, ctx?.signal);
               const ownership = buildMarketOwnership(positions, cometLenderKey, underlying, chainId, market.configuration.baseToken.token.decimals);
               if (ownership) snapshot.markets[ownership.marketUid] = ownership;
             } catch (err) {

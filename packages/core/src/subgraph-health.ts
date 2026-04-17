@@ -48,10 +48,13 @@ async function fetchRpcList(
 async function querySubgraphBlock(
   subgraphUrl: string,
   signal?: AbortSignal,
+  apiKey?: string,
 ): Promise<number> {
+  const headers: Record<string, string> = { "Content-Type": "application/json" };
+  if (apiKey) headers.Authorization = `Bearer ${apiKey}`;
   const res = await fetch(subgraphUrl, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers,
     body: JSON.stringify({ query: "{ _meta { block { number } } }" }),
     signal,
   });
@@ -113,10 +116,11 @@ export async function checkSubgraphFreshness(
   subgraphUrl: string,
   chainId: ChainId,
   signal?: AbortSignal,
+  apiKey?: string,
 ): Promise<ChainFreshness | null> {
   try {
     const [subgraphBlock, rpcBlock] = await Promise.all([
-      querySubgraphBlock(subgraphUrl, signal),
+      querySubgraphBlock(subgraphUrl, signal, apiKey),
       queryRpcBlock(chainId, signal),
     ]);
     const blocksBehind = Math.max(0, rpcBlock - subgraphBlock);

@@ -1,18 +1,14 @@
 import {
   type Address,
-  type ChainFreshness,
   type ChainId,
   type FetcherContext,
   type MarketOwnership,
-  type MarketUid,
   type OwnershipFetcher,
   type OwnershipSnapshot,
   OWNER_FRACTION_BY_LENDER,
   checkSubgraphFreshness,
   makeMarketUid,
 } from "@lending-owners/core";
-import { siloMarkets, siloMarketsV3 } from "@1delta/data-sdk";
-import { fetchLenderMetaFromDirAndInitialize } from "@1delta/initializer-sdk";
 import { Chain } from "@1delta/chain-registry";
 
 const LENDER_KEY = "SILO";
@@ -42,7 +38,6 @@ const SUPPORTED_CHAINS = [
 export interface SiloConfig {
   subgraphApiKey: string;
   pageSize?: number;
-  skipMetadataInit?: boolean;
   /** Minimum owner fraction of market total to include. Defaults to OWNER_FRACTION_BY_LENDER["SILO"]. */
   minOwnerFraction?: number;
 }
@@ -62,7 +57,8 @@ interface MarketsResponse {
 interface RawPosition {
   id: string;
   account: { id: string };
-  balance: string;
+  sTokenBalance: string;
+  spTokenBalance: string;
 }
 
 interface PositionsResponse {
@@ -88,13 +84,14 @@ const POSITIONS_QUERY = /* GraphQL */ `
   query Positions($marketId: String!, $minBalance: BigInt!, $first: Int!, $lastId: String!) {
     positions(
       first: $first
-      where: { market: $marketId, side: LENDER, balance_gt: $minBalance, id_gt: $lastId }
+      where: { market: $marketId, side: LENDER, sTokenBalance_gt: $minBalance, id_gt: $lastId }
       orderBy: id
       orderDirection: asc
     ) {
       id
       account { id }
-      balance
+      sTokenBalance
+      spTokenBalance
     }
   }
 `;
@@ -161,25 +158,6 @@ async function fetchMarketPositions(
   return all;
 }
 
-// ── Market grouping ───────────────────────────────────────────────────────────
-
-function buildAllowedSilos(
-  chainId: ChainId,
-  v2Data: ReturnType<typeof siloMarkets>,
-  v3Data: ReturnType<typeof siloMarketsV3>,
-): Set<string> | null {
-  const chainStr = String(chainId);
-  const v2Entries = (v2Data[chainStr] ?? []) as Array<{ silo0: { silo: string }; silo1: { silo: string } }>;
-  const v3Entries = (v3Data[chainStr] ?? []) as Array<{ silo0: { silo: string }; silo1: { silo: string } }>;
-  if (v2Entries.length === 0 && v3Entries.length === 0) return null;
-  const allowed = new Set<string>();
-  for (const entry of [...v2Entries, ...v3Entries]) {
-    allowed.add(entry.silo0.silo.toLowerCase());
-    allowed.add(entry.silo1.silo.toLowerCase());
-  }
-  return allowed;
-}
-
 // ── Factory ───────────────────────────────────────────────────────────────────
 
 export function createSiloFetcher(config: SiloConfig): OwnershipFetcher {
@@ -194,13 +172,6 @@ export function createSiloFetcher(config: SiloConfig): OwnershipFetcher {
     supportedChainIds: SUPPORTED_CHAINS,
 
     async fetch(ctx?: FetcherContext): Promise<OwnershipSnapshot> {
-      if (!config.skipMetadataInit) {
-        await fetchLenderMetaFromDirAndInitialize({ siloV2Markets: true, siloV3Markets: true });
-      }
-
-      const v2Data = siloMarkets() ?? {};
-      const v3Data = siloMarketsV3() ?? {};
-
       const chains = ctx?.chainIds ?? SUPPORTED_CHAINS;
       const snapshot: OwnershipSnapshot = {
         lenderKey: LENDER_KEY,
@@ -210,7 +181,6 @@ export function createSiloFetcher(config: SiloConfig): OwnershipFetcher {
       };
 
       for (const chainId of chains) {
-        const allowedSilos = buildAllowedSilos(chainId, v2Data, v3Data);
         const v2SubgraphId = V2_SUBGRAPH_IDS[chainId];
         const v3SubgraphId = V3_SUBGRAPH_IDS[chainId];
 
@@ -241,8 +211,6 @@ export function createSiloFetcher(config: SiloConfig): OwnershipFetcher {
 
             const markets = await fetchMarkets(url, pageSize, ctx?.signal);
             for (const market of markets) {
-              const siloAddr = market.id.toLowerCase();
-              if (allowedSilos !== null && !allowedSilos.has(siloAddr)) continue;
               const underlying = market.inputToken.id.toLowerCase() as Address;
               const minBalance = (BigInt(market.supply) * BigInt(Math.round(minOwnerFraction * 1e6)) / 1000000n).toString();
               const positions = await fetchMarketPositions(url, market.id, minBalance, pageSize, ctx?.signal);
@@ -251,7 +219,7 @@ export function createSiloFetcher(config: SiloConfig): OwnershipFetcher {
               const owners: Record<Address, number> = {};
               for (const p of positions) {
                 const account = p.account.id.toLowerCase() as Address;
-                const balance = Number(p.balance) / scalar;
+                const balance = (Number(p.sTokenBalance) + Number(p.spTokenBalance)) / scalar;
                 if (!Number.isFinite(balance) || balance <= 0) continue;
                 owners[account] = (owners[account] ?? 0) + balance;
               }

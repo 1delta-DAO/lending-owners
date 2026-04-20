@@ -122,8 +122,6 @@ async function main() {
     aaveV4Spokes: true,
     morphoPools: true,
     eulerVaults: true,
-    siloV2Markets: true,
-    siloV3Markets: true,
   });
 
   const fetcherFactories: Record<LenderKey, () => OwnershipFetcher> = {
@@ -143,7 +141,6 @@ async function main() {
     SILO: () =>
       createSiloFetcher({
         subgraphApiKey: requireEnv("SILO_SUBGRAPH_API_KEY"),
-        skipMetadataInit: true,
       }),
     SPARK: () => createSparkFetcher({ subgraphApiKey: requireEnv("SPARK_SUBGRAPH_API_KEY") }),
     VENUS: () => createVenusFetcher({ subgraphApiKey: requireEnv("VENUS_SUBGRAPH_API_KEY") }),

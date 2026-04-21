@@ -5,6 +5,7 @@ import {
   type MarketOwnership,
   type OwnershipFetcher,
   type OwnershipSnapshot,
+  OWNER_FRACTION_BY_LENDER,
   makeMarketUid,
 } from "@lending-owners/core";
 import { aaveV4Spokes } from "@1delta/data-sdk";
@@ -23,6 +24,8 @@ export interface AaveV4Config {
   apiUrl?: string;
   /** Skip fetching SDK metadata (caller already initialized it). */
   skipMetadataInit?: boolean;
+  /** Minimum owner fraction of market total to include. Defaults to OWNER_FRACTION_BY_LENDER["AAVE_V4"]. */
+  minOwnerFraction?: number;
 }
 
 // ── GraphQL types ────────────────────────────────────────────────────────────
@@ -148,26 +151,32 @@ async function fetchAllHolders(
 // ── Market grouping ──────────────────────────────────────────────────────────
 
 function buildMarketOwnership(
-  reserveId: string,
   underlying: Address,
   holders: RawHolder[],
   chainId: ChainId,
-): MarketOwnership {
+  minOwnerFraction: number,
+): MarketOwnership | null {
   const uid = makeMarketUid(LENDER_KEY, chainId, underlying);
-  const owners: Record<Address, number> = {};
+  const allOwners: Record<Address, number> = {};
   for (const h of holders) {
     const account = h.address.toLowerCase() as Address;
     const balance = Number(h.amount.amount.onChainValue);
     if (!Number.isFinite(balance) || balance <= 0) continue;
-    owners[account] = (owners[account] ?? 0) + balance;
+    allOwners[account] = (allOwners[account] ?? 0) + balance;
   }
-  const sorted = Object.entries(owners).sort((a, b) => b[1] - a[1]);
+  const totalSupply = Object.values(allOwners).reduce((s, b) => s + b, 0);
+  const threshold = totalSupply * minOwnerFraction;
+  const filtered = Object.entries(allOwners)
+    .filter(([, bal]) => bal >= threshold)
+    .sort(([, a], [, b]) => b - a);
+  if (filtered.length === 0) return null;
   return {
     marketUid: uid,
     lenderKey: LENDER_KEY,
     chainId,
     underlying,
-    owners: Object.fromEntries(sorted),
+    totalSupply,
+    owners: Object.fromEntries(filtered) as Record<Address, number>,
   };
 }
 
@@ -175,6 +184,7 @@ function buildMarketOwnership(
 
 export function createAaveV4Fetcher(config: AaveV4Config = {}): OwnershipFetcher {
   const url = config.apiUrl ?? API_URL;
+  const minOwnerFraction = config.minOwnerFraction ?? OWNER_FRACTION_BY_LENDER[LENDER_KEY] ?? 0.01;
 
   return {
     lenderKey: LENDER_KEY,
@@ -207,8 +217,8 @@ export function createAaveV4Fetcher(config: AaveV4Config = {}): OwnershipFetcher
           const holders = await fetchAllHolders(url, reserve.id, ctx?.signal);
           if (holders.length === 0) continue;
 
-          const market = buildMarketOwnership(reserve.id, underlying, holders, chainId);
-          snapshot.markets[market.marketUid] = market;
+          const market = buildMarketOwnership(underlying, holders, chainId, minOwnerFraction);
+          if (market) snapshot.markets[market.marketUid] = market;
         }
       }
 

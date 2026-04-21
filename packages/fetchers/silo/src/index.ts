@@ -216,6 +216,7 @@ export function createSiloFetcher(config: SiloConfig): OwnershipFetcher {
               const positions = await fetchMarketPositions(url, market.id, minBalance, pageSize, ctx?.signal);
 
               const scalar = 10 ** market.inputToken.decimals;
+              const totalSupply = Number(market.supply) / scalar;
               const owners: Record<Address, number> = {};
               for (const p of positions) {
                 const account = p.account.id.toLowerCase() as Address;
@@ -226,7 +227,7 @@ export function createSiloFetcher(config: SiloConfig): OwnershipFetcher {
               if (Object.keys(owners).length === 0) continue;
               const uid = makeMarketUid(LENDER_KEY, chainId, underlying);
               const sorted = Object.fromEntries(Object.entries(owners).sort((a, b) => b[1] - a[1]));
-              mergeOwnership({ marketUid: uid, lenderKey: LENDER_KEY, chainId, underlying, owners: sorted });
+              mergeOwnership({ marketUid: uid, lenderKey: LENDER_KEY, chainId, underlying, totalSupply, owners: sorted });
             }
           } catch (err) {
             console.warn(`[${LENDER_KEY}] chain ${chainId} ${label} skipped: ${(err as Error).message}`);

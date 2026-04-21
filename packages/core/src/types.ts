@@ -13,6 +13,8 @@ export interface MarketOwnership {
   lenderKey: LenderKey;
   chainId: ChainId;
   underlying: Address;
+  /** Total deposited amount in human-readable units (divided by token decimals). */
+  totalSupply?: number;
   owners: OwnerBalances;
 }
 

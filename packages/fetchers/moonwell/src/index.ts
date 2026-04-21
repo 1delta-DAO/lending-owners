@@ -90,8 +90,8 @@ async function queryGraphQL<T>(
 // ── GraphQL queries ───────────────────────────────────────────────────────────
 
 const MARKETS_QUERY = /* GraphQL */ `
-  query Markets($first: Int!) {
-    markets(first: $first, orderBy: id, orderDirection: asc) {
+  query Markets($first: Int!, $lastId: String!) {
+    markets(first: $first, where: { id_gt: $lastId }, orderBy: id, orderDirection: asc) {
       id
       inputToken { id decimals }
       inputTokenBalance
@@ -117,8 +117,17 @@ const POSITIONS_QUERY = /* GraphQL */ `
 // ── Data fetching ─────────────────────────────────────────────────────────────
 
 async function fetchMarkets(url: string, pageSize: number, signal?: AbortSignal): Promise<RawMarket[]> {
-  const data = await queryGraphQL<MarketsResponse>(url, MARKETS_QUERY, { first: pageSize }, signal);
-  return data.markets;
+  const all: RawMarket[] = [];
+  let lastId = "";
+  for (;;) {
+    const data = await queryGraphQL<MarketsResponse>(url, MARKETS_QUERY, { first: pageSize, lastId }, signal);
+    const batch = data.markets;
+    if (batch.length === 0) break;
+    all.push(...batch);
+    if (batch.length < pageSize) break;
+    lastId = batch[batch.length - 1].id;
+  }
+  return all;
 }
 
 async function fetchMarketPositions(
@@ -154,6 +163,7 @@ function buildMarketOwnership(
   underlying: Address,
   chainId: ChainId,
   decimals: number,
+  totalSupply: number,
 ): MarketOwnership | null {
   const scalar = 10 ** decimals;
   const owners: Record<Address, number> = {};
@@ -166,7 +176,7 @@ function buildMarketOwnership(
   if (Object.keys(owners).length === 0) return null;
   const uid = makeMarketUid(LENDER_KEY, chainId, underlying);
   const sorted = Object.fromEntries(Object.entries(owners).sort((a, b) => b[1] - a[1]));
-  return { marketUid: uid, lenderKey: LENDER_KEY, chainId, underlying, owners: sorted };
+  return { marketUid: uid, lenderKey: LENDER_KEY, chainId, underlying, totalSupply, owners: sorted };
 }
 
 // ── Factory ───────────────────────────────────────────────────────────────────
@@ -209,7 +219,8 @@ export function createMoonwellFetcher(config: MoonwellConfig): OwnershipFetcher 
                 1000000n
               ).toString();
               const positions = await fetchMarketPositions(url, market.id, side, minBalance, pageSize, ctx?.signal);
-              const ownership = buildMarketOwnership(positions, underlying, chainId, market.inputToken.decimals);
+              const totalSupply = Number(market.inputTokenBalance) / (10 ** market.inputToken.decimals);
+              const ownership = buildMarketOwnership(positions, underlying, chainId, market.inputToken.decimals, totalSupply);
               if (ownership) snapshot.markets[ownership.marketUid] = ownership;
             } catch (err) {
               console.warn(`[${LENDER_KEY}] chain ${chainId} market ${market.id} skipped: ${(err as Error).message}`);

@@ -5,6 +5,7 @@ import {
   type MarketOwnership,
   type OwnershipFetcher,
   type OwnershipSnapshot,
+  OWNER_FRACTION_BY_LENDER,
   makeMarketUid,
 } from "@lending-owners/core";
 import { eulerVaults } from "@1delta/data-sdk";
@@ -45,6 +46,8 @@ export interface EulerConfig {
   pageSize?: number;
   /** Skip fetching SDK metadata (caller already initialized it). */
   skipMetadataInit?: boolean;
+  /** Minimum owner fraction of market total to include. Defaults to OWNER_FRACTION_BY_LENDER["EULER"]. */
+  minOwnerFraction?: number;
 }
 
 // ── GraphQL types ────────────────────────────────────────────────────────────
@@ -136,36 +139,54 @@ function groupByUnderlying(
   vaultBalances: RawVaultBalance[],
   vaultToUnderlying: Map<string, string>,
   chainId: ChainId,
+  minOwnerFraction: number,
 ): Record<string, MarketOwnership> {
-  const byUnderlying: Record<string, MarketOwnership> = {};
+  // First pass: accumulate all balances to compute per-market total.
+  const rawTotals: Record<string, number> = {};
+  const rawOwners: Record<string, Record<Address, number>> = {};
+  const underlyingByUid: Record<string, string> = {};
+
   for (const entry of vaultBalances) {
     const vaultAddr = entry.vault.toLowerCase();
     const underlying = vaultToUnderlying.get(vaultAddr);
-    if (!underlying) continue; // vault not in SDK registry — skip
+    if (!underlying) continue;
 
     const account = entry.mainAddress.toLowerCase() as Address;
     const balance = Number(entry.balance);
     if (!Number.isFinite(balance) || balance <= 0) continue;
 
     const uid = makeMarketUid(LENDER_KEY, chainId, underlying as Address);
-    let market = byUnderlying[uid];
-    if (!market) {
-      market = { marketUid: uid, lenderKey: LENDER_KEY, chainId, underlying: underlying as Address, owners: {} };
-      byUnderlying[uid] = market;
-    }
-    market.owners[account] = (market.owners[account] ?? 0) + balance;
+    rawTotals[uid] = (rawTotals[uid] ?? 0) + balance;
+    rawOwners[uid] = rawOwners[uid] ?? {};
+    rawOwners[uid][account] = (rawOwners[uid][account] ?? 0) + balance;
+    underlyingByUid[uid] = underlying;
   }
-  for (const market of Object.values(byUnderlying)) {
-    const sorted = Object.entries(market.owners).sort((a, b) => b[1] - a[1]);
-    market.owners = Object.fromEntries(sorted);
+
+  // Second pass: filter to owners above threshold, set totalSupply.
+  const result: Record<string, MarketOwnership> = {};
+  for (const [uid, total] of Object.entries(rawTotals)) {
+    const threshold = total * minOwnerFraction;
+    const filtered = Object.entries(rawOwners[uid])
+      .filter(([, bal]) => bal >= threshold)
+      .sort(([, a], [, b]) => b - a);
+    if (filtered.length === 0) continue;
+    result[uid] = {
+      marketUid: uid as MarketOwnership["marketUid"],
+      lenderKey: LENDER_KEY,
+      chainId,
+      underlying: underlyingByUid[uid] as Address,
+      totalSupply: total,
+      owners: Object.fromEntries(filtered) as Record<Address, number>,
+    };
   }
-  return byUnderlying;
+  return result;
 }
 
 // ── Factory ──────────────────────────────────────────────────────────────────
 
 export function createEulerFetcher(config: EulerConfig = {}): OwnershipFetcher {
   const pageSize = Math.min(Math.max(config.pageSize ?? 1000, 1), 1000);
+  const minOwnerFraction = config.minOwnerFraction ?? OWNER_FRACTION_BY_LENDER[LENDER_KEY] ?? 0.01;
 
   return {
     lenderKey: LENDER_KEY,
@@ -200,7 +221,7 @@ export function createEulerFetcher(config: EulerConfig = {}): OwnershipFetcher {
         }
 
         const rawBalances = await fetchAllVaultBalances(url, pageSize, ctx?.signal);
-        const markets = groupByUnderlying(rawBalances, vaultToUnderlying, chainId);
+        const markets = groupByUnderlying(rawBalances, vaultToUnderlying, chainId, minOwnerFraction);
         Object.assign(snapshot.markets, markets);
       }
 

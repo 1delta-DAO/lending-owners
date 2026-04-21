@@ -8,6 +8,8 @@
  */
 export const OWNER_FRACTION_BY_LENDER: Record<string, number> = {
   AAVE_V3: 0.01,
+  AAVE_V4: 0.01,
+  EULER: 0.01,
   MORPHO_BLUE: 0.01,
   COMPOUND_V3: 0.01,
   SILO: 0.01,

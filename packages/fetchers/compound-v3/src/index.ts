@@ -178,6 +178,7 @@ function buildMarketOwnership(
   underlying: Address,
   chainId: ChainId,
   decimals: number,
+  totalSupply: number,
 ): MarketOwnership | null {
   const scalar = 10 ** decimals;
   const owners: Record<Address, number> = {};
@@ -190,7 +191,7 @@ function buildMarketOwnership(
   if (Object.keys(owners).length === 0) return null;
   const uid = makeMarketUid(lenderKey, chainId, underlying);
   const sorted = Object.fromEntries(Object.entries(owners).sort((a, b) => b[1] - a[1]));
-  return { marketUid: uid, lenderKey, chainId, underlying, owners: sorted };
+  return { marketUid: uid, lenderKey, chainId, underlying, totalSupply, owners: sorted };
 }
 
 // ── Factory ───────────────────────────────────────────────────────────────────
@@ -239,13 +240,15 @@ export function createCompoundV3Fetcher(config: CompoundV3Config): OwnershipFetc
                 continue;
               }
               const underlying = market.configuration.baseToken.token.id.toLowerCase() as Address;
-              const totalSupply = market.accounting.totalBaseSupply;
+              const decimals = market.configuration.baseToken.token.decimals;
+              const rawTotalSupply = market.accounting.totalBaseSupply;
               const minPrincipal = (
-                (BigInt(totalSupply) * BigInt(Math.round(minOwnerFraction * 1e6))) /
+                (BigInt(rawTotalSupply) * BigInt(Math.round(minOwnerFraction * 1e6))) /
                 1000000n
               ).toString();
               const positions = await fetchMarketPositions(url, config.subgraphApiKey, comet.toLowerCase(), minPrincipal, pageSize, ctx?.signal);
-              const ownership = buildMarketOwnership(positions, cometLenderKey, underlying, chainId, market.configuration.baseToken.token.decimals);
+              const totalSupply = Number(rawTotalSupply) / (10 ** decimals);
+              const ownership = buildMarketOwnership(positions, cometLenderKey, underlying, chainId, decimals, totalSupply);
               if (ownership) snapshot.markets[ownership.marketUid] = ownership;
             } catch (err) {
               console.warn(`[${LENDER_KEY}] chain ${chainId} ${cometLenderKey} (${comet}) skipped: ${(err as Error).message}`);

@@ -1,6 +1,6 @@
 {
   "lenderKey": "EULER",
-  "fetchedAt": "2026-04-22T15:16:02.177Z",
+  "fetchedAt": "2026-04-22T19:16:54.704Z",
   "markets": {
     "EULER:1:0x00000000efe302beaa2b3e6e1b18d08d69a9012a": {
       "marketUid": "EULER:1:0x00000000efe302beaa2b3e6e1b18d08d69a9012a",
@@ -656,7 +656,7 @@
       "lenderKey": "EULER",
       "chainId": "1",
       "underlying": "0x66a1e37c9b0eaddca17d3662d6c05f4decf3e110",
-      "totalSupply": 1.2574986305325419e+23,
+      "totalSupply": 1.2574786409884742e+23,
       "owners": {
         "0x163ead084f74b0c0d12395036fa0c2f52a661215": 5.260148214054887e+22,
         "0xf078969e55cabf9ae3f26afeb5ec627b4430f19e": 9.993278000994451e+21,
@@ -711,7 +711,7 @@
       "lenderKey": "EULER",
       "chainId": "1",
       "underlying": "0x6c3ea9036406852006290770bedfcaba0e23a0e8",
-      "totalSupply": 221941330429009,
+      "totalSupply": 221355867638421,
       "owners": {
         "0xba4970b839678168340f823ef8f255832ab18c12": 68828264336818,
         "0xb81a0e6c38c3fec8a171cfe9631f60127a0c5bfd": 47532546905683,
@@ -726,7 +726,6 @@
         "0x10ce7e338713b6fedf082b541c06c43648c9e46f": 5556633290138,
         "0x7ac458f91bc6a0bab9c1caca85f14ec704ec8bbf": 4999810757113,
         "0x3af4a49c8e2fcaf33fd3389543b80d320fcc9091": 3894458434342,
-        "0xd734d8c031a0ef6c966c6cd95d8ed4e66c12ed1b": 3700920429420,
         "0x5bde30d9629948274a309f8708924fd5a64e6205": 2680512329123
       }
     },
@@ -886,10 +885,10 @@
       "lenderKey": "EULER",
       "chainId": "1",
       "underlying": "0x8292bb45bf1ee4d140127049757c2e0ff06317ed",
-      "totalSupply": 9.18546763172267e+25,
+      "totalSupply": 9.11402755788123e+25,
       "owners": {
-        "0x3063c5907faa10c01b242181aa689beb23d2bd65": 4.448595612671009e+25,
-        "0x4d6376dddd67af6f9ad40225ec566212f85b5a16": 1.5239989860161508e+25,
+        "0x3063c5907faa10c01b242181aa689beb23d2bd65": 3.2622910756654413e+25,
+        "0x4d6376dddd67af6f9ad40225ec566212f85b5a16": 2.5726824856454554e+25,
         "0xb81a0e6c38c3fec8a171cfe9631f60127a0c5bfd": 7.562730239633031e+24,
         "0x81633c1357ddb25d8625efb2cad26a60988475bf": 4.669579847248294e+24,
         "0x32c061e5254757c0f50610be215e6c260d135239": 3.446166884397144e+24,
@@ -1135,11 +1134,11 @@
       "lenderKey": "EULER",
       "chainId": "1",
       "underlying": "0x9d39a5de30e57443bff2a8307a4256c8797a3497",
-      "totalSupply": 2.425468501778881e+25,
+      "totalSupply": 2.515468501778881e+25,
       "owners": {
         "0x42715ba91deda3c692b9f540cee2fbb4dae78bbb": 1.3223678116070598e+25,
         "0x815f5bb257e88b67216a344c7c83a3ea4ee74748": 5.867361375340939e+24,
-        "0xd7583e3cf08bbcab66f1242195227bbf9f865fda": 2.3105004860728707e+24,
+        "0xd7583e3cf08bbcab66f1242195227bbf9f865fda": 3.2105004860728705e+24,
         "0x9353c8cda3e7513961e0fab3e722395dc127b454": 2.17e+24,
         "0x4a1aa58588ce45b5c6834604e1ebadcd7004795a": 3.048066947904725e+23,
         "0x4f9b582fcacd38a8aa3081ebca1ae1c72acc50e1": 2.9748270470507737e+23
@@ -1173,7 +1172,7 @@
       "lenderKey": "EULER",
       "chainId": "1",
       "underlying": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
-      "totalSupply": 206167082479174,
+      "totalSupply": 207365626719630,
       "owners": {
         "0xb134641b80982bed7cdbb307e56e55abbc8b3197": 60685093362998,
         "0xb81a0e6c38c3fec8a171cfe9631f60127a0c5bfd": 49745411300500,
@@ -1797,7 +1796,7 @@
       "lenderKey": "EULER",
       "chainId": "1",
       "underlying": "0xd9fcd98c322942075a5c3860693e9f4f03aae07b",
-      "totalSupply": 1.0686724642783165e+24,
+      "totalSupply": 1.068412607390284e+24,
       "owners": {
         "0x0e33089449606cde00ad767d66c28cf4cfcf0bf5": 1.0570337840921286e+24
       }
@@ -2061,7 +2060,7 @@
       "lenderKey": "EULER",
       "chainId": "130",
       "underlying": "0x078d782b760474a361dda0af3839290b0ef57ad6",
-      "totalSupply": 187191637983,
+      "totalSupply": 186716300371,
       "owners": {
         "0xb4c5355f35e0fc4a3dafc55f64319416e154fb11": 52792923932,
         "0x0fded0cbe1eb597f95eebee15d0356018d85eaf1": 29186390389,
@@ -2072,9 +2071,9 @@
         "0x3967a5836a055276e25d5c40a4c328248a82da4e": 4761850089,
         "0x51453ceef7c761d438d04cf327885565b90ffd48": 4745512747,
         "0xff32235feb514fe1f253aa184f7461f75ec2c28d": 3640542277,
-        "0x64265d137a6f14d33b1805413a5050fbcd4adc76": 3633533402,
         "0x99fba19112f221d0b44c9c22241f5e6b2db715f6": 3399605026,
         "0xdf16ee894bfb1182bb3a2cd8b9810df14be104d3": 3266011319,
+        "0x64265d137a6f14d33b1805413a5050fbcd4adc76": 3091760687,
         "0xd7123df9b92f7dc8542fb8231d29ee052a8807d9": 2710475345,
         "0xaae9af1be2816bb4b89a6aad9de1d74460d83b9a": 2667718637,
         "0x47a4a2a1382cfa2c45749372bc3c1f2fa870398a": 2582432770,
@@ -2093,7 +2092,7 @@
       "lenderKey": "EULER",
       "chainId": "130",
       "underlying": "0x14d9143becc348920b68d123687045db49a016c6",
-      "totalSupply": 2.6395803659613294e+22,
+      "totalSupply": 2.6393176582190115e+22,
       "owners": {
         "0x5e351ea84f2c7b25ad327ab86630388b8076a400": 1.027159535557848e+22,
         "0x0fded0cbe1eb597f95eebee15d0356018d85eaf1": 9.112661964960707e+21,
@@ -2240,7 +2239,7 @@
       "lenderKey": "EULER",
       "chainId": "130",
       "underlying": "0x4200000000000000000000000000000000000006",
-      "totalSupply": 857208721749170500000,
+      "totalSupply": 857208844668284200000,
       "owners": {
         "0x28a55c4b4f9615fde3cdaddf6cc01fcf2e38a6b0": 811331267504302500000,
         "0x54c93775bc92c090bc1de3825ac8dda7b1d92be0": 28944832146285900000
@@ -2284,7 +2283,7 @@
       "lenderKey": "EULER",
       "chainId": "130",
       "underlying": "0x9151434b16b9763660705744891fa906f660ecc5",
-      "totalSupply": 86562677052,
+      "totalSupply": 86522731133,
       "owners": {
         "0xca29358a0bbf2f1d6ae0911c3bc839623a3ee4a7": 9644630893,
         "0x6179cf97f998769cd2536b9022bde0fe3829e79d": 8823778636,
@@ -3133,7 +3132,7 @@
       "lenderKey": "EULER",
       "chainId": "42161",
       "underlying": "0x0a1a1a107e45b7ced86833863f482bc5f4ed82ef",
-      "totalSupply": 2.4898841564018366e+22,
+      "totalSupply": 2.509839446333731e+22,
       "owners": {
         "0x718f0ae66c2d7dde737550b4c271f6bc131f47f0": 1.5e+22,
         "0xb647d96a1ab8305c194d05af9b15984366953ce8": 4.814831797457447e+21,
@@ -3476,21 +3475,22 @@
       "lenderKey": "EULER",
       "chainId": "42161",
       "underlying": "0xaf88d065e77c8cc2239327c5edb3a432268e5831",
-      "totalSupply": 2586363931301,
+      "totalSupply": 2457578246895,
       "owners": {
-        "0xe4783824593a50bfe9dc873204cec171ebc62de0": 662077003986,
+        "0xe4783824593a50bfe9dc873204cec171ebc62de0": 658511962505,
         "0x6a2f60fc617ce66c4f868b9d7fbf07f300ddb50b": 581583112815,
-        "0xd1be1f98991cf69355e468ad15b6d0b6429bcfcb": 58048038648,
-        "0xa85c5ed3db80d8638760f79df341612e25518ef2": 54963122587,
+        "0xd1be1f98991cf69355e468ad15b6d0b6429bcfcb": 56984045243,
         "0xb267cee5d0d316542b56d486feb2bf45a89fe7c5": 54027450823,
-        "0xd855296f9868ff659f3f359c90b7d005ec049228": 53085045298,
         "0xeb75a45b99a8698ebc45f24a1ecb57235cc0f875": 43475000843,
         "0xccec342967170b4f3cda502e6c12c059fb86f6f0": 39752791701,
         "0xe280a6f5434292ef7ea0a84f7096a0050e18c8d1": 39401233496,
         "0x3d7ed61f8fa1ff303f534074d5226bc0cc238db2": 38081916104,
         "0x8a322f1b170dfb41691e0fe38b33803f626ebf9c": 34830043792,
         "0x1443309732c21c493b9f48f764944a45b5547444": 32355829695,
-        "0x9ce1c5271b26978bc95bfa180e6b3d0507523d9c": 30128837440
+        "0x9ce1c5271b26978bc95bfa180e6b3d0507523d9c": 30128837440,
+        "0xa85c5ed3db80d8638760f79df341612e25518ef2": 26259092277,
+        "0x56a284acbd7318380fc8a380cd5695bb14b5a0ce": 25224640070,
+        "0x1dc88a8baf3b3470984e8f1e82451023c75d296c": 25173326145
       }
     },
     "EULER:42161:0xb459db106f645d698e74027eef6019a26a0675cc": {
@@ -3555,7 +3555,7 @@
       "lenderKey": "EULER",
       "chainId": "42161",
       "underlying": "0xe46271ecb1d5c7c5134868760f10c18b03021ef1",
-      "totalSupply": 835971172805,
+      "totalSupply": 838327733039,
       "owners": {
         "0x7ecf3629e27b410d6a277cdca9c99240706eebec": 370010439272,
         "0x2622686e67698ad1f089e6cc1307c40fdf13a3ad": 130000000000,
@@ -3584,7 +3584,7 @@
       "lenderKey": "EULER",
       "chainId": "42161",
       "underlying": "0xfd086bc7cd5c481dcc9c85ebe478a1c0b69fcbb9",
-      "totalSupply": 22595572350,
+      "totalSupply": 22594596258,
       "owners": {
         "0xb39574ad7943e68b13c6f61fde3c296c449142fe": 8475601135,
         "0x6f857aaec434ac4f36eafcca294527c298084924": 4889369478,
@@ -3603,7 +3603,7 @@
       "lenderKey": "EULER",
       "chainId": "42161",
       "underlying": "0xfdd22ce6d1f66bc0ec89b20bf16ccb6670f55a5a",
-      "totalSupply": 153430503324,
+      "totalSupply": 153422022660,
       "owners": {
         "0x8250a7f9fca9c33e68eead8c05c1d58c8fd70d13": 52508929246,
         "0x95d2602d30da1179fd13274839e60345857ca648": 36244611306,
@@ -3821,7 +3821,7 @@
       "lenderKey": "EULER",
       "chainId": "43114",
       "underlying": "0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7",
-      "totalSupply": 1.0376999277015245e+23,
+      "totalSupply": 1.037692009866322e+23,
       "owners": {
         "0x3696280ab62f69521a32cd4acf4dbd743539b427": 1.0087575862394882e+23,
         "0x5f5f5badc8620f9e93ded6e365f5fcacad0653ae": 1.654300809228863e+21
@@ -3844,7 +3844,7 @@
       "lenderKey": "EULER",
       "chainId": "43114",
       "underlying": "0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e",
-      "totalSupply": 14319413136549,
+      "totalSupply": 14307859496186,
       "owners": {
         "0xeaf77df5d03306bca4ee8b58b6821e6aca76309d": 2755586471458,
         "0xd91236fd5586cedfca060ddabaf3321fb530b371": 2215021816356,
@@ -4448,10 +4448,10 @@
       "lenderKey": "EULER",
       "chainId": "80094",
       "underlying": "0x6969696969696969696969696969696969696969",
-      "totalSupply": 5.342431509071405e+23,
+      "totalSupply": 5.341323649519492e+23,
       "owners": {
         "0x8430c6d260a7f7f8ac2eb2c1425b49178af97460": 1.0386359676909173e+23,
-        "0x47134dd940b4ff64c3e4fa60f0a3eb7f177d0702": 8.729623521797737e+22,
+        "0x47134dd940b4ff64c3e4fa60f0a3eb7f177d0702": 8.719481705991772e+22,
         "0xd76443da06e00c127ccbcd737ee5eac0a3ca87c1": 8.312978733320958e+22,
         "0x6a7cd7a7e629ec1f28f5a128211147ccae427dc3": 7.360746337763831e+22,
         "0xbe72d4a70c047adc435be93b7e8ccde6fe431f58": 3.497095828939461e+22,
@@ -4941,15 +4941,15 @@
       "lenderKey": "EULER",
       "chainId": "8453",
       "underlying": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
-      "totalSupply": 1128289143605,
+      "totalSupply": 1121359386803,
       "owners": {
         "0x7bb384b1b98231c2061f9039d8529cc410fc7157": 324335387376,
         "0x7a2e2eb801ec39ea676ec3042ac77882a57b0a4e": 153632037963,
         "0xaebb8fdbd5e52f99630cebb80d0a1c19892eb4c2": 142802958963,
-        "0x5d08b7cdb98ad2db2c5b24c32f7c32ad7ff19379": 65920622353,
+        "0x5d08b7cdb98ad2db2c5b24c32f7c32ad7ff19379": 65917538668,
         "0x4a8801d0b17ae1584f7d56ece257a58553e3e3d1": 60695679594,
-        "0xdd403805b9a5714fa7421e11e748467b304bb3ee": 25818322043,
         "0x575352fa85f727bffdef7f17ee13b875a752776e": 23444032264,
+        "0xdd403805b9a5714fa7421e11e748467b304bb3ee": 17744394515,
         "0x832780a953879d5d59ac7d2feb1c57aa3455de2d": 16798445020,
         "0xdead1f6ff05e5c4de38acdb2db6da92066a1dead": 14728526809
       }
@@ -5343,7 +5343,7 @@
       "lenderKey": "EULER",
       "chainId": "9745",
       "underlying": "0xa3d68b74bf0528fdd07263c60d6488749044914b",
-      "totalSupply": 1334965199665148400,
+      "totalSupply": 1334865200024051700,
       "owners": {
         "0xc6807ba1d89e6a0ba7e3c4b07bf763d9a9dcdf75": 1282213000000000000,
         "0xf1c6f79645d9dfc2fd821a8d1cbcdd13bb7e0059": 46217775542009256
@@ -5380,7 +5380,7 @@
       "lenderKey": "EULER",
       "chainId": "9745",
       "underlying": "0xb8ce59fc3717ada4c02eadf9682a9e934f625ebb",
-      "totalSupply": 128496129245830,
+      "totalSupply": 128496187006956,
       "owners": {
         "0xa9c251f8304b1b3fc2b9e8fcae78d94eff82ac66": 98397684306756,
         "0xe818ad0d20d504c55601b9d5e0e137314414dec4": 7133641167839,
@@ -5492,7 +5492,7 @@
       "lenderKey": "EULER",
       "chainId": "999",
       "underlying": "0x111111a1a0667d36bd57c0a9f569b98057111111",
-      "totalSupply": 26480238592,
+      "totalSupply": 26480268193,
       "owners": {
         "0xf38ea9de758a8f6be08b6e65bc0ff2f3e3ab741b": 17039082890,
         "0xb67e55884096f203a423c80fe6f6b1c1bd791782": 8028237038,
@@ -5549,10 +5549,10 @@
       "lenderKey": "EULER",
       "chainId": "999",
       "underlying": "0x5555555555555555555555555555555555555555",
-      "totalSupply": 2.106927244513479e+22,
+      "totalSupply": 2.1110758705758588e+22,
       "owners": {
         "0x64aa4bb7bca951cc0914fc920d3b3dcb81f77eac": 5.195209032435528e+21,
-        "0x60d97552d8f7982922d18d0f2a8fbd9d5b0e2c28": 4.1981468128396685e+21,
+        "0x60d97552d8f7982922d18d0f2a8fbd9d5b0e2c28": 4.248339334307217e+21,
         "0x8ccb43dfd5ba4ee9331b9cf4740d8be1eb8394e7": 2.3728087398416117e+21,
         "0xeb04a04322828863b6ca450f54fb936d0f629922": 1.4977937259016136e+21,
         "0x744cccef491e511836b8c2650c395b5a2e209759": 1.0394796700539489e+21,
@@ -5561,8 +5561,8 @@
         "0xa9d508815d1216914706c03c566dc20dd972b383": 499981692249625600000,
         "0x91191d0ebdbf928829c2e66c7bfe23d6d241a260": 474454435086736900000,
         "0xa1473037646bda8943b24447c26355bc8b6b90ab": 438957470375355700000,
+        "0xe8b10461ea0b04ff30f4cbfc3e93957cac00ded4": 364759442429493250000,
         "0x30c0a25eab7ec35d55db344596cd53f0bf8228c3": 363475477077818150000,
-        "0xe8b10461ea0b04ff30f4cbfc3e93957cac00ded4": 358037762844953200000,
         "0x57bdf24055781b585f2ee23180bf7a8f7ac5bfc3": 317959569256435600000,
         "0x605572243c30af7493707c9c8e8aa2ee25537e9a": 315525603361102000000,
         "0x330d2a845d2df4e329034d72719c7c53f9c1f87a": 299831593245666100000,
@@ -5601,7 +5601,7 @@
       "lenderKey": "EULER",
       "chainId": "999",
       "underlying": "0x94e8396e0869c9f2200760af0621afd240e1cf38",
-      "totalSupply": 7.119266878834115e+21,
+      "totalSupply": 7.079267416167199e+21,
       "owners": {
         "0x8ccb43dfd5ba4ee9331b9cf4740d8be1eb8394e7": 3.674054798266137e+21,
         "0x70a1e02e1e0447c5be9afe92fd5d513996b52068": 1.2088483907784734e+21,
@@ -5681,10 +5681,10 @@
       "lenderKey": "EULER",
       "chainId": "999",
       "underlying": "0xb88339cb7199b77e23db6e890353e22632ba630f",
-      "totalSupply": 1142797285437,
+      "totalSupply": 1157854708038,
       "owners": {
         "0xf868a2b30854fe13e26f7ab7a92609ccb6b9c0e1": 620823850108,
-        "0xba1333333333a1ba1108e8412f11850a5c319ba9": 444365963738,
+        "0xba1333333333a1ba1108e8412f11850a5c319ba9": 459377920135,
         "0x732fe63200dd4a5eba02ffa11f150a4c81b01e84": 24707021731
       }
     },
@@ -5693,7 +5693,7 @@
       "lenderKey": "EULER",
       "chainId": "999",
       "underlying": "0xb8ce59fc3717ada4c02eadf9682a9e934f625ebb",
-      "totalSupply": 155964358926,
+      "totalSupply": 157304757838,
       "owners": {
         "0x6dd448d5cb73dc96788d5be605dd3c5c83864a36": 97476462273,
         "0xa6075f78bab75b9a80a808dabfc43fc1882642d8": 34647196483,

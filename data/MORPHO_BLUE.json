@@ -1,6 +1,6 @@
 {
   "lenderKey": "MORPHO_BLUE",
-  "fetchedAt": "2026-04-22T10:59:51.578Z",
+  "fetchedAt": "2026-04-22T15:08:23.644Z",
   "markets": {
     "MORPHO_BLUE:1:0x0000000000000000000000000000000000000000": {
       "marketUid": "MORPHO_BLUE:1:0x0000000000000000000000000000000000000000",
@@ -203,11 +203,11 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "1",
       "underlying": "0x08efcc2f3e61185d0ea7f8830b3fec9bfa2ee313",
-      "totalSupply": 0.000003597487924478,
+      "totalSupply": 0.00000336448882552,
       "owners": {
         "0xf29ce940178c8794802fb48a6c1b2edddac96431": 0.000001841379824419,
         "0x50519a3af6c0662134ed7f9a160142d28d10f455": 7.53457005189e-7,
-        "0x9178ebe0691593184c1d785a864b62a326cc3509": 5.68348461727e-7,
+        "0x9178ebe0691593184c1d785a864b62a326cc3509": 6.87467486235e-7,
         "0xc2a119ea6de75e4b1451330321cb2474eb8d82d4": 7.2052977231e-8
       }
     },
@@ -431,13 +431,12 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "1",
       "underlying": "0x18084fba666a33d37592fa2633fd49a74dd93a88",
-      "totalSupply": 0.000001078613073789,
+      "totalSupply": 0.000001080952929316,
       "owners": {
-        "0xbeefff209270748ddd194831b3fa287a5386f5bc": 6.01738732243e-7,
+        "0xbeefff209270748ddd194831b3fa287a5386f5bc": 5.76433603019e-7,
         "0x8eb67a509616cd6a7c1b3c8c21d48ff57df3d458": 4.19343887141e-7,
-        "0xf5ff310982d58ddc813c541a64b8c4f3f5035e58": 2.4999999999e-8,
-        "0xae86261c403e8da7b71dcd3343ed9f1c8a972d63": 1.8291821528e-8,
-        "0x018f8f5f52aaff23ff838ae4637afe22713fb428": 1.7799635873e-8
+        "0x018f8f5f52aaff23ff838ae4637afe22713fb428": 6.3107118295e-8,
+        "0xf5ff310982d58ddc813c541a64b8c4f3f5035e58": 2.4999999999e-8
       }
     },
     "MORPHO_BLUE:1:0x199cc8f0ac008bdc8cf0b1ccd5187f84e168c4d2": {
@@ -673,10 +672,11 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "1",
       "underlying": "0x238a700ed6165261cf8b2e544ba797bc11e466ba",
-      "totalSupply": 0.00001538662718677,
+      "totalSupply": 0.000014731674003985,
       "owners": {
-        "0xbeefff209270748ddd194831b3fa287a5386f5bc": 0.000012708478419943,
-        "0xd63070114470f685b75b74d60eec7c1113d33a3d": 0.000002094599627208,
+        "0xbeefff209270748ddd194831b3fa287a5386f5bc": 0.000011460067462063,
+        "0xd63070114470f685b75b74d60eec7c1113d33a3d": 0.000002625056088218,
+        "0x777791c4d6dc2ce140d00d2828a7c93503c67777": 3.14380787556e-7,
         "0x62fe596d59fb077c2df736df212e0affb522dc78": 2.91165004394e-7
       }
     },
@@ -851,10 +851,10 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "1",
       "underlying": "0x2d3c279e5fcdf5b793c0a75ed90738d7369b0b83",
-      "totalSupply": 1.093329e-12,
+      "totalSupply": 1.106298e-12,
       "owners": {
         "0xfeed46c11f57b7126a773eec6ae9ca7ae1c03c9a": 1e-12,
-        "0xa0804346780b4c2e3be118ac957d1db82f9d7484": 9.5332e-14
+        "0xa0804346780b4c2e3be118ac957d1db82f9d7484": 8.3659e-14
       }
     },
     "MORPHO_BLUE:1:0x2e3229674085f5490a4cc2558ab96aedc3ab25d1": {
@@ -882,7 +882,7 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "1",
       "underlying": "0x3365554a61ceff74a76528f9e86c1e87946d16a5",
-      "totalSupply": 0.00001807902851915,
+      "totalSupply": 0.000018079210577385,
       "owners": {
         "0xd17ad0177e9822caa9055ada6725d497f083a5c5": 0.000017067597755446,
         "0x81f5d98ea5acf65640ce8bb68aa8449b7c304c50": 0.000001001219853091
@@ -903,11 +903,10 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "1",
       "underlying": "0x356b8d89c1e1239cbbb9de4815c39a1474d5ba7d",
-      "totalSupply": 4962151.425326,
+      "totalSupply": 4559736.672118,
       "owners": {
         "0x79fd640000f8563a866322483524a4b48f1ed702": 3976129.162355,
-        "0xa0804346780b4c2e3be118ac957d1db82f9d7484": 555195.023025,
-        "0x8e87caf1fc5a0d4aebe0e0c976b24a3a9e3672c4": 400562.76588
+        "0xa0804346780b4c2e3be118ac957d1db82f9d7484": 923954.380974
       }
     },
     "MORPHO_BLUE:1:0x35d8949372d46b7a3d5a56006ae77b215fc69bc0": {
@@ -957,9 +956,9 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "1",
       "underlying": "0x38eeb52f0771140d10c4e9a9a72349a329fe8a6a",
-      "totalSupply": 4694687.643629115,
+      "totalSupply": 4694967.184181082,
       "owners": {
-        "0x673cbf93cb6af782e42fe795be4b5cb602dbb93e": 2436832.6662082393,
+        "0x673cbf93cb6af782e42fe795be4b5cb602dbb93e": 2436494.5411862447,
         "0xd17ad0177e9822caa9055ada6725d497f083a5c5": 1249100.5098189593,
         "0x81f5d98ea5acf65640ce8bb68aa8449b7c304c50": 1000900.7406927296
       }
@@ -1020,7 +1019,7 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "1",
       "underlying": "0x3b855aa8cc56a3cbd5dbb5456f5a13ce86aa0fe8",
-      "totalSupply": 3013365.4598788214,
+      "totalSupply": 3013441.35379942,
       "owners": {
         "0xf0d00634e6bff12d88b932889b9d9191c3c53d71": 3012341.132636597
       }
@@ -1041,11 +1040,10 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "1",
       "underlying": "0x3bc801419479865b24b4d32fab0bf64638abbd5f",
-      "totalSupply": 5.160096e-11,
+      "totalSupply": 5.1510467e-11,
       "owners": {
-        "0x24313a5db051e08e8064582f8a5e2f5c52968319": 4.6089169e-11,
-        "0xf8f226da66244f89e70c5b5d1a5c5b0d505eb1d8": 3.914835e-12,
-        "0x7457af3cbc75e30042bf1b7da69cabc5d5563e4b": 1.13948e-12
+        "0x24313a5db051e08e8064582f8a5e2f5c52968319": 4.7247394e-11,
+        "0xf8f226da66244f89e70c5b5d1a5c5b0d505eb1d8": 3.914835e-12
       }
     },
     "MORPHO_BLUE:1:0x3bd0c522ea444ea2b3f28777e8c20248b6e33252": {
@@ -1103,10 +1101,10 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "1",
       "underlying": "0x3eaa0f0f0a5d3d595ae4e4b0d27f439d01c3e7b2",
-      "totalSupply": 13398008.859689,
+      "totalSupply": 13137143.729136,
       "owners": {
-        "0xbf3a9504d555752ae12d2c482e957c66c4a32131": 2609798.908852,
-        "0x50519a3af6c0662134ed7f9a160142d28d10f455": 2499999.999999,
+        "0xbf3a9504d555752ae12d2c482e957c66c4a32131": 2609853.379163,
+        "0x50519a3af6c0662134ed7f9a160142d28d10f455": 2003214.036083,
         "0x7c9063122c01837fe83da2521056e10c9b6dd129": 1791836.603582,
         "0xa427def3f920f718a89e5ab473c79c065ab10ef4": 999999.999999,
         "0x4f0a01badaa24f762cee620883f16c4460c06be0": 655709.928401,
@@ -1116,8 +1114,8 @@
         "0xa3ccac6477cdf016476c4052379731f811e26188": 295140.003882,
         "0xd01d3969acd4307e63837d0153fea0213a0322a7": 294849.231776,
         "0xd7fc4ab828afc1bb4b217f337f1777ca856efd12": 256170.146398,
-        "0x777791c4d6dc2ce140d00d2828a7c93503c67777": 224000,
         "0xfe4d11542bf5d4fb29adcaa43230fef0b550908b": 221569.652019,
+        "0x777791c4d6dc2ce140d00d2828a7c93503c67777": 204000,
         "0x029cd954c38838b2731cb5618e5c950ed4766956": 196049.718384,
         "0x3096d872e1fcc96e5e55f43411971d49bb137b9b": 192617.387317,
         "0xd74e7d3f4a2a06196ff6c00c38c092e08cae5106": 189935.78157,
@@ -1212,9 +1210,9 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "1",
       "underlying": "0x45804880de22913dafe09f4980848ece6ecbaf78",
-      "totalSupply": 3.92413491102e-7,
+      "totalSupply": 4.27038586896e-7,
       "owners": {
-        "0xbeef02e5e13584ab96848af90261f0c8ee04722a": 3.96103258848e-7
+        "0xbeef02e5e13584ab96848af90261f0c8ee04722a": 4.27025559325e-7
       }
     },
     "MORPHO_BLUE:1:0x4737d9b4592b40d51e110b94c9c043c6654067ae": {
@@ -1578,7 +1576,7 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "1",
       "underlying": "0x5dbf246b37e1b9ac5d08bb38233d71322ae7d166",
-      "totalSupply": 1.008859e-12,
+      "totalSupply": 1.008927e-12,
       "owners": {
         "0xfeed46c11f57b7126a773eec6ae9ca7ae1c03c9a": 1e-12
       }
@@ -1638,9 +1636,9 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "1",
       "underlying": "0x606b5c773dc4d6e625c411cf60565f8c30c467d2",
-      "totalSupply": 225138.31661564726,
+      "totalSupply": 205246.62438108813,
       "owners": {
-        "0xdc27b7268f8d6a3c21aad7782adbd68dab62bb1f": 205109.42246788586
+        "0xdc27b7268f8d6a3c21aad7782adbd68dab62bb1f": 205236.98935463745
       }
     },
     "MORPHO_BLUE:1:0x60c8a22c0e5ffe2410391782c9d666bf9edcaf2a": {
@@ -1700,9 +1698,9 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "1",
       "underlying": "0x61ec68a5a79905a82bd594dc847e284df17a8760",
-      "totalSupply": 1665078.2677247624,
+      "totalSupply": 1588102.25509811,
       "owners": {
-        "0xf0d00634e6bff12d88b932889b9d9191c3c53d71": 1574820.8275754815,
+        "0xf0d00634e6bff12d88b932889b9d9191c3c53d71": 1554920.6237378758,
         "0x8cdd5b195f0b0922ced3a8feafa80ede9ebe0299": 33118.8596972411
       }
     },
@@ -1751,9 +1749,9 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "1",
       "underlying": "0x643c4e15d7d62ad0abec4a9bd4b001aa3ef52d66",
-      "totalSupply": 4.91966995e-10,
+      "totalSupply": 5.37411437e-10,
       "owners": {
-        "0x62067831c193810f3b044cc42249632b5d08bc6b": 5.37305593e-10
+        "0x62067831c193810f3b044cc42249632b5d08bc6b": 4.91868634e-10
       }
     },
     "MORPHO_BLUE:1:0x64b393288ab2a0fe7af6b73a9159493e60ab0605": {
@@ -1795,10 +1793,10 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "1",
       "underlying": "0x65a44528e8868166401ea08b549e19552af589db",
-      "totalSupply": 4.615811724e-9,
+      "totalSupply": 4.665896163e-9,
       "owners": {
-        "0x777791c4d6dc2ce140d00d2828a7c93503c67777": 5.094133277e-9,
-        "0x9178ebe0691593184c1d785a864b62a326cc3509": 5.21574661e-10
+        "0x777791c4d6dc2ce140d00d2828a7c93503c67777": 3.940214232e-9,
+        "0x9178ebe0691593184c1d785a864b62a326cc3509": 6.7657984e-10
       }
     },
     "MORPHO_BLUE:1:0x6645aa5a6f4ff29b30d53a483a02acc2cb85b241": {
@@ -1908,10 +1906,10 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "1",
       "underlying": "0x6c65db1d88c8eda1e3debf2b2ef3d0ece8600466",
-      "totalSupply": 0.000002208570596508,
+      "totalSupply": 0.000002120737199033,
       "owners": {
-        "0x777791c4d6dc2ce140d00d2828a7c93503c67777": 0.000001799656730366,
-        "0x9178ebe0691593184c1d785a864b62a326cc3509": 3.86955309347e-7
+        "0x777791c4d6dc2ce140d00d2828a7c93503c67777": 0.000001995934329361,
+        "0x9178ebe0691593184c1d785a864b62a326cc3509": 1.24764292984e-7
       }
     },
     "MORPHO_BLUE:1:0x6ca4d5d2ecb72e3bbf17543b3367746b80d22694": {
@@ -1929,7 +1927,7 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "1",
       "underlying": "0x6dff69eb720986e98bb3e8b26cb9e02ec1a35d12",
-      "totalSupply": 0.000004395457970845,
+      "totalSupply": 0.000004315575629908,
       "owners": {
         "0x711a68a82dd80cb0435b281af76b0b80804efab9": 0.000004300385935469
       }
@@ -2040,9 +2038,9 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "1",
       "underlying": "0x738d1115b90efa71ae468f1287fc864775e23a31",
-      "totalSupply": 51590.57438522036,
+      "totalSupply": 51597.34615168958,
       "owners": {
-        "0xbeef11ecb698f4b5378685c05a210bdf71093521": 51589.43317136431
+        "0xbeef11ecb698f4b5378685c05a210bdf71093521": 51596.204784894966
       }
     },
     "MORPHO_BLUE:1:0x73e0c0d45e048d25fc26fa3159b0aa04bfa4db98": {
@@ -2103,14 +2101,16 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "1",
       "underlying": "0x7743e50f534a7f9f1791dde7dcd89f7783eefc39",
-      "totalSupply": 7.8937791685e-7,
+      "totalSupply": 7.54504620952e-7,
       "owners": {
         "0x62fe596d59fb077c2df736df212e0affb522dc78": 4.8042917733e-7,
         "0xe74e85b86bb4b03c33a564b2e9995e2b42441fa5": 9.863223799e-8,
         "0x9d6cfd1ebf9411aa4d67b4e25f04890ab0111821": 5.0000005545e-8,
         "0x000001ac4e512d670c34fedf6c71ce2f49fb160a": 4.8991235362e-8,
         "0xc2a119ea6de75e4b1451330321cb2474eb8d82d4": 4.1473719365e-8,
-        "0x1e2aaadcf528b9cc08f43d4fd7db488ce89f5741": 1.6995405198e-8
+        "0xc509f65e91e35cd7c4dc242c827fa6ca7c35da6b": 2.9999999999e-8,
+        "0x1e2aaadcf528b9cc08f43d4fd7db488ce89f5741": 1.6995405198e-8,
+        "0xa84337eee3f3685ef18df1b6f7039f01e970056b": 1.5041686579e-8
       }
     },
     "MORPHO_BLUE:1:0x7751e2f4b8ae93ef6b79d86419d42fe3295a4559": {
@@ -2178,7 +2178,7 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "1",
       "underlying": "0x7cf9dec92ca9fd46f8d86e7798b72624bc116c05",
-      "totalSupply": 3.31879895976e-7,
+      "totalSupply": 3.31965500099e-7,
       "owners": {
         "0x62fe596d59fb077c2df736df212e0affb522dc78": 1.9354171115e-7,
         "0xd7583e3cf08bbcab66f1242195227bbf9f865fda": 1.32552754698e-7,
@@ -2285,10 +2285,10 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "1",
       "underlying": "0x82b853db31f025858792d8fa969f2a1dc245c179",
-      "totalSupply": 0.000003034228739048,
+      "totalSupply": 0.000002836999784418,
       "owners": {
-        "0x777791c4d6dc2ce140d00d2828a7c93503c67777": 0.000002406822610078,
-        "0x9178ebe0691593184c1d785a864b62a326cc3509": 5.96463427781e-7
+        "0x777791c4d6dc2ce140d00d2828a7c93503c67777": 0.000002658778146488,
+        "0x9178ebe0691593184c1d785a864b62a326cc3509": 2.51623286876e-7
       }
     },
     "MORPHO_BLUE:1:0x833adaef212c5cd3f78906b44bbfb18258f238f0": {
@@ -2346,10 +2346,10 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "1",
       "underlying": "0x856c4efb76c1d1ae02e20ceb03a2a6a08b0b8dc3",
-      "totalSupply": 0.000007872567916943,
+      "totalSupply": 0.000007686578722783,
       "owners": {
         "0x5b8b9fa8e4145ee06025f642cadb1b47e5f39f04": 0.000004030644582102,
-        "0xf9bddd4a9b3a45f980e11fdde96e16364ddbec49": 0.000001494905906305,
+        "0xf9bddd4a9b3a45f980e11fdde96e16364ddbec49": 0.000001495261875122,
         "0xe108fbc04852b5df72f9e44d7c29f47e7a993add": 0.000001456268278638,
         "0xd63070114470f685b75b74d60eec7c1113d33a3d": 6.79238306093e-7
       }
@@ -2390,13 +2390,13 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "1",
       "underlying": "0x88887be419578051ff9f4eb6c858a951921d8888",
-      "totalSupply": 0.000008191374719846,
+      "totalSupply": 0.000008208339055805,
       "owners": {
-        "0xbeefff209270748ddd194831b3fa287a5386f5bc": 0.000003115899001655,
         "0x8eb67a509616cd6a7c1b3c8c21d48ff57df3d458": 0.000002633891845324,
+        "0xbeefff209270748ddd194831b3fa287a5386f5bc": 0.000002172930472538,
+        "0x9178ebe0691593184c1d785a864b62a326cc3509": 0.000001627885381104,
         "0x50519a3af6c0662134ed7f9a160142d28d10f455": 0.000001100247485819,
         "0xbeef390d2e65d6e43a67875106d4a48f700f2832": 5.07777572405e-7,
-        "0x9178ebe0691593184c1d785a864b62a326cc3509": 4.21133197554e-7,
         "0x0b2d98bbf3e38df1d1b7be7343732e32e8b1f818": 1.02013232002e-7
       }
     },
@@ -2584,9 +2584,9 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "1",
       "underlying": "0x928fb6ed39100a92b2480f5cbb93453f98d9f4ce",
-      "totalSupply": 1.13669995397e-7,
+      "totalSupply": 1.15018049171e-7,
       "owners": {
-        "0xa0804346780b4c2e3be118ac957d1db82f9d7484": 1.15011352644e-7
+        "0xa0804346780b4c2e3be118ac957d1db82f9d7484": 1.13804933109e-7
       }
     },
     "MORPHO_BLUE:1:0x92a6a01b07984de46c24e8eba248449beb8b1dcb": {
@@ -2777,9 +2777,9 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "1",
       "underlying": "0x99cd4ec3f88a45940936f469e4bb72a2a701eeb9",
-      "totalSupply": 0.000015213253773546,
+      "totalSupply": 0.000015146145071583,
       "owners": {
-        "0xcc0f95e65d2ce7fb715bfb418bf61314d0878b41": 0.000012499522007327,
+        "0xcc0f95e65d2ce7fb715bfb418bf61314d0878b41": 0.000012527497324744,
         "0x50519a3af6c0662134ed7f9a160142d28d10f455": 0.000002500740347117
       }
     },
@@ -2839,9 +2839,9 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "1",
       "underlying": "0x9d39a5de30e57443bff2a8307a4256c8797a3497",
-      "totalSupply": 9.31036608554e-7,
+      "totalSupply": 1.331414e-12,
       "owners": {
-        "0xbeeffff0629438ad198c47f80d66fa4be5c0caf6": 9.307327334e-7
+        "0xfeed46c11f57b7126a773eec6ae9ca7ae1c03c9a": 1e-12
       }
     },
     "MORPHO_BLUE:1:0x9db38d74a0d29380899ad354121dfb521adb0548": {
@@ -2849,11 +2849,11 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "1",
       "underlying": "0x9db38d74a0d29380899ad354121dfb521adb0548",
-      "totalSupply": 15955212.107083,
+      "totalSupply": 14928319.024596,
       "owners": {
-        "0xbeefff209270748ddd194831b3fa287a5386f5bc": 7112948.776219,
-        "0x50519a3af6c0662134ed7f9a160142d28d10f455": 5929678.97434,
-        "0x9178ebe0691593184c1d785a864b62a326cc3509": 1619008.438671,
+        "0xbeefff209270748ddd194831b3fa287a5386f5bc": 7393303.191059,
+        "0x50519a3af6c0662134ed7f9a160142d28d10f455": 5431367.790768,
+        "0x9178ebe0691593184c1d785a864b62a326cc3509": 1009605.954766,
         "0xbeef390d2e65d6e43a67875106d4a48f700f2832": 507777.572493,
         "0xc582f04d8a82795aa2ff9c8bb4c1c889fe7b754e": 502734.544134
       }
@@ -2925,9 +2925,9 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "1",
       "underlying": "0xa0769f7a8fc65e47de93797b4e21c073c117fc80",
-      "totalSupply": 20677041344803880000,
+      "totalSupply": 20592149263633870000,
       "owners": {
-        "0x75741a12b36d181f44f389e0c6b1e0210311e3ff": 20592024185422350000
+        "0x75741a12b36d181f44f389e0c6b1e0210311e3ff": 20501682163869598000
       }
     },
     "MORPHO_BLUE:1:0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48": {
@@ -3184,7 +3184,7 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "1",
       "underlying": "0xaf76b3af3477e4a2cd0b7f80c3152108c19a25e5",
-      "totalSupply": 1.012794e-12,
+      "totalSupply": 1.012836e-12,
       "owners": {
         "0xfeed46c11f57b7126a773eec6ae9ca7ae1c03c9a": 1e-12
       }
@@ -3308,9 +3308,9 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "1",
       "underlying": "0xb8d89678e75a973e74698c976716308abb8a46a4",
-      "totalSupply": 0.000007332344016521,
+      "totalSupply": 0.000007852850018293,
       "owners": {
-        "0xb0f05e4de970a1aaf77f8c2f823953a367504ba9": 0.000006026989489575,
+        "0xb0f05e4de970a1aaf77f8c2f823953a367504ba9": 0.000006507340824048,
         "0x50174919350fd2944439ba719488b78ec4be9357": 6.00764551299e-7,
         "0xd41ed50e8b048def9bff4b96340f04f190eeaf60": 2.50012201745e-7,
         "0x1cde180fd33935c744623d655696eb3a77e5d891": 2.49982621589e-7,
@@ -3403,9 +3403,9 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "1",
       "underlying": "0xbeef088055857739c12cd3765f20b7679def0f51",
-      "totalSupply": 322213.779283108,
+      "totalSupply": 320691.8389926284,
       "owners": {
-        "0x75741a12b36d181f44f389e0c6b1e0210311e3ff": 320689.2211753707
+        "0x75741a12b36d181f44f389e0c6b1e0210311e3ff": 319070.2497519769
       }
     },
     "MORPHO_BLUE:1:0xbeefc011e94f43b8b7b455ebab290c7ab4e216f1": {
@@ -3520,9 +3520,9 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "1",
       "underlying": "0xc58d044404d8b14e953c115e67823784dea53d8f",
-      "totalSupply": 6.4970556783e-8,
+      "totalSupply": 5.9977607433e-8,
       "owners": {
-        "0x777791c4d6dc2ce140d00d2828a7c93503c67777": 6.4675663189e-8
+        "0x777791c4d6dc2ce140d00d2828a7c93503c67777": 6.3680155981e-8
       }
     },
     "MORPHO_BLUE:1:0xc5d6a7b61d18afa11435a889557b068bb9f29930": {
@@ -3530,9 +3530,9 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "1",
       "underlying": "0xc5d6a7b61d18afa11435a889557b068bb9f29930",
-      "totalSupply": 6.74356948569e-7,
+      "totalSupply": 3.836145e-12,
       "owners": {
-        "0xc582f04d8a82795aa2ff9c8bb4c1c889fe7b754e": 6.73224232195e-7
+        "0xfeed46c11f57b7126a773eec6ae9ca7ae1c03c9a": 1e-12
       }
     },
     "MORPHO_BLUE:1:0xc653f79de1274ee65674befda54986020d6f8fc1": {
@@ -3671,9 +3671,9 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "1",
       "underlying": "0xcd5fe23c85820f7b72d0926fc9b05b43e359b7ee",
-      "totalSupply": 5745065.03737785,
+      "totalSupply": 9627964.384487616,
       "owners": {
-        "0x71cb2f8038b2c5d65ddc740b2f3268890cd2a89c": 8407919.246761193
+        "0x71cb2f8038b2c5d65ddc740b2f3268890cd2a89c": 9627960.714336095
       }
     },
     "MORPHO_BLUE:1:0xcd9f5907f92818bc06c9ad70217f089e190d2a32": {
@@ -3783,9 +3783,10 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "1",
       "underlying": "0xd2af830e8cbdfed6cc11bab697bb25496ed6fa62",
-      "totalSupply": 2.03649471e-10,
+      "totalSupply": 1.011741e-12,
       "owners": {
-        "0xf9bddd4a9b3a45f980e11fdde96e16364ddbec49": 2.02637046e-10
+        "0x75a1253432356f90611546a487b5350cef08780d": 9e-13,
+        "0x000000000000000000000000000000000000dead": 1e-13
       }
     },
     "MORPHO_BLUE:1:0xd2e230f71ca8db211067bc4070a94d268b313fa3": {
@@ -3814,9 +3815,9 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "1",
       "underlying": "0xd3fd63209fa2d55b07a0f6db36c2f43900be3094",
-      "totalSupply": 0.000021141000035494,
+      "totalSupply": 0.000021344364106474,
       "owners": {
-        "0xa0804346780b4c2e3be118ac957d1db82f9d7484": 0.000021183389872297
+        "0xa0804346780b4c2e3be118ac957d1db82f9d7484": 0.000020961266860683
       }
     },
     "MORPHO_BLUE:1:0xd50da5f859811a91fd1876c9461fd39c23c747ad": {
@@ -3844,9 +3845,9 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "1",
       "underlying": "0xd87169640666649f1e6f92034dca9e4ae748de69",
-      "totalSupply": 7076.841261,
+      "totalSupply": 8076.9572,
       "owners": {
-        "0x777791c4d6dc2ce140d00d2828a7c93503c67777": 8075.891047
+        "0x777791c4d6dc2ce140d00d2828a7c93503c67777": 7076.944261
       }
     },
     "MORPHO_BLUE:1:0xd9a442856c234a39a81a089c06451ebaa4306a72": {
@@ -3854,7 +3855,7 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "1",
       "underlying": "0xd9a442856c234a39a81a089c06451ebaa4306a72",
-      "totalSupply": 50.83635207811201,
+      "totalSupply": 43.46998522099371,
       "owners": {
         "0x701907283a57ff77e255c3f1aad790466b8ce4ef": 41.82482905003022,
         "0x000001ac4e512d670c34fedf6c71ce2f49fb160a": 1.6071163324198015
@@ -3891,12 +3892,11 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "1",
       "underlying": "0xdbdc1ef57537e34680b898e1febd3d68c7389bcb",
-      "totalSupply": 0.000006724640538061,
+      "totalSupply": 0.000006747782554162,
       "owners": {
         "0xbeef1f5bd88285e5b239b6aacb991d38cca23ac9": 0.000005361010743194,
-        "0xbeefff209270748ddd194831b3fa287a5386f5bc": 5.25771372367e-7,
+        "0xbeefff209270748ddd194831b3fa287a5386f5bc": 7.35461067079e-7,
         "0xbeef390d2e65d6e43a67875106d4a48f700f2832": 5.07777572499e-7,
-        "0xd63070114470f685b75b74d60eec7c1113d33a3d": 2.04100158166e-7,
         "0x000001ac4e512d670c34fedf6c71ce2f49fb160a": 8.5290975128e-8,
         "0xc2a119ea6de75e4b1451330321cb2474eb8d82d4": 7.2373815732e-8
       }
@@ -4471,7 +4471,6 @@
       "totalSupply": 0,
       "owners": {
         "0x3520e1a10038131a3c00bf2158835a75e929642d": 23139856773,
-        "0xc30ce6a5758786e0f640cc5f881dd96e9a1c5c59": 89138858,
         "0x55b1fd10a5654e947c53113cb2cf25801decd3b8": 1000001,
         "0xfe6509875528e7ea210127fad61800d1fd0d77bd": 11002
       }
@@ -4501,9 +4500,9 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "10",
       "underlying": "0x68f180fcce6836688e9084f035309e29bf0a2095",
-      "totalSupply": 66958.50744757,
+      "totalSupply": 74491.0753445,
       "owners": {
-        "0xc30ce6a5758786e0f640cc5f881dd96e9a1c5c59": 66760.41754668,
+        "0xc30ce6a5758786e0f640cc5f881dd96e9a1c5c59": 73709.06908712,
         "0x48921e52f70cec7d3425cf5103caace27fc0b2fe": 781.55641544
       }
     },
@@ -4533,9 +4532,9 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "10",
       "underlying": "0xcf9326e24ebffbef22ce1050007a43a3c0b6db55",
-      "totalSupply": 0.000002051789320572,
+      "totalSupply": 0.000002200426691589,
       "owners": {
-        "0xc30ce6a5758786e0f640cc5f881dd96e9a1c5c59": 0.000002082447304366
+        "0xc30ce6a5758786e0f640cc5f881dd96e9a1c5c59": 0.000002320207968127
       }
     },
     "MORPHO_BLUE:130:0x0000000000000000000000000000000000000000": {
@@ -4545,7 +4544,7 @@
       "underlying": "0x0000000000000000000000000000000000000000",
       "totalSupply": 0,
       "owners": {
-        "0x830898200f0e8be8dc1c9a836f4ab29ecedf76eb": 158883588413555300000,
+        "0x830898200f0e8be8dc1c9a836f4ab29ecedf76eb": 158440359722785830000,
         "0x0993ae24a988c6925d80ad61344a76b81aa0d34c": 2725188303624884000,
         "0x3f93576d13091bfbf6825f7421ef33cc353dc433": 126463144651193,
         "0x77e1c110ae9f80664d2beea3b71d43af6d02e19d": 100000000000000
@@ -4680,7 +4679,7 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "130",
       "underlying": "0x927b51f251480a681271180da4de28d44ec4afb8",
-      "totalSupply": 0.25241614,
+      "totalSupply": 0.25249703,
       "owners": {
         "0x66c365e0ebdcf2e87bb22e9e8a67bf098d258b3c": 0.21619096,
         "0xcafe4d206ace4aade81de1f038aeee602c5fc64a": 0.01569367,
@@ -4693,7 +4692,7 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "130",
       "underlying": "0x9d9874e867b877dd0a3f1eafb8bb1bc54eecc682",
-      "totalSupply": 9.36887014037e-7,
+      "totalSupply": 9.37690915141e-7,
       "owners": {
         "0x38f4f3b6533de0023b9dcd04b02f93d36ad1f9f9": 9.36003808322e-7
       }
@@ -4734,7 +4733,7 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "130",
       "underlying": "0xc02fe7317d4eb8753a02c35fe019786854a92001",
-      "totalSupply": 9.0187741625e-8,
+      "totalSupply": 9.0185611152e-8,
       "owners": {
         "0x38f4f3b6533de0023b9dcd04b02f93d36ad1f9f9": 8.3391537977e-8,
         "0x15b406194bfc09a92a3fadc40e7091f61ad07c4c": 4.999999999e-9,
@@ -4811,10 +4810,10 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "137",
       "underlying": "0x03b54a6e9a984069379fae1a4fc4dbae93b3bccd",
-      "totalSupply": 392.16373126030516,
+      "totalSupply": 382.19567307098697,
       "owners": {
         "0xf5c81d25ee174d83f1fd202ca94ae6070d073ccf": 72348.14764514544,
-        "0x281852c4b95143a28fee230f7eceadec561230cd": 20.00118154553112,
+        "0x281852c4b95143a28fee230f7eceadec561230cd": 25.00466010932312,
         "0x15b406194bfc09a92a3fadc40e7091f61ad07c4c": 10.000000089999999
       }
     },
@@ -6979,7 +6978,7 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "137",
       "underlying": "0xf5c81d25ee174d83f1fd202ca94ae6070d073ccf",
-      "totalSupply": 6.2109143561e-8,
+      "totalSupply": 5.6634589408e-8,
       "owners": {
         "0x781fb7f6d845e3be129289833b04d43aa8558c42": 0.000029559091640679,
         "0xb8e565f37ed413d2f6c445e62712742036ac1556": 1.19041671e-9
@@ -7174,10 +7173,10 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "42161",
       "underlying": "0x0b2b2b2076d95dda7817e785989fe353fe955ef9",
-      "totalSupply": 1.07364205238e-7,
+      "totalSupply": 1.06679520753e-7,
       "owners": {
         "0x64ca76e2525fc6ab2179300c15e343d73e42f958": 9.922164802e-8,
-        "0x4b6f1c9e5d470b97181786b26da0d0945a7cf027": 7.019353379e-9
+        "0x4b6f1c9e5d470b97181786b26da0d0945a7cf027": 6.191667699e-9
       }
     },
     "MORPHO_BLUE:42161:0x139450c2dcef827c9a2a0bb1cb5506260940c9fd": {
@@ -7256,9 +7255,9 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "42161",
       "underlying": "0x35751007a407ca6feffe80b3cb397736d2cf4dbe",
-      "totalSupply": 0.000001459355122731,
+      "totalSupply": 0.000001608348942678,
       "owners": {
-        "0x4739e2c293bdcd835829aa7c5d7fbdee93565d1a": 0.000001608331073018
+        "0x4739e2c293bdcd835829aa7c5d7fbdee93565d1a": 0.000001842269154185
       }
     },
     "MORPHO_BLUE:42161:0x35e5db674d8e93a03d814fa0ada70731efe8a4b9": {
@@ -7309,9 +7308,9 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "42161",
       "underlying": "0x40461291347e1ecbb09499f3371d3f17f10d7159",
-      "totalSupply": 4865.967305,
+      "totalSupply": 5087.140896,
       "owners": {
-        "0x5c0c306aaa9f877de636f4d5822ca9f2e81563ba": 4900.862365
+        "0x5c0c306aaa9f877de636f4d5822ca9f2e81563ba": 5024.991972
       }
     },
     "MORPHO_BLUE:42161:0x4186bfc76e2e237523cbc30fd220fe055156b41f": {
@@ -7329,9 +7328,9 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "42161",
       "underlying": "0x41ca7586cc1311807b4605fbb748a3b8862b42b5",
-      "totalSupply": 736063.007292,
+      "totalSupply": 839077.213346,
       "owners": {
-        "0x5c0c306aaa9f877de636f4d5822ca9f2e81563ba": 622850.219678,
+        "0x5c0c306aaa9f877de636f4d5822ca9f2e81563ba": 721305.934893,
         "0x64ca76e2525fc6ab2179300c15e343d73e42f958": 66262.799511,
         "0xdc2f46e34d06e8f982000cca8253e9ea6529598d": 41370.23351
       }
@@ -7382,10 +7381,10 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "42161",
       "underlying": "0x51b0f6aed4a421f09d28a5ede1dcf460bcb54d30",
-      "totalSupply": 1.086743e-12,
+      "totalSupply": 1.124538e-12,
       "owners": {
         "0xfeed46c11f57b7126a773eec6ae9ca7ae1c03c9a": 1e-12,
-        "0x5c0c306aaa9f877de636f4d5822ca9f2e81563ba": 8.3293e-14
+        "0x5c0c306aaa9f877de636f4d5822ca9f2e81563ba": 1.11514e-13
       }
     },
     "MORPHO_BLUE:42161:0x528a5bac7e746c9a509a1f4f6df58a03d44279f9": {
@@ -7518,7 +7517,7 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "42161",
       "underlying": "0x70d95587d40a2caf56bd97485ab3eec10bee6336",
-      "totalSupply": 2.7576838979e-8,
+      "totalSupply": 2.7581290249e-8,
       "owners": {
         "0x15b406194bfc09a92a3fadc40e7091f61ad07c4c": 1.9176802345e-8,
         "0xc55863b0dd1cf89fb41563ade7ac12f840a507d2": 4.774133455e-9,
@@ -7561,7 +7560,7 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "42161",
       "underlying": "0x8b4ca42bb3b1d789859f106222cf7dc5eed48ccb",
-      "totalSupply": 1.75115968049e-7,
+      "totalSupply": 1.77709089642e-7,
       "owners": {
         "0x15b406194bfc09a92a3fadc40e7091f61ad07c4c": 4.3918924677e-8,
         "0x79881b20a4199f7f140c1893a0667730eee88347": 2.596478254e-8,
@@ -7574,7 +7573,8 @@
         "0x222248fe7e239f0f22e4f322bcc92696d08a2222": 8.088755887e-9,
         "0x85593464c9dd38ec4625ef44e60cd6e8045aa067": 7.306667851e-9,
         "0x77777020820b2d68144a1c37447e5bf6b1902dee": 3.999999999e-9,
-        "0x50109ffefd6d07c82ed34776ef6c2bae765fb056": 3.609285431e-9
+        "0x50109ffefd6d07c82ed34776ef6c2bae765fb056": 3.609285431e-9,
+        "0x4855ea3738b30192e86d52ca9a3ce4030c3de794": 1.999999999e-9
       }
     },
     "MORPHO_BLUE:42161:0x936f210d277bf489a3211cef9ab4bc47a7b69c96": {
@@ -7735,9 +7735,9 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "42161",
       "underlying": "0xddb46999f8891663a8f2828d25298f70416d7610",
-      "totalSupply": 0.000005910001802564,
+      "totalSupply": 0.000005997562111484,
       "owners": {
-        "0x4739e2c293bdcd835829aa7c5d7fbdee93565d1a": 0.000005997517925656
+        "0x4739e2c293bdcd835829aa7c5d7fbdee93565d1a": 0.000005998679184669
       }
     },
     "MORPHO_BLUE:42161:0xdf03eed325b82bc1d4db8b49c30ecc9e05104b96": {
@@ -7760,10 +7760,10 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "42161",
       "underlying": "0xe46271ecb1d5c7c5134868760f10c18b03021ef1",
-      "totalSupply": 91957.903269,
+      "totalSupply": 91960.138879,
       "owners": {
-        "0x4b6f1c9e5d470b97181786b26da0d0945a7cf027": 92158.922865,
-        "0x2c609d9cfc9dda2db5c128b2a665d921ec53579d": 8336.640352
+        "0x2c609d9cfc9dda2db5c128b2a665d921ec53579d": 72528.214826,
+        "0x4b6f1c9e5d470b97181786b26da0d0945a7cf027": 27969.562244
       }
     },
     "MORPHO_BLUE:42161:0xec70dcb4a1efa46b8f2d97c310c9c4790ba5ffa8": {
@@ -7812,13 +7812,14 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "42161",
       "underlying": "0xfdd22ce6d1f66bc0ec89b20bf16ccb6670f55a5a",
-      "totalSupply": 315938.272476,
+      "totalSupply": 315876.027006,
       "owners": {
-        "0x2c609d9cfc9dda2db5c128b2a665d921ec53579d": 199989.982458,
-        "0x4b6f1c9e5d470b97181786b26da0d0945a7cf027": 49116.33674,
+        "0x2c609d9cfc9dda2db5c128b2a665d921ec53579d": 176027.817536,
+        "0x4b6f1c9e5d470b97181786b26da0d0945a7cf027": 66088.434685,
         "0xccc974196d4b7c67f88a7b1dac7717090554eddd": 28101.357462,
         "0xf33cec38b56dc445399ae0d4ec834e83da67e19c": 26592.345929,
         "0xd39a4063df97b0adcbee5673dbbd7e6519d848e7": 15064.492822,
+        "0x4855ea3738b30192e86d52ca9a3ce4030c3de794": 9999.999999,
         "0x48cd090c9e8a9954b0955c8b87754031d90c4955": 8409.544448
       }
     },
@@ -7921,7 +7922,7 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "8453",
       "underlying": "0x04c0599ae5a44757c0af6f9ec3b93da8976c150a",
-      "totalSupply": 935.9105841136998,
+      "totalSupply": 935.953432969255,
       "owners": {
         "0xa0e430870c4604ccfc7b38ca7845b1ff653d0ff1": 935.3202924488853
       }
@@ -8029,22 +8030,12 @@
         "0xd7d2300616bb1278bc0cc37dfafc0232d62748a0": 1e-14
       }
     },
-    "MORPHO_BLUE:8453:0x1bc0c42215582d5a085795f4badbac3ff36d1bcb": {
-      "marketUid": "MORPHO_BLUE:8453:0x1bc0c42215582d5a085795f4badbac3ff36d1bcb",
-      "lenderKey": "MORPHO_BLUE",
-      "chainId": "8453",
-      "underlying": "0x1bc0c42215582d5a085795f4badbac3ff36d1bcb",
-      "totalSupply": 5000.100018600903,
-      "owners": {
-        "0xb8ba568ad418f64a37b78db060d40afd63df5623": 5000.000000175365
-      }
-    },
     "MORPHO_BLUE:8453:0x1c2757c1fef1038428b5bef062495ce94bbe92b2": {
       "marketUid": "MORPHO_BLUE:8453:0x1c2757c1fef1038428b5bef062495ce94bbe92b2",
       "lenderKey": "MORPHO_BLUE",
       "chainId": "8453",
       "underlying": "0x1c2757c1fef1038428b5bef062495ce94bbe92b2",
-      "totalSupply": 2.0585940332e-8,
+      "totalSupply": 2.0592272933e-8,
       "owners": {
         "0x12afdefb2237a5963e7bab3e2d46ad0eee70406e": 1.3765658102e-8,
         "0xe74c499fa461af1844fca84204490877787ced56": 3.1504569e-9,
@@ -8082,16 +8073,6 @@
       "totalSupply": 2.5e-12,
       "owners": {
         "0xcb924bfacbfa9401129cb89a2093cd8a5a4abd62": 2.5e-12
-      }
-    },
-    "MORPHO_BLUE:8453:0x22af33fe49fd1fa80c7149773dde5890d3c76f3b": {
-      "marketUid": "MORPHO_BLUE:8453:0x22af33fe49fd1fa80c7149773dde5890d3c76f3b",
-      "lenderKey": "MORPHO_BLUE",
-      "chainId": "8453",
-      "underlying": "0x22af33fe49fd1fa80c7149773dde5890d3c76f3b",
-      "totalSupply": 5001.000171853816,
-      "owners": {
-        "0xb8ba568ad418f64a37b78db060d40afd63df5623": 5000.000000883552
       }
     },
     "MORPHO_BLUE:8453:0x235581de8d392ef898eea9c443d813fcb86cdeb4": {
@@ -8163,8 +8144,8 @@
       "underlying": "0x2615a94df961278dcbc41fb0a54fec5f10a693ae",
       "totalSupply": 2.594195327e-9,
       "owners": {
-        "0xb7890cee6cf4792cdcc13489d36d9d42726ab863": 2.409928735e-9,
-        "0xc7666afe71d4699a9331092ccfd055846f9c6c54": 1.1909231e-10
+        "0xb7890cee6cf4792cdcc13489d36d9d42726ab863": 5.61864197e-9,
+        "0xc7666afe71d4699a9331092ccfd055846f9c6c54": 5.3918123e-11
       }
     },
     "MORPHO_BLUE:8453:0x28f2d4752ae1ebdf955704cfa135486574b97421": {
@@ -8224,9 +8205,9 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "8453",
       "underlying": "0x311935cd80b76769bf2ecc9d8ab7635b2139cf82",
-      "totalSupply": 0.706297024,
+      "totalSupply": 0.709660109,
       "owners": {
-        "0xbeefa7b88064feef0cee02aaebbd95d30df3878f": 0.700512981
+        "0xbeefa7b88064feef0cee02aaebbd95d30df3878f": 0.705678668
       }
     },
     "MORPHO_BLUE:8453:0x3362911b6b468e9944956ff10403cde59f332beb": {
@@ -8296,9 +8277,9 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "8453",
       "underlying": "0x3a43aec53490cb9fa922847385d82fe25d0e9de7",
-      "totalSupply": 124.11278638003286,
+      "totalSupply": 124.11073229949554,
       "owners": {
-        "0x09832347586e238841f49149c84d121bc2191c53": 124.0984207706779
+        "0x09832347586e238841f49149c84d121bc2191c53": 123.53471034215342
       }
     },
     "MORPHO_BLUE:8453:0x3c0f801d5dd237c9c3e183b2de7a7e18aa6bea18": {
@@ -8338,9 +8319,9 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "8453",
       "underlying": "0x3e31966d4f81c72d2a55310a6365a56a4393e98d",
-      "totalSupply": 20022.326246,
+      "totalSupply": 20590.263616,
       "owners": {
-        "0xc8adbfcfac975583c8684c4e12633907315ca610": 13118.003512,
+        "0xc8adbfcfac975583c8684c4e12633907315ca610": 13186.381987,
         "0x3094b241aade60f91f1c82b0628a10d9501462f9": 5756.020173,
         "0xebc997b855b9a4e0b6cd06e4758801e6ff068e07": 1007.129122,
         "0xc7666afe71d4699a9331092ccfd055846f9c6c54": 561.492749
@@ -8675,7 +8656,7 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "8453",
       "underlying": "0x72b6a247af0f1640cfb4952389c2de7d029a6c6b",
-      "totalSupply": 0,
+      "totalSupply": 16.325636,
       "owners": {
         "0x2a343e795556c99cd94c9f334bc0c54d70bec1be": 16.325636
       }
@@ -8767,7 +8748,7 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "8453",
       "underlying": "0x7fcd174e80f264448ebee8c88a7c4476aaf58ea6",
-      "totalSupply": 3067.227710139484,
+      "totalSupply": 3090.4301349215866,
       "owners": {
         "0x43cd00de63485618a5ceebe0de364cd6cbeb26e7": 3090.3356389522355
       }
@@ -8818,9 +8799,9 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "8453",
       "underlying": "0x83db73ef5192de4b6a4c92bd0141ba1a0dc87c65",
-      "totalSupply": 6.13371983e-10,
+      "totalSupply": 6.19368296e-10,
       "owners": {
-        "0xcbeef01994e24a60f7dcb8de98e75ad8bd4ad60d": 5.3827132e-10,
+        "0xcbeef01994e24a60f7dcb8de98e75ad8bd4ad60d": 5.36763626e-10,
         "0xbeefa74640a5f7c28966cba82466eed5609444e0": 8.0978585e-11
       }
     },
@@ -8992,9 +8973,9 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "8453",
       "underlying": "0x9c5c365e764829876243d0b289733b9d2b729685",
-      "totalSupply": 2.3668410714e-8,
+      "totalSupply": 6.2515383586e-8,
       "owners": {
-        "0xbeefa7b88064feef0cee02aaebbd95d30df3878f": 2.370315184e-8
+        "0xbeefa7b88064feef0cee02aaebbd95d30df3878f": 6.481433427e-8
       }
     },
     "MORPHO_BLUE:8453:0x9eaf8c1e34f05a589eda6bafdf391cf6ad3cb239": {
@@ -9202,10 +9183,11 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "8453",
       "underlying": "0xb6fe221fe9eef5aba221c348ba20a1bf5e73624c",
-      "totalSupply": 32.487831017156786,
+      "totalSupply": 32.49673081661519,
       "owners": {
         "0xa0e430870c4604ccfc7b38ca7845b1ff653d0ff1": 29.772901777836022,
-        "0xebc6c7883ca32ef9484740ba32a816f5f88b7a41": 2.7000461976279477
+        "0xebc6c7883ca32ef9484740ba32a816f5f88b7a41": 2.7000461976279477,
+        "0x6e0fb8fa695506279052a1805381e6bc86801dff": 0.4006795039793185
       }
     },
     "MORPHO_BLUE:8453:0xbaa5cc21fd487b8fcc2f632f3f4e8d37262a0842": {
@@ -9243,9 +9225,9 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "8453",
       "underlying": "0xbeefe94c8ad530842bfe7d8b397938ffc1cb83b2",
-      "totalSupply": 0.000001240398464656,
+      "totalSupply": 0.000001329533662898,
       "owners": {
-        "0xbeef0c8333b3de8f0450565834db4eb05def7a5f": 0.000001262500985068
+        "0xbeef0c8333b3de8f0450565834db4eb05def7a5f": 0.000001323512692841
       }
     },
     "MORPHO_BLUE:8453:0xbf5b323d3be902ca453be28ac34eccfbf6ef7345": {
@@ -9297,7 +9279,7 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "8453",
       "underlying": "0xc1cba3fcea344f92d9239c08c0568f6f2f0ee452",
-      "totalSupply": 155.59392013817273,
+      "totalSupply": 155.59429417463858,
       "owners": {
         "0x43cd00de63485618a5ceebe0de364cd6cbeb26e7": 155.59379979335952
       }
@@ -9310,16 +9292,6 @@
       "totalSupply": 1e-18,
       "owners": {
         "0x000000000000000000000000000000000000dead": 2e-15
-      }
-    },
-    "MORPHO_BLUE:8453:0xc31e19dc6c8a90d628432e15bbd538aa8c789e5d": {
-      "marketUid": "MORPHO_BLUE:8453:0xc31e19dc6c8a90d628432e15bbd538aa8c789e5d",
-      "lenderKey": "MORPHO_BLUE",
-      "chainId": "8453",
-      "underlying": "0xc31e19dc6c8a90d628432e15bbd538aa8c789e5d",
-      "totalSupply": 4.6868725e-10,
-      "owners": {
-        "0xfaaf20a032aefada97278c165345b6be1afc18c2": 4.63416408e-10
       }
     },
     "MORPHO_BLUE:8453:0xc3ac580967deefb5dd3d6079032f2734e91cc59e": {
@@ -9357,11 +9329,11 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "8453",
       "underlying": "0xcb17c9db87b595717c857a08468793f5bab6445f",
-      "totalSupply": 4981.0723171,
+      "totalSupply": 4991.57843086,
       "owners": {
-        "0xfaaf20a032aefada97278c165345b6be1afc18c2": 3898.88477173,
+        "0xfaaf20a032aefada97278c165345b6be1afc18c2": 3848.56458369,
         "0xe74c499fa461af1844fca84204490877787ced56": 592.33547505,
-        "0xbeefa7b88064feef0cee02aaebbd95d30df3878f": 301.6886475,
+        "0xbeefa7b88064feef0cee02aaebbd95d30df3878f": 363.02243995,
         "0x000001ac4e512d670c34fedf6c71ce2f49fb160a": 99.99999999,
         "0xef417a2512c5a41f69ae4e021648b69a7cde5d03": 61.87220947
       }
@@ -9383,11 +9355,11 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "8453",
       "underlying": "0xcb585250f852c6c6bf90434ab21a00f02833a4af",
-      "totalSupply": 303275.120547,
+      "totalSupply": 304440.863992,
       "owners": {
-        "0xbeefa7b88064feef0cee02aaebbd95d30df3878f": 153460.155292,
+        "0xbeefa7b88064feef0cee02aaebbd95d30df3878f": 156713.901258,
         "0xe74c499fa461af1844fca84204490877787ced56": 73132.380072,
-        "0xfaaf20a032aefada97278c165345b6be1afc18c2": 68455.713064,
+        "0xfaaf20a032aefada97278c165345b6be1afc18c2": 65550.505458,
         "0x3094b241aade60f91f1c82b0628a10d9501462f9": 5756.197134
       }
     },
@@ -9396,10 +9368,10 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "8453",
       "underlying": "0xcbada732173e39521cdbe8bf59a6dc85a9fc7b8c",
-      "totalSupply": 970994.796664,
+      "totalSupply": 974734.608787,
       "owners": {
-        "0xbeefa7b88064feef0cee02aaebbd95d30df3878f": 481748.083171,
-        "0xfaaf20a032aefada97278c165345b6be1afc18c2": 331861.863254,
+        "0xbeefa7b88064feef0cee02aaebbd95d30df3878f": 492165.660063,
+        "0xfaaf20a032aefada97278c165345b6be1afc18c2": 322564.060191,
         "0xe74c499fa461af1844fca84204490877787ced56": 150901.25065
       }
     },
@@ -9418,12 +9390,12 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "8453",
       "underlying": "0xcbd06e5a2b0c65597161de254aa074e489deb510",
-      "totalSupply": 15045.33233542,
+      "totalSupply": 15079.8127923,
       "owners": {
-        "0xfaaf20a032aefada97278c165345b6be1afc18c2": 10977.2141318,
+        "0xfaaf20a032aefada97278c165345b6be1afc18c2": 10838.11318172,
         "0xe74c499fa461af1844fca84204490877787ced56": 1416.58903012,
+        "0xbeefa7b88064feef0cee02aaebbd95d30df3878f": 987.96300635,
         "0x000001ac4e512d670c34fedf6c71ce2f49fb160a": 858.48353312,
-        "0xbeefa7b88064feef0cee02aaebbd95d30df3878f": 838.09408607,
         "0x5f5130215a9be6b34a986fab0679a61dbba1bddc": 500.00000003,
         "0xef417a2512c5a41f69ae4e021648b69a7cde5d03": 196.9948801
       }
@@ -9582,9 +9554,9 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "8453",
       "underlying": "0xdbfefd2e8460a6ee4955a68582f85708baea60a3",
-      "totalSupply": 1.77192303829e-7,
+      "totalSupply": 1.77202906208e-7,
       "owners": {
-        "0x581cc9a73ec7431723a4a80699b8f801205841f1": 1.46992259784e-7,
+        "0x581cc9a73ec7431723a4a80699b8f801205841f1": 1.47002481139e-7,
         "0x0aedd8192802bb064c03b5c8f5b52bc477aa1faa": 1.6123347051e-8,
         "0x1d3b1cd0a0f242d598834b3f2d126dc6bd774657": 1.0357495905e-8,
         "0xe74c499fa461af1844fca84204490877787ced56": 3.682969596e-9
@@ -9615,10 +9587,10 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "8453",
       "underlying": "0xdec933e2392ad908263e70a386fbf34e703ffe8f",
-      "totalSupply": 6.652680271e-9,
+      "totalSupply": 6.770594808e-9,
       "owners": {
         "0x12afdefb2237a5963e7bab3e2d46ad0eee70406e": 6.00253292e-9,
-        "0xc7666afe71d4699a9331092ccfd055846f9c6c54": 6.48995694e-10
+        "0xc7666afe71d4699a9331092ccfd055846f9c6c54": 5.3305235e-10
       }
     },
     "MORPHO_BLUE:8453:0xdf1ef9b405dca9afc5c13621e8aaa28db269756a": {
@@ -9668,7 +9640,7 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "8453",
       "underlying": "0xe66e3a37c3274ac24fe8590f7d84a2427194dc17",
-      "totalSupply": 7.1511771968e-8,
+      "totalSupply": 7.1523426994e-8,
       "owners": {
         "0xe1ba476304255353aef290e6474a417d06e7b773": 7.1419775181e-8
       }
@@ -9722,10 +9694,10 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "8453",
       "underlying": "0xecac9c5f704e954931349da37f60e39f515c11c1",
-      "totalSupply": 400.33233249,
+      "totalSupply": 399.43316416,
       "owners": {
         "0xc0c5689e6f4d256e861f65465b691aeecc0deb12": 369.66330923,
-        "0xcbeef01994e24a60f7dcb8de98e75ad8bd4ad60d": 29.60678068
+        "0xcbeef01994e24a60f7dcb8de98e75ad8bd4ad60d": 28.65577503
       }
     },
     "MORPHO_BLUE:8453:0xedfa23602d0ec14714057867a78d01e94176bea0": {
@@ -9733,11 +9705,11 @@
       "lenderKey": "MORPHO_BLUE",
       "chainId": "8453",
       "underlying": "0xedfa23602d0ec14714057867a78d01e94176bea0",
-      "totalSupply": 41.67843887573388,
+      "totalSupply": 41.17553902709807,
       "owners": {
         "0x5496b42ad0decebfab0db944d83260e60d54f667": 16.11112048303499,
         "0x58efa4a930f06b04ea9b1f1cf6b7c620b5c93ea1": 8.339179625754468,
-        "0xccc974196d4b7c67f88a7b1dac7717090554eddd": 6.781215305924076,
+        "0xccc974196d4b7c67f88a7b1dac7717090554eddd": 6.721801737123014,
         "0xc55863b0dd1cf89fb41563ade7ac12f840a507d2": 5.750042705951807,
         "0x77777020820b2d68144a1c37447e5bf6b1902dee": 2.706599720676223,
         "0xf540d790413fcfaedac93518ae99eddace82cb78": 0.5245211934785681,
@@ -9851,50 +9823,50 @@
   },
   "chainFreshness": {
     "1": {
-      "subgraphBlock": 24935028,
-      "rpcBlock": 24935028,
+      "subgraphBlock": 24936266,
+      "rpcBlock": 24936266,
       "blocksBehind": 0,
       "minutesBehind": 0
     },
     "10": {
-      "subgraphBlock": 150628479,
-      "rpcBlock": 150628479,
+      "subgraphBlock": 150635950,
+      "rpcBlock": 150635950,
       "blocksBehind": 0,
       "minutesBehind": 0
     },
     "130": {
-      "subgraphBlock": 46107377,
-      "rpcBlock": 46107377,
+      "subgraphBlock": 46122319,
+      "rpcBlock": 46122319,
       "blocksBehind": 0,
       "minutesBehind": 0
     },
     "137": {
-      "subgraphBlock": 85867849,
-      "rpcBlock": 85867852,
+      "subgraphBlock": 85875321,
+      "rpcBlock": 85875324,
       "blocksBehind": 3,
       "minutesBehind": 0
     },
     "146": {
-      "subgraphBlock": 68357885,
-      "rpcBlock": 68357891,
-      "blocksBehind": 6,
+      "subgraphBlock": 68382359,
+      "rpcBlock": 68382386,
+      "blocksBehind": 27,
       "minutesBehind": 0
     },
     "252": {
-      "subgraphBlock": 35022537,
-      "rpcBlock": 35022540,
-      "blocksBehind": 3,
+      "subgraphBlock": 35030011,
+      "rpcBlock": 35030015,
+      "blocksBehind": 4,
       "minutesBehind": 0
     },
     "8453": {
-      "subgraphBlock": 45021803,
-      "rpcBlock": 45033223,
-      "blocksBehind": 11420,
-      "minutesBehind": 381
+      "subgraphBlock": 45035690,
+      "rpcBlock": 45040698,
+      "blocksBehind": 5008,
+      "minutesBehind": 167
     },
     "42161": {
-      "subgraphBlock": 455141053,
-      "rpcBlock": 455141050,
+      "subgraphBlock": 455201231,
+      "rpcBlock": 455201229,
       "blocksBehind": 0,
       "minutesBehind": 0
     }

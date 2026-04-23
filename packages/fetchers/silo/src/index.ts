@@ -71,8 +71,8 @@ interface PositionsResponse {
 // Market entity with inputToken and inputTokenBalance.
 // Silo's schema uses `supply` (not `inputTokenBalance`) for the total tokens supplied per market.
 const MARKETS_QUERY = /* GraphQL */ `
-  query Markets($first: Int!) {
-    markets(first: $first orderBy: id orderDirection: asc) {
+  query Markets($first: Int!, $lastId: String!) {
+    markets(first: $first, where: { id_gt: $lastId, supply_gt: "0" }, orderBy: id, orderDirection: asc) {
       id
       inputToken { id decimals }
       supply
@@ -129,8 +129,17 @@ async function queryGraphQL<T>(
 // ── Data fetching ─────────────────────────────────────────────────────────────
 
 async function fetchMarkets(url: string, pageSize: number, signal?: AbortSignal): Promise<RawMarket[]> {
-  const data = await queryGraphQL<MarketsResponse>(url, MARKETS_QUERY, { first: pageSize }, signal);
-  return data.markets;
+  const all: RawMarket[] = [];
+  let lastId = "";
+  for (;;) {
+    const data = await queryGraphQL<MarketsResponse>(url, MARKETS_QUERY, { first: pageSize, lastId }, signal);
+    const batch = data.markets;
+    if (batch.length === 0) break;
+    all.push(...batch);
+    if (batch.length < pageSize) break;
+    lastId = batch[batch.length - 1].id;
+  }
+  return all;
 }
 
 async function fetchMarketPositions(

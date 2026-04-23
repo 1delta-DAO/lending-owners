@@ -91,7 +91,7 @@ async function queryGraphQL<T>(
 
 const MARKETS_QUERY = /* GraphQL */ `
   query Markets($first: Int!, $lastId: String!) {
-    markets(first: $first, where: { id_gt: $lastId }, orderBy: id, orderDirection: asc) {
+    markets(first: $first, where: { id_gt: $lastId, inputTokenBalance_gt: "0" }, orderBy: id, orderDirection: asc) {
       id
       inputToken { id decimals }
       inputTokenBalance

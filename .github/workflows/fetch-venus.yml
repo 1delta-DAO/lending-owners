@@ -2,7 +2,7 @@ name: Fetch VENUS owners
 
 on:
   schedule:
-    - cron: "0 1,5,9,13,17,21 * * *"
+    - cron: "0 8 * * *"
   workflow_dispatch:
 
 concurrency:

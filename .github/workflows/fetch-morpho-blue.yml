@@ -2,7 +2,8 @@ name: Fetch MORPHO_BLUE owners
 
 on:
   schedule:
-    - cron: "0 2,6,10,14,18,22 * * *"
+    # ~every 2 days (odd calendar days UTC); Morpho run is long
+    - cron: "0 16 */2 * *"
   workflow_dispatch:
 
 concurrency:

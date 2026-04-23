@@ -2,7 +2,7 @@ name: Fetch SILO owners
 
 on:
   schedule:
-    - cron: "0 3,7,11,15,19,23 * * *"
+    - cron: "0 6 * * *"
   workflow_dispatch:
 
 concurrency:

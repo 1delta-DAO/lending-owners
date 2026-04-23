@@ -12,7 +12,7 @@ import { eulerVaults } from "@1delta/data-sdk";
 import { fetchLenderMetaFromDirAndInitialize } from "@1delta/initializer-sdk";
 import { Chain } from "@1delta/chain-registry";
 
-const LENDER_KEY = "EULER";
+const LENDER_KEY = "EULER_V2";
 const EULER_V2_FORK = "EULER_V2";
 
 // Public Goldsky endpoints — no API key required.

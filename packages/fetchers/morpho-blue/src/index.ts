@@ -8,6 +8,7 @@ import {
   type OwnershipSnapshot,
   OWNER_FRACTION_BY_LENDER,
   checkSubgraphFreshness,
+  isPlaceholderEnvValue,
   makeMarketUid,
 } from "@lending-owners/core";
 import { morphoPools } from "@1delta/data-sdk";
@@ -201,6 +202,9 @@ function buildMarketOwnership(
 export function createMorphoBlueFetcher(config: MorphoBlueConfig): OwnershipFetcher {
   if (!config.subgraphApiKey) {
     throw new Error(`[${LENDER_KEY}] subgraphApiKey is required`);
+  }
+  if (isPlaceholderEnvValue(config.subgraphApiKey)) {
+    throw new Error(`[${LENDER_KEY}] subgraphApiKey must not be placeholder (xxx)`);
   }
   const pageSize = Math.min(Math.max(config.pageSize ?? 1000, 1), 1000);
   const minOwnerFraction = config.minOwnerFraction ?? OWNER_FRACTION_BY_LENDER[LENDER_KEY] ?? 0.01;

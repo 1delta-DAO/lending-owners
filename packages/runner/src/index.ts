@@ -1,5 +1,6 @@
 import type { OwnershipFetcher } from "@lending-owners/core";
 import type { OwnershipSnapshot } from "@lending-owners/core";
+import { isPlaceholderEnvValue } from "@lending-owners/core";
 import { fetchLenderMetaFromDirAndInitialize } from "@1delta/initializer-sdk";
 import { createAaveV3Fetcher } from "@lending-owners/fetcher-aave-v3";
 import { createCompoundV3Fetcher } from "@lending-owners/fetcher-compound-v3";
@@ -29,8 +30,32 @@ type LenderKey =
 
 function requireEnv(name: string): string {
   const v = process.env[name];
-  if (!v) throw new Error(`missing required env var: ${name}`);
-  return v;
+  if (!v?.trim()) throw new Error(`missing required env var: ${name}`);
+  if (isPlaceholderEnvValue(v)) throw new Error(`env var ${name} is set to placeholder (xxx), not a valid API key`);
+  return v.trim();
+}
+
+/** Lenders that read a subgraph API key from the environment (via {@link requireEnv}). */
+const LENDER_SUBGRAPH_ENV: Partial<Record<LenderKey, string>> = {
+  AAVE_V3: "AAVE_V3_SUBGRAPH_API_KEY",
+  COMPOUND_V3: "COMPOUND_V3_SUBGRAPH_API_KEY",
+  MORPHO_BLUE: "MORPHO_BLUE_SUBGRAPH_API_KEY",
+  SILO: "SILO_SUBGRAPH_API_KEY",
+  SPARK: "SPARK_SUBGRAPH_API_KEY",
+  VENUS: "VENUS_SUBGRAPH_API_KEY",
+  DFORCE: "DFORCE_SUBGRAPH_API_KEY",
+  MOONWELL: "MOONWELL_SUBGRAPH_API_KEY",
+};
+
+function shouldSkipLenderForPlaceholderApiKey(key: LenderKey): boolean {
+  const envName = LENDER_SUBGRAPH_ENV[key];
+  if (!envName) return false;
+  const raw = process.env[envName];
+  if (raw != null && isPlaceholderEnvValue(raw)) {
+    console.warn(`[${key}] skipped: ${envName} is placeholder (xxx), not a real API key`);
+    return true;
+  }
+  return false;
 }
 
 function normalizeLenderKey(value: string): LenderKey {
@@ -165,7 +190,19 @@ async function main() {
     ? lenderOrder.filter((key) => selectedLenders.has(key))
     : lenderOrder;
 
-  const fetchers: OwnershipFetcher[] = targetLenders.map((key) => fetcherFactories[key]());
+  const lendersToRun = targetLenders.filter((key) => !shouldSkipLenderForPlaceholderApiKey(key));
+
+  if (lendersToRun.length === 0) {
+    const hint =
+      selectedLenders && selectedLenders.size > 0
+        ? "Selected lender(s) were skipped due to placeholder API keys (xxx)."
+        : "No lenders left to run after skipping placeholder API keys (xxx).";
+    console.error(hint);
+    process.exitCode = 1;
+    return;
+  }
+
+  const fetchers: OwnershipFetcher[] = lendersToRun.map((key) => fetcherFactories[key]());
 
   for (const f of fetchers) {
     const startedAt = Date.now();

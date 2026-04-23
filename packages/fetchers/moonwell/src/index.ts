@@ -7,6 +7,7 @@ import {
   type OwnershipSnapshot,
   OWNER_FRACTION_BY_LENDER,
   checkSubgraphFreshness,
+  isPlaceholderEnvValue,
   makeMarketUid,
 } from "@lending-owners/core";
 import { Chain } from "@1delta/chain-registry";
@@ -184,6 +185,9 @@ function buildMarketOwnership(
 export function createMoonwellFetcher(config: MoonwellConfig): OwnershipFetcher {
   if (!config.subgraphApiKey) {
     throw new Error(`[${LENDER_KEY}] subgraphApiKey is required`);
+  }
+  if (isPlaceholderEnvValue(config.subgraphApiKey)) {
+    throw new Error(`[${LENDER_KEY}] subgraphApiKey must not be placeholder (xxx)`);
   }
   const side: PositionSide = config.side ?? "LENDER";
   const pageSize = Math.min(Math.max(config.pageSize ?? 1000, 1), 1000);

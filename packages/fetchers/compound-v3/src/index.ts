@@ -23,9 +23,11 @@ const LENDER_KEY = "COMPOUND_V3";
 // https://github.com/papercliplabs/compound-v3-subgraph
 const SUBGRAPH_IDS: Partial<Record<ChainId, string>> = {
   [Chain.ETHEREUM_MAINNET]: "5nwMCSHaTqG3Kd2gHznbTXEnZ9QNWsssQfbHhDqQSQFp",
-  [Chain.ARBITRUM_ONE]: "Ff7ha9ELmpmg81D6nYxy4t8aGP26dPztqD1LDJNPqjLS",
   [Chain.POLYGON_MAINNET]: "AaFtUWKfFdj2x8nnE3RxTSJkHwGHvawH3VWFBykCGzLs",
+  [Chain.ARBITRUM_ONE]: "Ff7ha9ELmpmg81D6nYxy4t8aGP26dPztqD1LDJNPqjLS",
   [Chain.BASE]: "2hcXhs36pTBDVUmk5K2Zkr6N4UYGwaHuco2a6jyTsijo",
+  [Chain.OP_MAINNET]: "FhHNkfh5z6Z2WCEBxB6V3s8RPxnJfWZ9zAfM5bVvbvbb",
+  [Chain.SCROLL]:"6aRGn6noEdin1krLfYTnLMYaCoTujL7cHekARE4Ndxng",
 };
 
 const SUPPORTED_CHAINS: ChainId[] = Object.keys(SUBGRAPH_IDS) as ChainId[];

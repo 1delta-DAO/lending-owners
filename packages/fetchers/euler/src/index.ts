@@ -12,7 +12,7 @@ import { eulerVaults } from "@1delta/data-sdk";
 import { fetchLenderMetaFromDirAndInitialize } from "@1delta/initializer-sdk";
 import { Chain } from "@1delta/chain-registry";
 
-const LENDER_KEY = "EULER_V2";
+const LENDER_KEY = "EULER";
 const EULER_V2_FORK = "EULER_V2";
 
 // Public Goldsky endpoints — no API key required.
@@ -155,7 +155,7 @@ function groupByUnderlying(
     const balance = Number(entry.balance);
     if (!Number.isFinite(balance) || balance <= 0) continue;
 
-    const uid = makeMarketUid(LENDER_KEY, chainId, underlying as Address);
+    const uid = makeMarketUid(LENDER_KEY, chainId, vaultAddr as Address);
     rawTotals[uid] = (rawTotals[uid] ?? 0) + balance;
     rawOwners[uid] = rawOwners[uid] ?? {};
     rawOwners[uid][account] = (rawOwners[uid][account] ?? 0) + balance;

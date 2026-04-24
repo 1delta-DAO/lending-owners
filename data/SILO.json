@@ -1,6 +1,6 @@
 {
   "lenderKey": "SILO",
-  "fetchedAt": "2026-04-23T16:25:02.259Z",
+  "fetchedAt": "2026-04-24T07:45:52.670Z",
   "markets": {
     "SILO:1:0x0bc529c00c6401aef6d220be8c6ea1667f6ad93e": {
       "marketUid": "SILO:1:0x0bc529c00c6401aef6d220be8c6ea1667f6ad93e",
@@ -27,7 +27,7 @@
       "lenderKey": "SILO",
       "chainId": "1",
       "underlying": "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599",
-      "totalSupply": 0.01010438,
+      "totalSupply": 0.01010457,
       "owners": {
         "0x0b38194c27a9127c4ec828c3c2ed3dc49a478971": 0.00999994
       }
@@ -57,7 +57,7 @@
       "lenderKey": "SILO",
       "chainId": "1",
       "underlying": "0x64aa3364f17a4d01c6f1751fd97c2bd3d7e7f1d5",
-      "totalSupply": 2.71577542,
+      "totalSupply": 2.732636699,
       "owners": {
         "0x2bd79172169ea7aeca2a489ff7663d822c31def3": 0.107393906
       }
@@ -87,7 +87,7 @@
       "lenderKey": "SILO",
       "chainId": "1",
       "underlying": "0x7f39c581f595b53c5cb19bd0b3f8da6c935e2ca0",
-      "totalSupply": 0.08128679676894872,
+      "totalSupply": 0.08128690723324472,
       "owners": {
         "0x8915ea6d081b68f80004c579a518fb645db71afa": 24.996347029266794,
         "0xcd112ef9dec08307beec534810abb41941f4477a": 0.07999904647533698
@@ -180,7 +180,7 @@
       "lenderKey": "SILO",
       "chainId": "1",
       "underlying": "0xae78736cd615f374d3085123a210448e74fc6393",
-      "totalSupply": 0.051063590744099704,
+      "totalSupply": 0.0510637060016012,
       "owners": {
         "0xc255e0a1be0a4b7b8bf5ebe8d0aba162cf75bae2": 4.9962180137955245,
         "0xf13854d8848895b86f6e24479c448b3703334f5d": 0.04997410008940258,
@@ -203,7 +203,7 @@
       "lenderKey": "SILO",
       "chainId": "1",
       "underlying": "0xbf5495efe5db9ce00f80364c8b423567e58d2110",
-      "totalSupply": 3.0345741156409676,
+      "totalSupply": 3.0345742853335613,
       "owners": {
         "0xcb083264d6ca95798f1b2d1c39755dfbf76bad83": 2.998215578017928
       }
@@ -232,6 +232,7 @@
         "0x61df2c422274b021460759f342e216010559d695": 0.8096389180474566,
         "0xb12a335de46cc25dca81bcfecf8421adeb1fcc04": 0.7016043116048745,
         "0x6c98064cd84c09c827fb76e772dbb805f54aa564": 0.5895,
+        "0x1b0dcfd4c1df4d179e8ef07dd4963ceb40bed5f2": 0.5,
         "0x6c4d27d3ae62b6c1eaa9b732377f7ddf3cf2b1e6": 0.29783025866144647,
         "0x53194e23be81a6b445328d598f71d504dd8e0e8a": 0.09472633462826628,
         "0x47f8469da7369e9703063c994f560d441ecd2d2c": 0.07948615224919385,
@@ -329,7 +330,7 @@
       "lenderKey": "SILO",
       "chainId": "1",
       "underlying": "0xc0c293ce456ff0ed870add98a0828dd4d2903dbf",
-      "totalSupply": 55292.468497286616,
+      "totalSupply": 55296.73765783302,
       "owners": {
         "0xfc78f8e1af80a3bf5a1783bb59ed2d1b10f78ca9": 47300
       }
@@ -339,7 +340,7 @@
       "lenderKey": "SILO",
       "chainId": "1",
       "underlying": "0xcd5fe23c85820f7b72d0926fc9b05b43e359b7ee",
-      "totalSupply": 0.3873450096259545,
+      "totalSupply": 0.3873470599433758,
       "owners": {
         "0xd722c234c6ce2fc7666285d46c376e975e3d39df": 95.89460030413524,
         "0x1b035a7f8f566d45eda54c22c60f4c10eb7f813e": 15.648335367644352,
@@ -368,7 +369,7 @@
       "lenderKey": "SILO",
       "chainId": "1",
       "underlying": "0xd533a949740bb3306d119cc777fa900ba034cd52",
-      "totalSupply": 301565.0839866799,
+      "totalSupply": 301565.0839866951,
       "owners": {
         "0xc420c9d507d0e038bd76383aaadcad576ed0073c": 291485.99767275027,
         "0x437d69771e4a8e81e5704f4967dc18a323b3fb0e": 74.66869513918284,
@@ -432,7 +433,7 @@
       "lenderKey": "SILO",
       "chainId": "42161",
       "underlying": "0x004626a008b1acdc4c74ab51644093b155e59a23",
-      "totalSupply": 23.135363945644738,
+      "totalSupply": 23.13577777421498,
       "owners": {
         "0x71c161a4e7868e6ff3faa0e05c86db0735d4ebcf": 9.656515176596839,
         "0x8220f3b28eafc4b1435e6b11e17df405168cd2e9": 3.985266789663989,
@@ -450,7 +451,7 @@
       "lenderKey": "SILO",
       "chainId": "42161",
       "underlying": "0x0c880f6761f1af8d9aa9c466984b80dab9a8c9e8",
-      "totalSupply": 39783.394439072465,
+      "totalSupply": 39784.17750750782,
       "owners": {
         "0xa712b4b40f21867ccefcb4000db3bb31c68d9d26": 8033.370574580185,
         "0xa252bd92293b0eb9beb1c2cf72f794f8a3a54348": 6984.841373200035,
@@ -477,7 +478,7 @@
       "lenderKey": "SILO",
       "chainId": "42161",
       "underlying": "0x10393c20975cf177a3513071bc110f7962cd67da",
-      "totalSupply": 45.03808489954896,
+      "totalSupply": 45.03816788789626,
       "owners": {
         "0xa104976c1abd0e68ce78deacbf3eb961585255df": 23.567972393498454,
         "0x633f502e59c736847b91ad4dd9d35bd0ce5a8129": 9.993031284962576,
@@ -527,7 +528,7 @@
       "lenderKey": "SILO",
       "chainId": "42161",
       "underlying": "0x1622bf67e6e5747b81866fe0b85178a93c7f86e3",
-      "totalSupply": 16.275694587,
+      "totalSupply": 16.275717662,
       "owners": {
         "0xe32d145707af2066c9270fb7608919df6b986c53": 14.999216669,
         "0x10b549dfea119302a96f23d7e53f49a059b50037": 0.678887711,
@@ -539,7 +540,7 @@
       "lenderKey": "SILO",
       "chainId": "42161",
       "underlying": "0x18c11fd286c5ec11c3b683caa813b77f5163a122",
-      "totalSupply": 66956.55930314772,
+      "totalSupply": 66956.55940811729,
       "owners": {
         "0xacb6a8c90d71edde1471491af6560e60c564fcc7": 50529.577441907706,
         "0xdac2c5d760ff866bc796ddb88dffec3d9a90b7e5": 2139.6581125658213,
@@ -567,7 +568,7 @@
       "lenderKey": "SILO",
       "chainId": "42161",
       "underlying": "0x2416092f143378750bb29b79ed961ab195cceea5",
-      "totalSupply": 114.77820474170196,
+      "totalSupply": 114.7785322405561,
       "owners": {
         "0x5b0f49926809416752291c42f9390dddf965bb96": 111.95999363305891
       }
@@ -577,7 +578,7 @@
       "lenderKey": "SILO",
       "chainId": "42161",
       "underlying": "0x2f2a2543b76a4166549f7aab2e75bef0aefc5b0f",
-      "totalSupply": 0.55447141,
+      "totalSupply": 0.55448252,
       "owners": {
         "0xeb179135bb8c7d147dfb8b216bc75d31ed48e42c": 0.35158417,
         "0x38ad0aba07c1eaafb8a87517aa13fb8871513fa8": 0.08981312,
@@ -592,7 +593,7 @@
       "lenderKey": "SILO",
       "chainId": "42161",
       "underlying": "0x3082cc23568ea640225c2467653db90e9250aaa0",
-      "totalSupply": 14689.419328656773,
+      "totalSupply": 14689.46241113137,
       "owners": {
         "0xfaff7679f2ab1297bae1bab60e41d0bb76dd5c24": 3067.3648236378267,
         "0xd2656b969eebf9c007f5ef3cf3c0d987b41e84fa": 2463.6709488636393,
@@ -620,11 +621,10 @@
       "lenderKey": "SILO",
       "chainId": "42161",
       "underlying": "0x35751007a407ca6feffe80b3cb397736d2cf4dbe",
-      "totalSupply": 5.839015544052066,
+      "totalSupply": 5.539076652253696,
       "owners": {
         "0xcee7adfb1f2701cc4dac527bbd6bfdb37ce52aed": 0.8279207358315259,
         "0xea6ffe4359746303516cdaf49f60242ed3e82cc1": 0.6525587467560102,
-        "0x823de6b63f9cb010cbb58951c90eea30bf02bd36": 0.29417113938985545,
         "0x45f9bd3c1427c8b9cf20a4a241208beb89fe7cba": 0.24171653426045064,
         "0x822a0b15d1eeb7372b62edbc5ed5060f4dbaed03": 0.2099198848907136,
         "0x6dede60729608ac783aa8a3a2c4a2f100fc26958": 0.15046401652210165,
@@ -652,7 +652,8 @@
         "0x7cfbbf7fc3d7cc89dbc55c6f85337341d3a07140": 0.09897370971163189,
         "0x27281df121bdb35f51ce448a226eba494508df7b": 0.09654206550878972,
         "0x93c91a8bbfc76f2b0d39cf3552429f1bb0b9b28f": 0.07839694242921807,
-        "0x04b9e61cb9dbbeaa85693829de0850a9c801747f": 0.06756206785268379
+        "0x04b9e61cb9dbbeaa85693829de0850a9c801747f": 0.06756206785268379,
+        "0xcfd6e60de9ba8daa6ea26365b374bd5c4ec22340": 0.0556629149204036
       }
     },
     "SILO:42161:0x371c7ec6d8039ff7933a2aa28eb827ffe1f52f07": {
@@ -673,7 +674,7 @@
       "lenderKey": "SILO",
       "chainId": "42161",
       "underlying": "0x3d15fd46ce9e551498328b1c83071d9509e2c3a0",
-      "totalSupply": 0.004314567501821088,
+      "totalSupply": 0.004314680754844424,
       "owners": {
         "0x612d61efff53ea648ee428cb0342c0d92cef90fd": 0.000840097066806959,
         "0x0f0d69e58fe3081e8cc6aa76c3432c81b799f35d": 0.000512751850257432,
@@ -698,7 +699,7 @@
       "lenderKey": "SILO",
       "chainId": "42161",
       "underlying": "0x3d9907f9a368ad0a51be60f7da3b97cf940982d8",
-      "totalSupply": 363.45420622612374,
+      "totalSupply": 363.4695840658909,
       "owners": {
         "0x291bf1b784b8663cf670db402d83406a80853740": 319.5497345488394,
         "0xd8dc994fe2b075c697e5051c89b713bf15fa9294": 24.99996669935376,
@@ -723,7 +724,7 @@
       "lenderKey": "SILO",
       "chainId": "42161",
       "underlying": "0x51318b7d00db7acc4026c88c3952b66278b6a67f",
-      "totalSupply": 203115.6282282597,
+      "totalSupply": 203115.63009099138,
       "owners": {
         "0x80b442a3686ef462c9e404e244dc0dd62d5fba16": 199999.36610680123
       }
@@ -746,7 +747,7 @@
       "lenderKey": "SILO",
       "chainId": "42161",
       "underlying": "0x539bde0d7dbd336b79148aa742883198bbf60342",
-      "totalSupply": 57804.492077459035,
+      "totalSupply": 57804.49283749975,
       "owners": {
         "0x968184b34ccb34d97c17bf49684824bd6a98d075": 13952.979155525858,
         "0xf670fd01a42a80c5098d4785638f7b0a8ac69010": 8426.632323525846,
@@ -762,7 +763,7 @@
       "lenderKey": "SILO",
       "chainId": "42161",
       "underlying": "0x5979d7b546e38e414f7e9822514be443a4800529",
-      "totalSupply": 3.1637627301924134,
+      "totalSupply": 3.1637659219458927,
       "owners": {
         "0x99c0782b9a35395c86f0675814e5f75ed671abb0": 2.0344613793819604,
         "0xb9206d7c315fd3e5182c03ba75dd51f7cd69790b": 0.7684038083158902,
@@ -785,7 +786,7 @@
       "lenderKey": "SILO",
       "chainId": "42161",
       "underlying": "0x6c2c06790b3e3e3c38e12ee22f8183b37a13ee55",
-      "totalSupply": 129.6402183935828,
+      "totalSupply": 129.6404407221371,
       "owners": {
         "0xaeda4088a73daa95642cda172caa5de181719146": 5.9490765180236584,
         "0x6dc88b231cd04dd1b1e525161162993f47140006": 4.239356116388057,
@@ -798,7 +799,7 @@
       "lenderKey": "SILO",
       "chainId": "42161",
       "underlying": "0x6c84a8f1c29108f47a79964b5fe888d4f4d0de40",
-      "totalSupply": 0.000016694856248254,
+      "totalSupply": 0.000016696467241099,
       "owners": {
         "0x0a58969abba40128294f092f36d3891c2d80ea87": 0.00001625130910319
       }
@@ -808,7 +809,7 @@
       "lenderKey": "SILO",
       "chainId": "42161",
       "underlying": "0x82af49447d8a07e3bd95bd0d56f35241523fbab1",
-      "totalSupply": 10.197610265864832,
+      "totalSupply": 10.197610749529066,
       "owners": {
         "0x4832606179a3506f3e64c1b04dfbe3a13a55d0f1": 92.47000846433123,
         "0x2ae11c4392c6d4f4764ecc75c6c532b41bf40f8a": 71.22405890626737,
@@ -835,7 +836,7 @@
         "0x17c9d33f6bf18cca32f21a1a6cb2f49acac8b30d": 3.5700690269865114,
         "0xc54570b8eb8138ace95132b944b7b6bb391976dc": 3.379530489620548,
         "0x1787ea643af7cd39170394be41f4074b9d3bced5": 3.3649455510891744,
-        "0x5c82536bee077a34636bad519d2e326bb158afe1": 3.3356981493750424,
+        "0x5c82536bee077a34636bad519d2e326bb158afe1": 3.2896123282933716,
         "0xddf18e68c7f993800f612e1f4e633f44d866658b": 3.1895926840253885,
         "0x27fae9d8f186651a0e6fe084cd4feaaf2533d9f1": 3.173868099110342,
         "0xeda40c9e381b71752b8756b9b698fad49f51d991": 3.0407738990661697,
@@ -1015,7 +1016,7 @@
       "lenderKey": "SILO",
       "chainId": "42161",
       "underlying": "0x912ce59144191c1204e64559fe8253a0e49e6548",
-      "totalSupply": 2140775.4086638996,
+      "totalSupply": 2140805.724040249,
       "owners": {
         "0x2ae11c4392c6d4f4764ecc75c6c532b41bf40f8a": 507331.3239874343,
         "0xb397c86bed35b8349b782a5cb3d0ac4722ca219b": 317525.71731616766,
@@ -1133,7 +1134,7 @@
       "lenderKey": "SILO",
       "chainId": "42161",
       "underlying": "0xd77b108d4f6cefaa0cae9506a934e825becca46e",
-      "totalSupply": 30313654.845324237,
+      "totalSupply": 30313774.89838421,
       "owners": {
         "0x487fb70f28ceb4f320f2d72ed859ceedc1b8c648": 27840248.717679817,
         "0xda977393363d166e9e0441bc2e2d02bc1b53f38f": 1809913.7294407468,
@@ -1145,7 +1146,7 @@
       "lenderKey": "SILO",
       "chainId": "42161",
       "underlying": "0xec70dcb4a1efa46b8f2d97c310c9c4790ba5ffa8",
-      "totalSupply": 1.0194371254148504,
+      "totalSupply": 1.019437212742236,
       "owners": {
         "0xe180fe794a486553616a551353f714f11d4702db": 0.4547616250977938,
         "0xdaaf1d98476617c0c487edf4cc6056393784aecc": 0.42409310608590167,
@@ -1169,7 +1170,7 @@
       "lenderKey": "SILO",
       "chainId": "42161",
       "underlying": "0xfc5a1a6eb076a2c7ad06ed22c90d7e710e35ad0a",
-      "totalSupply": 83.86490505304043,
+      "totalSupply": 83.8651669417194,
       "owners": {
         "0xca908d05538387f6299ac8b7134f1aa52c797c30": 42.80779014688025,
         "0x1591560fc90459467edc2319adaa8438bc13a306": 24.69123196464255,
@@ -1183,7 +1184,7 @@
       "lenderKey": "SILO",
       "chainId": "42161",
       "underlying": "0xff970a61a04b1ca14834a43f5de4533ebddb5cc8",
-      "totalSupply": 815.023938,
+      "totalSupply": 815.2656,
       "owners": {
         "0x569d327288d8354f16813afb01bba0e60c1301f9": 97022.001222,
         "0x3c8999e6b8ae7eec906e0bf5de1e26ba4b03b0d8": 34623.77953,
@@ -1196,7 +1197,6 @@
         "0x6444cf36372ad04ac802a3284a21c61649677205": 14308.56749,
         "0x2130fd01026867a6c8dde24ad5e64f2e2dfce196": 12502.015496,
         "0x893a83f5521001559883cb9682b15439c023e54f": 12075.581238,
-        "0xadf24908714ab2665128846bb901d1adba1bf090": 10138.575064,
         "0x4d3b46330ad179be69086e92872f9b0d67851c9a": 8880.873925,
         "0x002e9eb604052194dc118b2209acac293492c4fa": 8707.002261,
         "0x098c83cf74b54acabc117bf58158953c57d2651a": 8225.778031,
@@ -1311,15 +1311,15 @@
   },
   "chainFreshness": {
     "1": {
-      "subgraphBlock": 24943826,
-      "rpcBlock": 24943826,
+      "subgraphBlock": 24948415,
+      "rpcBlock": 24948415,
       "blocksBehind": 0,
       "minutesBehind": 0
     },
     "42161": {
-      "subgraphBlock": 455562216,
-      "rpcBlock": 455562214,
-      "blocksBehind": 0,
+      "subgraphBlock": 455782772,
+      "rpcBlock": 455782826,
+      "blocksBehind": 54,
       "minutesBehind": 0
     }
   }

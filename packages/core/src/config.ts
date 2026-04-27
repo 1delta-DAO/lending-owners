@@ -13,6 +13,8 @@ export const OWNER_FRACTION_BY_LENDER: Record<string, number> = {
   MORPHO_BLUE: 0.01,
   COMPOUND_V3: 0.01,
   SILO: 0.01,
+  SILO_V2: 0.01,
+  SILO_V3: 0.01,
   SPARK: 0.01,
   VENUS: 0.01,
   DFORCE: 0.01,

@@ -8,9 +8,9 @@ import {
   OWNER_FRACTION_BY_LENDER,
   checkSubgraphFreshness,
   isPlaceholderEnvValue,
-  makeMarketUid,
 } from "@lending-owners/core";
 import { Chain } from "@1delta/chain-registry";
+import { loadSiloLenderMetadata, makeSiloApiMarketUid, resolveSiloMarket } from "./siloMetadata.js";
 
 const LENDER_KEY = "SILO";
 
@@ -68,9 +68,6 @@ interface PositionsResponse {
 
 // ── GraphQL queries ───────────────────────────────────────────────────────────
 
-// Works for both V2 and V3 Silo subgraph schemas — both expose the Messari-compatible
-// Market entity with inputToken and inputTokenBalance.
-// Silo's schema uses `supply` (not `inputTokenBalance`) for the total tokens supplied per market.
 const MARKETS_QUERY = /* GraphQL */ `
   query Markets($first: Int!, $lastId: String!) {
     markets(first: $first, where: { id_gt: $lastId, supply_gt: "0" }, orderBy: id, orderDirection: asc) {
@@ -96,6 +93,10 @@ const POSITIONS_QUERY = /* GraphQL */ `
     }
   }
 `;
+
+function protocolLenderKey(p: "v2" | "v3"): "SILO_V2" | "SILO_V3" {
+  return p === "v2" ? "SILO_V2" : "SILO_V3";
+}
 
 // ── HTTP helper ───────────────────────────────────────────────────────────────
 
@@ -126,8 +127,6 @@ async function queryGraphQL<T>(
   }
   return json.data;
 }
-
-// ── Data fetching ─────────────────────────────────────────────────────────────
 
 async function fetchMarkets(url: string, pageSize: number, signal?: AbortSignal): Promise<RawMarket[]> {
   const all: RawMarket[] = [];
@@ -178,13 +177,15 @@ export function createSiloFetcher(config: SiloConfig): OwnershipFetcher {
     throw new Error(`[${LENDER_KEY}] subgraphApiKey must not be placeholder (xxx)`);
   }
   const pageSize = Math.min(Math.max(config.pageSize ?? 1000, 1), 1000);
-  const minOwnerFraction = config.minOwnerFraction ?? OWNER_FRACTION_BY_LENDER[LENDER_KEY] ?? 0.01;
+  const minOwnerFractionDefault = config.minOwnerFraction ?? OWNER_FRACTION_BY_LENDER[LENDER_KEY] ?? 0.01;
 
   return {
     lenderKey: LENDER_KEY,
     supportedChainIds: SUPPORTED_CHAINS,
 
     async fetch(ctx?: FetcherContext): Promise<OwnershipSnapshot> {
+      const { byVault, rowsByChain } = await loadSiloLenderMetadata(ctx?.signal);
+
       const chains = ctx?.chainIds ?? SUPPORTED_CHAINS;
       const snapshot: OwnershipSnapshot = {
         lenderKey: LENDER_KEY,
@@ -210,12 +211,11 @@ export function createSiloFetcher(config: SiloConfig): OwnershipFetcher {
           }
         };
 
-        const fetchSubgraph = async (subgraphId: string, label: string): Promise<void> => {
+        const fetchSubgraph = async (subgraphId: string, label: "V2" | "V3"): Promise<void> => {
           const url = subgraphUrl(config.subgraphApiKey, subgraphId);
           try {
             const freshness = await checkSubgraphFreshness(LENDER_KEY, url, chainId, ctx?.signal);
             if (freshness) {
-              // For Silo, V2 and V3 run on the same chain — keep the most recent freshness reading.
               const existing = snapshot.chainFreshness![chainId];
               if (!existing || freshness.subgraphBlock > existing.subgraphBlock) {
                 snapshot.chainFreshness![chainId] = freshness;
@@ -224,12 +224,45 @@ export function createSiloFetcher(config: SiloConfig): OwnershipFetcher {
 
             const markets = await fetchMarkets(url, pageSize, ctx?.signal);
             for (const market of markets) {
-              const underlying = market.inputToken.id.toLowerCase() as Address;
-              const minBalance = (BigInt(market.supply) * BigInt(Math.round(minOwnerFraction * 1e6)) / 1000000n).toString();
-              const positions = await fetchMarketPositions(url, market.id, minBalance, pageSize, ctx?.signal);
+              const resolved = resolveSiloMarket(
+                chainId,
+                { id: market.id, inputToken: { id: market.inputToken.id } },
+                label,
+                byVault,
+                rowsByChain,
+              );
+              if (!resolved) {
+                console.warn(
+                  `[${LENDER_KEY}] chain ${chainId} ${label}: no lender-metadata match for market ${market.id}`,
+                );
+                continue;
+              }
 
-              const scalar = 10 ** market.inputToken.decimals;
+              const { vault, entry } = resolved;
+              if (entry.protocol !== (label === "V2" ? "v2" : "v3")) {
+                continue;
+              }
+
+              const lenderKey = protocolLenderKey(entry.protocol);
+              const minOwnerFraction =
+                OWNER_FRACTION_BY_LENDER[lenderKey] ?? minOwnerFractionDefault;
+              const minBalance = (
+                (BigInt(market.supply) * BigInt(Math.round(minOwnerFraction * 1e6))) /
+                1000000n
+              ).toString();
+
+              const positions = await fetchMarketPositions(
+                url,
+                market.id,
+                minBalance,
+                pageSize,
+                ctx?.signal,
+              );
+
+              const decimals = market.inputToken.decimals;
+              const scalar = 10 ** decimals;
               const totalSupply = Number(market.supply) / scalar;
+              const underlying = market.inputToken.id.toLowerCase() as Address;
               const owners: Record<Address, number> = {};
               for (const p of positions) {
                 const account = p.account.id.toLowerCase() as Address;
@@ -238,9 +271,17 @@ export function createSiloFetcher(config: SiloConfig): OwnershipFetcher {
                 owners[account] = (owners[account] ?? 0) + balance;
               }
               if (Object.keys(owners).length === 0) continue;
-              const uid = makeMarketUid(LENDER_KEY, chainId, underlying);
+
+              const marketUid = makeSiloApiMarketUid(entry.protocol, entry.siloConfig, chainId, vault);
               const sorted = Object.fromEntries(Object.entries(owners).sort((a, b) => b[1] - a[1]));
-              mergeOwnership({ marketUid: uid, lenderKey: LENDER_KEY, chainId, underlying, totalSupply, owners: sorted });
+              mergeOwnership({
+                marketUid,
+                lenderKey,
+                chainId,
+                underlying,
+                totalSupply,
+                owners: sorted,
+              });
             }
           } catch (err) {
             console.warn(`[${LENDER_KEY}] chain ${chainId} ${label} skipped: ${(err as Error).message}`);
@@ -251,7 +292,6 @@ export function createSiloFetcher(config: SiloConfig): OwnershipFetcher {
         if (v3SubgraphId) await fetchSubgraph(v3SubgraphId, "V3");
       }
 
-      // Re-sort owners by descending balance after cross-subgraph merging.
       for (const market of Object.values(snapshot.markets)) {
         const sorted = Object.entries(market.owners).sort((a, b) => b[1] - a[1]);
         market.owners = Object.fromEntries(sorted);

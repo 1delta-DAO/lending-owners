@@ -1,13 +1,13 @@
 {
   "lenderKey": "SPARK",
-  "fetchedAt": "2026-05-04T09:26:46.185Z",
+  "fetchedAt": "2026-05-05T09:11:33.234Z",
   "markets": {
     "SPARK:100:0x2a22f9c3b484c3629090feed35f17ff8f88f76f0": {
       "marketUid": "SPARK:100:0x2a22f9c3b484c3629090feed35f17ff8f88f76f0",
       "lenderKey": "SPARK",
       "chainId": "100",
       "underlying": "0x2a22f9c3b484c3629090feed35f17ff8f88f76f0",
-      "totalSupply": 21786.931133,
+      "totalSupply": 21788.41966,
       "owners": {
         "0x509ad7278a2f6530bc24590c83e93faf8fd46e99": 21708.030334
       }
@@ -27,7 +27,7 @@
       "lenderKey": "SPARK",
       "chainId": "100",
       "underlying": "0x6a023ccd1ff6f2045c3309768ead9e68f978f6e1",
-      "totalSupply": 44.326308717409404,
+      "totalSupply": 44.33508847819154,
       "owners": {
         "0x509ad7278a2f6530bc24590c83e93faf8fd46e99": 32.79089120709736,
         "0x4b9be88dda3c2acc98f64cb80250c7230a6ac374": 6.0264263842434,
@@ -41,7 +41,7 @@
       "lenderKey": "SPARK",
       "chainId": "100",
       "underlying": "0x6c76971f98945ae98dd7d4dfca8711ebea946ea6",
-      "totalSupply": 68.30844330862115,
+      "totalSupply": 68.30844364212884,
       "owners": {
         "0x2002dbecc8e44386bcbfb96b50058c3cb08c49bf": 25.430005267279718,
         "0x9b8eabbcbe8d6b33037e85a515679d118039861e": 16.651532994834753,
@@ -86,7 +86,7 @@
       "lenderKey": "SPARK",
       "chainId": "100",
       "underlying": "0xcb444e90d8198415266c6a2724b7900fb12fc56e",
-      "totalSupply": 34903.07103943563,
+      "totalSupply": 34903.12862349693,
       "owners": {
         "0x530e3e5217d58d12da31c68cde114b2bb1814756": 15008.410058796277,
         "0xcc19df2878c24241278071e2ecec46b3da4cfa17": 10493.632519485707,
@@ -110,7 +110,7 @@
       "lenderKey": "SPARK",
       "chainId": "100",
       "underlying": "0xe91d153e0b41518a2ce8dd3d7944fa863463a97d",
-      "totalSupply": 10285.267801578613,
+      "totalSupply": 10285.277084115838,
       "owners": {
         "0xb41cad5c62eef17e76dd82ff05fda2a0d760463b": 3500,
         "0xd8ec2c4c5ca4087db0c474143578bc3c6d717e23": 1300,
@@ -124,8 +124,8 @@
   },
   "chainFreshness": {
     "100": {
-      "subgraphBlock": 45999611,
-      "rpcBlock": 45999611,
+      "subgraphBlock": 46016291,
+      "rpcBlock": 46016291,
       "blocksBehind": 0,
       "minutesBehind": 0
     }

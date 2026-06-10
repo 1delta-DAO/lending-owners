@@ -1,6 +1,6 @@
 {
   "lenderKey": "SILO",
-  "fetchedAt": "2026-06-09T08:55:04.704Z",
+  "fetchedAt": "2026-06-10T09:36:19.661Z",
   "markets": {
     "SILO_V2_A94AF3162465901B8098D896C3E772D2C97160BC:42161:0xfd625acff4227f4fc5eb904104030c308a4b3457": {
       "marketUid": "SILO_V2_A94AF3162465901B8098D896C3E772D2C97160BC:42161:0xfd625acff4227f4fc5eb904104030c308a4b3457",
@@ -23,7 +23,7 @@
       "lenderKey": "SILO_V2",
       "chainId": "42161",
       "underlying": "0x3d9907f9a368ad0a51be60f7da3b97cf940982d8",
-      "totalSupply": 354.3814324722995,
+      "totalSupply": 354.3922120090605,
       "owners": {
         "0x291bf1b784b8663cf670db402d83406a80853740": 319.5497345488394,
         "0xd8dc994fe2b075c697e5051c89b713bf15fa9294": 24.99996669935376,
@@ -62,7 +62,6 @@
         "0xf7734765e5088666131da50130235203ff4a6967": 1013.382928,
         "0xf30b265baf7062d6957a41a7ceabc8713798fa65": 893.920503,
         "0x492222c37faea031f1c2f7401c14a033c109d3cb": 864.699112,
-        "0x67a413e65a37a46109bd8f08a59fd96089f691d2": 790.64562,
         "0x034f12a217405d54bf2654b66a96fa74ad715951": 774.024224,
         "0x8729c0f32fa3b5692b46e57aed6467435b4486ad": 712.528073,
         "0x3934be85b05f975bbe9d440e289b376fed93bcdc": 363.37226499999997,
@@ -157,7 +156,7 @@
       "lenderKey": "SILO_V3",
       "chainId": "1",
       "underlying": "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599",
-      "totalSupply": 0.01011854,
+      "totalSupply": 0.01011885,
       "owners": {
         "0x0b38194c27a9127c4ec828c3c2ed3dc49a478971": 0.00999994
       }
@@ -165,16 +164,16 @@
   },
   "chainFreshness": {
     "1": {
-      "subgraphBlock": 25278804,
-      "rpcBlock": 25278805,
-      "blocksBehind": 1,
+      "subgraphBlock": 25286190,
+      "rpcBlock": 25286190,
+      "blocksBehind": 0,
       "minutesBehind": 0
     },
     "42161": {
-      "subgraphBlock": 471634772,
-      "rpcBlock": 471634820,
-      "blocksBehind": 48,
-      "minutesBehind": 0
+      "subgraphBlock": 471988772,
+      "rpcBlock": 471989029,
+      "blocksBehind": 257,
+      "minutesBehind": 1
     }
   }
 }

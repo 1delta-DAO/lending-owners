@@ -1,6 +1,6 @@
 {
   "lenderKey": "DFORCE",
-  "fetchedAt": "2026-06-13T07:00:23.118Z",
+  "fetchedAt": "2026-06-14T07:24:55.506Z",
   "markets": {
     "DFORCE:1:0x0000000000000000000000000000000000000000": {
       "marketUid": "DFORCE:1:0x0000000000000000000000000000000000000000",
@@ -510,14 +510,14 @@
       "lenderKey": "DFORCE",
       "chainId": "42161",
       "underlying": "0xaf88d065e77c8cc2239327c5edb3a432268e5831",
-      "totalSupply": 25659.509841,
+      "totalSupply": 25960.431944,
       "owners": {
         "0x6c413690c19cfc80c3db3211c80993bf642c6456": 9007.30653,
-        "0x4f27eb908eaadfea04f6b66847faabaeb45ecb15": 6804.068216,
+        "0x4f27eb908eaadfea04f6b66847faabaeb45ecb15": 7234.480134,
         "0x32a82c39247fa1cbcae715feafa85a59abf97e12": 2606.352247,
         "0x7cc702cde94c5dc33ca8a9d4b78826a2fc962700": 2383.803394,
         "0x3f6331c2b381fbc6a1f8e5b65d6656b97570e5d8": 2058.326767,
-        "0x6c4a72ec1dd4fbe90e7e23c6c9187262d59345bb": 1205.264808,
+        "0x6c4a72ec1dd4fbe90e7e23c6c9187262d59345bb": 1030.344081,
         "0xcb6586874cc04b01cc4fdb777de502cea7b3d6c1": 439.431958,
         "0xf427e6d220a73cd374e4fcd6ae9bd12a94e34c51": 263.932182
       }
@@ -889,27 +889,27 @@
   },
   "chainFreshness": {
     "1": {
-      "subgraphBlock": 25306921,
-      "rpcBlock": 25306921,
+      "subgraphBlock": 25314218,
+      "rpcBlock": 25314218,
       "blocksBehind": 0,
       "minutesBehind": 0
     },
     "10": {
-      "subgraphBlock": 152867623,
-      "rpcBlock": 152867625,
-      "blocksBehind": 2,
+      "subgraphBlock": 152911558,
+      "rpcBlock": 152911561,
+      "blocksBehind": 3,
       "minutesBehind": 0
     },
     "56": {
-      "subgraphBlock": 103946688,
-      "rpcBlock": 103946692,
-      "blocksBehind": 4,
+      "subgraphBlock": 104141918,
+      "rpcBlock": 104141919,
+      "blocksBehind": 1,
       "minutesBehind": 0
     },
     "42161": {
-      "subgraphBlock": 472984548,
-      "rpcBlock": 472984551,
-      "blocksBehind": 3,
+      "subgraphBlock": 473332248,
+      "rpcBlock": 473332248,
+      "blocksBehind": 0,
       "minutesBehind": 0
     }
   }

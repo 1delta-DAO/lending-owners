@@ -1,6 +1,6 @@
 {
   "lenderKey": "SILO",
-  "fetchedAt": "2026-07-22T08:03:30.124Z",
+  "fetchedAt": "2026-07-23T08:06:01.388Z",
   "markets": {
     "SILO_V2_A94AF3162465901B8098D896C3E772D2C97160BC:42161:0xfd625acff4227f4fc5eb904104030c308a4b3457": {
       "marketUid": "SILO_V2_A94AF3162465901B8098D896C3E772D2C97160BC:42161:0xfd625acff4227f4fc5eb904104030c308a4b3457",
@@ -23,7 +23,7 @@
       "lenderKey": "SILO_V2",
       "chainId": "42161",
       "underlying": "0x3d9907f9a368ad0a51be60f7da3b97cf940982d8",
-      "totalSupply": 41.854406275142516,
+      "totalSupply": 42.024073196707356,
       "owners": {
         "0xd8dc994fe2b075c697e5051c89b713bf15fa9294": 24.99996669935376,
         "0x291bf1b784b8663cf670db402d83406a80853740": 6.939526280541607,
@@ -67,7 +67,7 @@
         "0x8729c0f32fa3b5692b46e57aed6467435b4486ad": 712.528073,
         "0x3c1ce4d9e147e2787c3d450abd6df32e1e26aaa6": 320.428695,
         "0x9a5eca1b228e47a15bd9fab07716a9fce9eebfb5": 237.415448,
-        "0x24305e6911cf5bc5241347befc7a322314bf4aec": 204.392432,
+        "0x24305e6911cf5bc5241347befc7a322314bf4aec": 209.158715,
         "0xf42b1ac078b2144bfce9fdc7e197685ceda42011": 137.041621,
         "0x8fa801bf60aa6b0be41b2b6ac0dd763e3189fd63": 99.844638,
         "0x3c13b63fd55187f90f1681773f2de7035775f229": 99.709213,
@@ -158,7 +158,7 @@
       "lenderKey": "SILO_V3",
       "chainId": "1",
       "underlying": "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599",
-      "totalSupply": 0.01004425,
+      "totalSupply": 0.01004456,
       "owners": {
         "0x0b38194c27a9127c4ec828c3c2ed3dc49a478971": 0.00999994
       }
@@ -166,14 +166,14 @@
   },
   "chainFreshness": {
     "1": {
-      "subgraphBlock": 25586953,
-      "rpcBlock": 25586954,
-      "blocksBehind": 1,
+      "subgraphBlock": 25594126,
+      "rpcBlock": 25594126,
+      "blocksBehind": 0,
       "minutesBehind": 0
     },
     "42161": {
-      "subgraphBlock": 486465213,
-      "rpcBlock": 486465211,
+      "subgraphBlock": 486810646,
+      "rpcBlock": 486810645,
       "blocksBehind": 0,
       "minutesBehind": 0
     }

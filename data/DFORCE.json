@@ -1,6 +1,6 @@
 {
   "lenderKey": "DFORCE",
-  "fetchedAt": "2026-07-25T05:44:38.063Z",
+  "fetchedAt": "2026-07-26T06:07:50.690Z",
   "markets": {
     "DFORCE:1:0x0000000000000000000000000000000000000000": {
       "marketUid": "DFORCE:1:0x0000000000000000000000000000000000000000",
@@ -909,26 +909,26 @@
   },
   "chainFreshness": {
     "1": {
-      "subgraphBlock": 25607772,
-      "rpcBlock": 25607772,
+      "subgraphBlock": 25615069,
+      "rpcBlock": 25615069,
       "blocksBehind": 0,
       "minutesBehind": 0
     },
     "10": {
-      "subgraphBlock": 154679751,
-      "rpcBlock": 154679752,
-      "blocksBehind": 1,
+      "subgraphBlock": 154723648,
+      "rpcBlock": 154723648,
+      "blocksBehind": 0,
       "minutesBehind": 0
     },
     "56": {
-      "subgraphBlock": 111996684,
-      "rpcBlock": 111996686,
+      "subgraphBlock": 112191713,
+      "rpcBlock": 112191715,
       "blocksBehind": 2,
       "minutesBehind": 0
     },
     "42161": {
-      "subgraphBlock": 487467766,
-      "rpcBlock": 487467765,
+      "subgraphBlock": 487818070,
+      "rpcBlock": 487818069,
       "blocksBehind": 0,
       "minutesBehind": 0
     }

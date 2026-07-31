@@ -1,6 +1,6 @@
 {
   "lenderKey": "SILO",
-  "fetchedAt": "2026-07-30T08:02:10.450Z",
+  "fetchedAt": "2026-07-31T08:27:30.507Z",
   "markets": {
     "SILO_V2_A94AF3162465901B8098D896C3E772D2C97160BC:42161:0xfd625acff4227f4fc5eb904104030c308a4b3457": {
       "marketUid": "SILO_V2_A94AF3162465901B8098D896C3E772D2C97160BC:42161:0xfd625acff4227f4fc5eb904104030c308a4b3457",
@@ -23,7 +23,7 @@
       "lenderKey": "SILO_V2",
       "chainId": "42161",
       "underlying": "0x3d9907f9a368ad0a51be60f7da3b97cf940982d8",
-      "totalSupply": 43.62355492173362,
+      "totalSupply": 43.924214237322346,
       "owners": {
         "0xd8dc994fe2b075c697e5051c89b713bf15fa9294": 24.99996669935376,
         "0x291bf1b784b8663cf670db402d83406a80853740": 6.939526280541607,
@@ -51,13 +51,14 @@
         "0x4d3b46330ad179be69086e92872f9b0d67851c9a": 8880.873925,
         "0xadf5349df8186379a4e8c919c5d6fb447f8956f0": 8777.111261,
         "0x002e9eb604052194dc118b2209acac293492c4fa": 8707.002261,
-        "0xbd3df1969b930ac3521552af2947cef0c1638107": 6599.638245,
+        "0xbd3df1969b930ac3521552af2947cef0c1638107": 5825.50238,
         "0x1e168699f322a2206c03e5eb444cb6b5ea5155c8": 5479.334959,
         "0xd9b49a81ee72af3c026a2c144c9ffd678a78c8b1": 4250.27884,
         "0x19de5bf0977f858c530e8ec53242680386537d89": 3662.597093,
         "0xa929891a6e69e301e113536a552be8af21601252": 3305.582095,
         "0x3f6331c2b381fbc6a1f8e5b65d6656b97570e5d8": 3256.088286,
         "0x997dce8872ee4f2d886444103fe3a08cd51cef1c": 3108.67658,
+        "0x5cf389f391fea0f134e4f1358f367429d5ba8efc": 2736.518982,
         "0x8ea4d272ab5efba40598ef4eb91d1642a474e3a1": 1711.914759,
         "0x3a69dea8ab0482f551d462b6634d8f03412ffb18": 1398.239363,
         "0xa5cdc9f61f8ace8542df6249074e85343ee13f93": 1179.703039,
@@ -159,7 +160,7 @@
       "lenderKey": "SILO_V3",
       "chainId": "1",
       "underlying": "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599",
-      "totalSupply": 0.01004669,
+      "totalSupply": 0.01004699,
       "owners": {
         "0x0b38194c27a9127c4ec828c3c2ed3dc49a478971": 0.00999994
       }
@@ -167,14 +168,14 @@
   },
   "chainFreshness": {
     "1": {
-      "subgraphBlock": 25644344,
-      "rpcBlock": 25644344,
+      "subgraphBlock": 25651639,
+      "rpcBlock": 25651639,
       "blocksBehind": 0,
       "minutesBehind": 0
     },
     "42161": {
-      "subgraphBlock": 489227608,
-      "rpcBlock": 489227607,
+      "subgraphBlock": 489578935,
+      "rpcBlock": 489578933,
       "blocksBehind": 0,
       "minutesBehind": 0
     }

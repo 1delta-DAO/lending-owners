@@ -1,6 +1,6 @@
 {
   "lenderKey": "SILO",
-  "fetchedAt": "2026-08-01T07:57:21.689Z",
+  "fetchedAt": "2026-08-02T07:59:20.398Z",
   "markets": {
     "SILO_V2_A94AF3162465901B8098D896C3E772D2C97160BC:42161:0xfd625acff4227f4fc5eb904104030c308a4b3457": {
       "marketUid": "SILO_V2_A94AF3162465901B8098D896C3E772D2C97160BC:42161:0xfd625acff4227f4fc5eb904104030c308a4b3457",
@@ -23,7 +23,7 @@
       "lenderKey": "SILO_V2",
       "chainId": "42161",
       "underlying": "0x3d9907f9a368ad0a51be60f7da3b97cf940982d8",
-      "totalSupply": 44.225778096990396,
+      "totalSupply": 44.55407462398784,
       "owners": {
         "0xd8dc994fe2b075c697e5051c89b713bf15fa9294": 24.99996669935376,
         "0x291bf1b784b8663cf670db402d83406a80853740": 6.939526280541607,
@@ -38,7 +38,7 @@
       "underlying": "0xff970a61a04b1ca14834a43f5de4533ebddb5cc8",
       "totalSupply": 438.03292,
       "owners": {
-        "0x310b222776e08cc15256693200efd81d9a2ae210": 35601.356622,
+        "0x310b222776e08cc15256693200efd81d9a2ae210": 35457.369398,
         "0x2f8393a3ac972a6a00453d0384e8495f91a2f6ed": 31875.10682,
         "0x27b356b76905726f46510a43cb9846036528bc4c": 30755.684313,
         "0x823de6b63f9cb010cbb58951c90eea30bf02bd36": 26949.26388,
@@ -160,7 +160,7 @@
       "lenderKey": "SILO_V3",
       "chainId": "1",
       "underlying": "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599",
-      "totalSupply": 0.01004729,
+      "totalSupply": 0.01004759,
       "owners": {
         "0x0b38194c27a9127c4ec828c3c2ed3dc49a478971": 0.00999994
       }
@@ -168,16 +168,16 @@
   },
   "chainFreshness": {
     "1": {
-      "subgraphBlock": 25658670,
-      "rpcBlock": 25658670,
+      "subgraphBlock": 25665859,
+      "rpcBlock": 25665859,
       "blocksBehind": 0,
       "minutesBehind": 0
     },
     "42161": {
-      "subgraphBlock": 489917520,
-      "rpcBlock": 489917519,
-      "blocksBehind": 0,
-      "minutesBehind": 0
+      "subgraphBlock": 490261772,
+      "rpcBlock": 490262397,
+      "blocksBehind": 625,
+      "minutesBehind": 3
     }
   }
 }

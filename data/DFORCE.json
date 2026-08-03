@@ -1,6 +1,6 @@
 {
   "lenderKey": "DFORCE",
-  "fetchedAt": "2026-08-02T06:05:03.433Z",
+  "fetchedAt": "2026-08-03T06:25:53.341Z",
   "markets": {
     "DFORCE:1:0x0000000000000000000000000000000000000000": {
       "marketUid": "DFORCE:1:0x0000000000000000000000000000000000000000",
@@ -822,7 +822,7 @@
       "lenderKey": "DFORCE",
       "chainId": "56",
       "underlying": "0x7130d2a12b9bcbfae4f2634d864a1ee1ce3ead9c",
-      "totalSupply": 1.146044839874408,
+      "totalSupply": 0.6506098619873392,
       "owners": {
         "0xeebf6bb72a069a2c26d66fef8da235bdf0187a1a": 0.2326779389772372,
         "0x3007a4d467a777ea3c28d84306e7d8beb807b9fe": 0.13138648509322493,
@@ -912,26 +912,26 @@
   },
   "chainFreshness": {
     "1": {
-      "subgraphBlock": 25665291,
-      "rpcBlock": 25665291,
+      "subgraphBlock": 25672561,
+      "rpcBlock": 25672561,
       "blocksBehind": 0,
       "minutesBehind": 0
     },
     "10": {
-      "subgraphBlock": 155025962,
-      "rpcBlock": 155025964,
+      "subgraphBlock": 155069788,
+      "rpcBlock": 155069790,
       "blocksBehind": 2,
       "minutesBehind": 0
     },
     "56": {
-      "subgraphBlock": 113534622,
-      "rpcBlock": 113534627,
-      "blocksBehind": 5,
+      "subgraphBlock": 113729357,
+      "rpcBlock": 113729357,
+      "blocksBehind": 0,
       "minutesBehind": 0
     },
     "42161": {
-      "subgraphBlock": 490235223,
-      "rpcBlock": 490235222,
+      "subgraphBlock": 490582676,
+      "rpcBlock": 490582674,
       "blocksBehind": 0,
       "minutesBehind": 0
     }

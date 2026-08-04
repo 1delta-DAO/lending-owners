@@ -1,6 +1,6 @@
 {
   "lenderKey": "SILO",
-  "fetchedAt": "2026-08-03T08:55:47.113Z",
+  "fetchedAt": "2026-08-04T08:12:55.042Z",
   "markets": {
     "SILO_V2_A94AF3162465901B8098D896C3E772D2C97160BC:42161:0xfd625acff4227f4fc5eb904104030c308a4b3457": {
       "marketUid": "SILO_V2_A94AF3162465901B8098D896C3E772D2C97160BC:42161:0xfd625acff4227f4fc5eb904104030c308a4b3457",
@@ -23,7 +23,7 @@
       "lenderKey": "SILO_V2",
       "chainId": "42161",
       "underlying": "0x3d9907f9a368ad0a51be60f7da3b97cf940982d8",
-      "totalSupply": 44.914657916029405,
+      "totalSupply": 45.27018441856342,
       "owners": {
         "0xd8dc994fe2b075c697e5051c89b713bf15fa9294": 24.99996669935376,
         "0x291bf1b784b8663cf670db402d83406a80853740": 6.939526280541607,
@@ -51,8 +51,8 @@
         "0x4d3b46330ad179be69086e92872f9b0d67851c9a": 8880.873925,
         "0xadf5349df8186379a4e8c919c5d6fb447f8956f0": 8777.111261,
         "0x002e9eb604052194dc118b2209acac293492c4fa": 8707.002261,
+        "0xbd3df1969b930ac3521552af2947cef0c1638107": 5824.629144,
         "0x1e168699f322a2206c03e5eb444cb6b5ea5155c8": 5479.334959,
-        "0xbd3df1969b930ac3521552af2947cef0c1638107": 5051.557555,
         "0xd9b49a81ee72af3c026a2c144c9ffd678a78c8b1": 4250.27884,
         "0x19de5bf0977f858c530e8ec53242680386537d89": 3662.597093,
         "0xa929891a6e69e301e113536a552be8af21601252": 3305.582095,
@@ -160,7 +160,7 @@
       "lenderKey": "SILO_V3",
       "chainId": "1",
       "underlying": "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599",
-      "totalSupply": 0.01004792,
+      "totalSupply": 0.01004821,
       "owners": {
         "0x0b38194c27a9127c4ec828c3c2ed3dc49a478971": 0.00999994
       }
@@ -168,14 +168,14 @@
   },
   "chainFreshness": {
     "1": {
-      "subgraphBlock": 25673306,
-      "rpcBlock": 25673306,
+      "subgraphBlock": 25680276,
+      "rpcBlock": 25680276,
       "blocksBehind": 0,
       "minutesBehind": 0
     },
     "42161": {
-      "subgraphBlock": 490618577,
-      "rpcBlock": 490618576,
+      "subgraphBlock": 490953144,
+      "rpcBlock": 490953143,
       "blocksBehind": 0,
       "minutesBehind": 0
     }

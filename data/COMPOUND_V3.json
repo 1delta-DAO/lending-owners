@@ -1,20 +1,20 @@
 {
   "lenderKey": "COMPOUND_V3",
-  "fetchedAt": "2026-08-09T03:48:27.897Z",
+  "fetchedAt": "2026-08-10T04:02:11.071Z",
   "markets": {
     "COMPOUND_V3_AERO:8453:0x940181a94a35a4569e4529a3cdfb74e38fd98631": {
       "marketUid": "COMPOUND_V3_AERO:8453:0x940181a94a35a4569e4529a3cdfb74e38fd98631",
       "lenderKey": "COMPOUND_V3_AERO",
       "chainId": "8453",
       "underlying": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
-      "totalSupply": 425531.95047978946,
+      "totalSupply": 425618.03307155514,
       "owners": {
         "0x8dfdf1c6c69d44a48caf4970f4d0991d71a44bfd": 67988.29035909007,
         "0x4bb91b4c578b661ec21b3fc27b2138b3637931ee": 25732.24396986378,
         "0xb3621f75564bd22e0621cf3ab341e489c510b29c": 22165.505030876553,
         "0x2447ff8c28cad702d74b7ba9428bafd56ae7ebc7": 20488.31704514608,
         "0x1ce4c7977bf92ccf62b1df6e97a55bc33e5e6b2f": 15347.48543311906,
-        "0xa988798e2c2d8085f3839b2c2d122d99e9a9b1e1": 13985.579501905262,
+        "0xa988798e2c2d8085f3839b2c2d122d99e9a9b1e1": 13986.929383778766,
         "0xeb6e56b840335808da53b7d94d6813490ae4b7d4": 12736.330726324935,
         "0xff955d43d326ea5cf6aaab1138067b2914533659": 11752.069723334234,
         "0xafd4bd6ba680aa2a95bade37c6215117396a1eee": 11643.430846467578,
@@ -97,12 +97,12 @@
       "lenderKey": "COMPOUND_V3_USDC",
       "chainId": "1",
       "underlying": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
-      "totalSupply": 345708451.696599,
+      "totalSupply": 345632608.668368,
       "owners": {
         "0xc76eea4435b4451c3ceb8e8f0e30fb2a26df6fe5": 51578402.913054,
         "0x7f714b13249bed8fde2ef3fbdfb18ed525544b03": 49161880.560151,
         "0x3d6eef6a92b15361697698695334e98c5db91d6b": 20171628.965585,
-        "0xb9e62cb9b4ce8ec13c886fae67369da417ee2714": 15454904.68391,
+        "0xb9e62cb9b4ce8ec13c886fae67369da417ee2714": 15433926.690275,
         "0x77b537363aab683cfda7f8933b1e6af8aa436614": 10595875.413837,
         "0xc9da44904ad04019676319598cfbb9dabd69817e": 8372747.168435,
         "0x27f2f159fe990ba83d57f39fd69661764bebf37a": 7188008.776815,
@@ -126,7 +126,7 @@
       "lenderKey": "COMPOUND_V3_USDC",
       "chainId": "10",
       "underlying": "0x0b2c639c533813f4aa9d7837caf62653d097ff85",
-      "totalSupply": 1603645.578941,
+      "totalSupply": 1561764.498365,
       "owners": {
         "0xac376cd0ef088e33268a2e90b031ff45a27a4b92": 1477854.571387,
         "0x5310538e6ed133ac2a276ba467422de1aacaba66": 1017271.50798,
@@ -173,7 +173,7 @@
         "0x3edfb624bd15b81fcfde1f33465be5f1704868a2": 95477.181004,
         "0xf571ea4502fc57cb5957a49e2309067d298c5a5c": 95465.24664,
         "0x9c7a2a20267dc1403e397839462cf7401ad3e94b": 94619.43154,
-        "0x1ec50880101022c11530a069690f5446d1464592": 94538.788952,
+        "0x1ec50880101022c11530a069690f5446d1464592": 94537.600647,
         "0x133289557d457f9eddd07989ab0920005c686181": 89990.668046,
         "0x718e7b7e03f9370394cc8a3bd41b395c72b90fa2": 89862.32179,
         "0x95826194d1d0d652598e197a5202896d0e8e1b68": 86832.292825,
@@ -238,7 +238,6 @@
         "0x27fae9d8f186651a0e6fe084cd4feaaf2533d9f1": 34131.274515,
         "0x804641c8fe20db8cebc6c5238c338c9bb0346bd3": 31162.740715,
         "0x4637ae3552bd767bd87be92790327923976b81d7": 31130.311827,
-        "0x6e3064f27eb1efc6c51a99c8e8549861fa79f1bd": 30865.736675,
         "0xaac7030ee8d27e1bb69bc58d1f30bbfd26113bce": 30199.918705,
         "0x930d0929aa6dc0c90266813d383a3e0c4c822f63": 30129.623383,
         "0x25523204a70ea6c720ab9a57295b492a28411fd1": 29841.492469,
@@ -289,7 +288,10 @@
         "0xba80b928ad8c1d2dddfa7081c928e4d125627952": 17327.181642,
         "0x5e8c3a934db4fa406c462ed1b12d136a499ddf86": 16628.07942,
         "0x94af95f3834882d9540544d536db1e24aa72256b": 16529.604571,
-        "0x7a88f069d1d305dd69a010c24b42f4e3f051e0a9": 16293.216478
+        "0x7a88f069d1d305dd69a010c24b42f4e3f051e0a9": 16293.216478,
+        "0x5c086177828a54855c1a7913f2a0616d122b9bd3": 16004.211418,
+        "0xa20de80111abca48fb42a14867e75eea0b57fb98": 15913.978514,
+        "0x9ff44cbe82dbd26c83397cd2e674c373ebcbb058": 15734.068706
       }
     },
     "COMPOUND_V3_USDC:42161:0xaf88d065e77c8cc2239327c5edb3a432268e5831": {
@@ -297,7 +299,7 @@
       "lenderKey": "COMPOUND_V3_USDC",
       "chainId": "42161",
       "underlying": "0xaf88d065e77c8cc2239327c5edb3a432268e5831",
-      "totalSupply": 15407292.489791,
+      "totalSupply": 15410450.675126,
       "owners": {
         "0x9c89f595f5515609ad61f6fda94beff85ae6600e": 6187610.513909,
         "0xeecb52ef2acac2d2dacae212252544d61cc15baf": 2846264.991593,
@@ -359,7 +361,7 @@
       "lenderKey": "COMPOUND_V3_USDC",
       "chainId": "534352",
       "underlying": "0x06efdbff2a14a7c8e15944d1f4a48f9f95f663a4",
-      "totalSupply": 32959.248394,
+      "totalSupply": 32964.636602,
       "owners": {
         "0x4e3cba8473d362592dc4ed59125d0172beb0e639": 14382.821885,
         "0x539460bd8d7d6130ce6c4a65c0b59da3b3d2da42": 10813.922193,
@@ -394,7 +396,7 @@
       "lenderKey": "COMPOUND_V3_USDC",
       "chainId": "8453",
       "underlying": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
-      "totalSupply": 8494649.965902,
+      "totalSupply": 8544787.012798,
       "owners": {
         "0xa46680f63b905ddc4a5fc3038584328a04623314": 516799.810929,
         "0x39127265c91e355b9a5aaf3bb4f300edf1073061": 515800.541062,
@@ -406,13 +408,13 @@
         "0x8376556c4c7ad69a5a009ffa6e93d582c772ebf5": 206558.215208,
         "0x098730e73d17847d5427b84ccb9ae67c1c717d3f": 197639.790327,
         "0x87f0397f1b0772cd192eb1797b0675e90f4fdf60": 189981.320653,
-        "0x5e40cdd1210952a01647b3629eec1e48fd026427": 180934.890546,
         "0x68ac2b9410075904b0faa35248916beab648a88a": 168625.549464,
         "0x67a94cc28e770bdbe5d48448ede20bcc371bb3d0": 165603.451713,
         "0xc0a722886b2ab2baaca08e70bba942878e5afc72": 164886.887135,
         "0x793ebe99bada5b5617e1f4ab2782783143ca5c92": 150514.916166,
         "0xb8b29ae6a11d65cc0ee3d97ea588021320b273e3": 143175.536469,
         "0xd1757bab220258ddd4bab23255deecb0df02912b": 127236.160638,
+        "0x5e40cdd1210952a01647b3629eec1e48fd026427": 121257.896996,
         "0x8397124ac93a21763776193ed4243c253483f5c3": 120480.149813,
         "0x20f9468228a4b69b84b01e621363f58c93ad0823": 113942.685041,
         "0xb2dd2ceb4a12508140b1e748a1944ace78158eec": 110728.052653,
@@ -431,7 +433,7 @@
       "lenderKey": "COMPOUND_V3_USDCE",
       "chainId": "137",
       "underlying": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
-      "totalSupply": 1585812.996131,
+      "totalSupply": 1585810.313477,
       "owners": {
         "0x65d914360376d2e7f6c6ff92da211be3ff33743c": 282931.576529,
         "0x67a954ef467105f00e4a096ade324f885321abcc": 244759.606843,
@@ -476,7 +478,7 @@
       "lenderKey": "COMPOUND_V3_USDCE",
       "chainId": "42161",
       "underlying": "0xff970a61a04b1ca14834a43f5de4533ebddb5cc8",
-      "totalSupply": 471371.624813,
+      "totalSupply": 471382.070927,
       "owners": {
         "0x8be46b25d59616e594f0a9e20147fb14c1b989d9": 666900.801099,
         "0x73a5dea042aeb13e9e9f81246281173f3ae3b0c3": 288621.518716,
@@ -510,7 +512,7 @@
       "lenderKey": "COMPOUND_V3_USDS",
       "chainId": "1",
       "underlying": "0xdc035d45d973e3ec169d2276ddab16f1e407384f",
-      "totalSupply": 1825626.8909655886,
+      "totalSupply": 1838984.5435197027,
       "owners": {
         "0xf97696816a052578034c268d6e5b69045f19470c": 298893.1342546753,
         "0x725b4b5b72f137d5347cf3f26e3b6e86e8a61c87": 217153.99307128,
@@ -537,8 +539,7 @@
         "0xea83a837f1040a6551ac522e37b3f3bcdd42eecd": 27976.63498006456,
         "0x6444cf36372ad04ac802a3284a21c61649677205": 24141.566275068995,
         "0xca8374b7e00df3ce13f159e12617e16e3dddf084": 22978.607154041525,
-        "0x07affc51cf33fbb0c0037106e2a73b33e19dba1e": 20656.45717211225,
-        "0xff8f49fc2515548f9c3757b4b5151677f587e823": 18285.638965328024
+        "0x07affc51cf33fbb0c0037106e2a73b33e19dba1e": 20656.45717211225
       }
     },
     "COMPOUND_V3_USDT:1:0xdac17f958d2ee523a2206206994597c13d831ec7": {
@@ -546,13 +547,13 @@
       "lenderKey": "COMPOUND_V3_USDT",
       "chainId": "1",
       "underlying": "0xdac17f958d2ee523a2206206994597c13d831ec7",
-      "totalSupply": 178083490.06804,
+      "totalSupply": 179274653.865309,
       "owners": {
         "0xc9da44904ad04019676319598cfbb9dabd69817e": 9179971.048774,
         "0xeb74ec1d4c1dab412d5d6674f6833fd19d3118ce": 7122928.12997,
         "0x7a95d0cd3c984ab02f0c9b3dce648073b4670df0": 5680703.548584,
+        "0xddbd8ce3c81f5ac41d5f1db6ab91cd2fbd144d8f": 4274033.556808,
         "0x6d1b730aa76b613ac1e52f73f0cb70c42b50331c": 3815030.533761,
-        "0xddbd8ce3c81f5ac41d5f1db6ab91cd2fbd144d8f": 3563210.664191,
         "0x64c8ce646e0ec31ef0e4d0801ef2e9731a606684": 3328410.860508,
         "0xd2caed3e20e22a5aeba32fa61d97764c152293c1": 3326639.650611,
         "0x334718aa9b9521c683a270c51794a1e23a2a72d6": 3326406.454347,
@@ -577,7 +578,7 @@
       "lenderKey": "COMPOUND_V3_USDT",
       "chainId": "10",
       "underlying": "0x94b008aa00579c1307b0ef2c499ad98a8ce58e58",
-      "totalSupply": 2309555.337849,
+      "totalSupply": 2305308.282106,
       "owners": {
         "0xac376cd0ef088e33268a2e90b031ff45a27a4b92": 1997385.813492,
         "0x5310538e6ed133ac2a276ba467422de1aacaba66": 1738926.834218,
@@ -589,7 +590,7 @@
         "0x5602dfd9ff56c613936c85e87d7cf0e1894cead4": 555637.290512,
         "0xe729419ee0551a57b06aaa3de2c936cd6ad72c60": 550486.918865,
         "0x35703e72cb1fdf0688f1380096642565198f2ba3": 532914.546762,
-        "0x1ec50880101022c11530a069690f5446d1464592": 479142.768445,
+        "0x1ec50880101022c11530a069690f5446d1464592": 479136.745867,
         "0x517829b6b125fe94629162700f4ec5bd5470ab2a": 468148.019458,
         "0xb6875ec94be06d159a28d627422b7c9388cc8861": 386429.241582,
         "0x73fe186a62180e720287c95c4034aef989818145": 381005.095094,
@@ -715,7 +716,8 @@
         "0xedca9eed90b84895046d61a6cb5724a2d7aadefa": 25952.993318,
         "0x0944ef931ad2bfc2500463812d3e40ce5a770f66": 24892.835957,
         "0xfcdd50a0e6c45db72294080fc0f4f5a6b3954a3f": 24612.478112,
-        "0x327d6ac218b0d8a8e26a665189ec3375daf5114e": 24187.945611
+        "0x327d6ac218b0d8a8e26a665189ec3375daf5114e": 24187.945611,
+        "0xf4b0f58a75a3f6ab3dddc8f149006457b1d51574": 23092.907993
       }
     },
     "COMPOUND_V3_USDT:137:0xc2132d05d31c914a87c6611c10748aeb04b58e8f": {
@@ -723,7 +725,7 @@
       "lenderKey": "COMPOUND_V3_USDT",
       "chainId": "137",
       "underlying": "0xc2132d05d31c914a87c6611c10748aeb04b58e8f",
-      "totalSupply": 1035289.456096,
+      "totalSupply": 1021848.357464,
       "owners": {
         "0xb4ef470465fe4e56f502e2767f9dc293e0c4260e": 558024.099865,
         "0x2b9232f26580ad2c230b328a46626f25153c7280": 513423.033181,
@@ -780,10 +782,10 @@
         "0xfcbe9f3143d5ece3e363378ae02665ba02432ff6": 39089.148156,
         "0x50bc4a78fbf9624c7bea6ef88aa8652ccf7b6235": 37629.015867,
         "0xdab38e567b86d6ccbff738cd48f714e9f94103b0": 37579.53087,
-        "0xa347eaa79ad53596fc6ebe73bc034e06e27e4c84": 36910.44697,
         "0x4b44004136e704108f76bb908c1c798afdcd8488": 36121.324846,
         "0xef61f16e4a8404d05384e9de4d39904376414c8a": 35135.554914,
         "0x226b4bd112b230dd2abb86681d277c2b8bd04bb2": 34881.088436,
+        "0xa347eaa79ad53596fc6ebe73bc034e06e27e4c84": 34672.615616,
         "0xc708fc1b88d2b263b54cd5a4348df759d7ceaa48": 33295.519743,
         "0x5dfcaebb0ea92283d837e8f4a68da7f8e858dba2": 32203.832173,
         "0x65b61085176c2055ff7b55f9ed5e964acf2a1f3c": 30659.8429,
@@ -863,7 +865,7 @@
       "lenderKey": "COMPOUND_V3_USDT",
       "chainId": "42161",
       "underlying": "0xfd086bc7cd5c481dcc9c85ebe478a1c0b69fcbb9",
-      "totalSupply": 19638321.204456,
+      "totalSupply": 19634179.78578,
       "owners": {
         "0xd9bd04be0ece9095580756db19c81d9700b4f2fe": 13175603.497267,
         "0xc7adfda3aa8525fea8fed6a02134297ffaca3463": 9700659.320356,
@@ -938,7 +940,7 @@
       "lenderKey": "COMPOUND_V3_WETH",
       "chainId": "1",
       "underlying": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
-      "totalSupply": 50488.93334328353,
+      "totalSupply": 50493.46498656212,
       "owners": {
         "0xce27283c276f4aa7a7e302b24bfea7668e264877": 27945.667692411444,
         "0x53fb0162bc8d5eec2fb1532923c4f8997bace111": 6933.159391320332,
@@ -955,7 +957,7 @@
       "lenderKey": "COMPOUND_V3_WETH",
       "chainId": "10",
       "underlying": "0x4200000000000000000000000000000000000006",
-      "totalSupply": 740.7894374000113,
+      "totalSupply": 740.8278224185152,
       "owners": {
         "0x52ce75225e88efda375cb9038812d538687f4d5d": 345.2995414856574,
         "0x6c5d46df55ef2703922549f13eee8c064f923aaf": 318.4255265658455,
@@ -1035,7 +1037,7 @@
       "lenderKey": "COMPOUND_V3_WETH",
       "chainId": "42161",
       "underlying": "0x82af49447d8a07e3bd95bd0d56f35241523fbab1",
-      "totalSupply": 1027.0647035492948,
+      "totalSupply": 1016.4867817752121,
       "owners": {
         "0x44377949bcf05704a78801639668f9f5b0307951": 2554.96035081925,
         "0x52ce75225e88efda375cb9038812d538687f4d5d": 1927.8155525566717,
@@ -1138,7 +1140,9 @@
         "0xc4a566f5ce1da56898f52adfeefa5560f839b1b8": 11.6194687321815,
         "0x02ddf8a023cc07d52f9837a243bb6b34da4f6728": 10.799297332493321,
         "0x4b340a36f70f376f661a6249c0b88ec59dedb9b4": 10.623036891911243,
-        "0x06972fecf202279924aa2c1cf0848ef509dbe706": 10.615204185792972
+        "0x06972fecf202279924aa2c1cf0848ef509dbe706": 10.615204185792972,
+        "0x7ee046888bb8ce437aaffe7a78f64ab9b9386969": 10.201625783243866,
+        "0x4da0a76bff571d81c2b57f2e3dd1b49e463cb5ab": 10.166308608891072
       }
     },
     "COMPOUND_V3_WSTETH:1:0x7f39c581f595b53c5cb19bd0b3f8da6c935e2ca0": {
@@ -1166,38 +1170,38 @@
   },
   "chainFreshness": {
     "1": {
-      "subgraphBlock": 25714830,
-      "rpcBlock": 25714830,
+      "subgraphBlock": 25722073,
+      "rpcBlock": 25722073,
       "blocksBehind": 0,
       "minutesBehind": 0
     },
     "10": {
-      "subgraphBlock": 155324274,
-      "rpcBlock": 155324274,
-      "blocksBehind": 0,
+      "subgraphBlock": 155367882,
+      "rpcBlock": 155367883,
+      "blocksBehind": 1,
       "minutesBehind": 0
     },
     "137": {
-      "subgraphBlock": 91694869,
-      "rpcBlock": 91694870,
-      "blocksBehind": 1,
+      "subgraphBlock": 91753012,
+      "rpcBlock": 91753015,
+      "blocksBehind": 3,
       "minutesBehind": 0
     },
     "8453": {
-      "subgraphBlock": 49728992,
-      "rpcBlock": 49728993,
-      "blocksBehind": 1,
+      "subgraphBlock": 49772601,
+      "rpcBlock": 49772601,
+      "blocksBehind": 0,
       "minutesBehind": 0
     },
     "42161": {
-      "subgraphBlock": 492611451,
-      "rpcBlock": 492611451,
+      "subgraphBlock": 492957456,
+      "rpcBlock": 492957455,
       "blocksBehind": 0,
       "minutesBehind": 0
     },
     "534352": {
-      "subgraphBlock": 34601561,
-      "rpcBlock": 34601561,
+      "subgraphBlock": 34609578,
+      "rpcBlock": 34609578,
       "blocksBehind": 0,
       "minutesBehind": 0
     }

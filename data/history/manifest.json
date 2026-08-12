@@ -1,0 +1,113 @@
+[
+  {
+    "lender": "COMPOUND_V3",
+    "source": "compound-api",
+    "from": "2026-07-08T00:00:00.000Z",
+    "to": "2026-08-12T08:48:24.101Z",
+    "resolution": "1d",
+    "runAt": "2026-08-12T08:48:25.738Z",
+    "elapsedMs": 1170,
+    "files": {
+      "COMPOUND_V3/1/2026-07.ndjson": 108,
+      "COMPOUND_V3/1/2026-08.ndjson": 72,
+      "COMPOUND_V3/137/2026-07.ndjson": 36,
+      "COMPOUND_V3/137/2026-08.ndjson": 24,
+      "COMPOUND_V3/42161/2026-07.ndjson": 72,
+      "COMPOUND_V3/42161/2026-08.ndjson": 48,
+      "COMPOUND_V3/10/2026-07.ndjson": 54,
+      "COMPOUND_V3/10/2026-08.ndjson": 36,
+      "COMPOUND_V3/8453/2026-07.ndjson": 72,
+      "COMPOUND_V3/8453/2026-08.ndjson": 48,
+      "COMPOUND_V3/534352/2026-07.ndjson": 18,
+      "COMPOUND_V3/534352/2026-08.ndjson": 12,
+      "COMPOUND_V3/5000/2026-07.ndjson": 18,
+      "COMPOUND_V3/5000/2026-08.ndjson": 12,
+      "COMPOUND_V3/59144/2026-07.ndjson": 36,
+      "COMPOUND_V3/59144/2026-08.ndjson": 24,
+      "COMPOUND_V3/130/2026-07.ndjson": 36,
+      "COMPOUND_V3/130/2026-08.ndjson": 24,
+      "COMPOUND_V3/2020/2026-07.ndjson": 36,
+      "COMPOUND_V3/2020/2026-08.ndjson": 24
+    },
+    "written": 810,
+    "skippedAsDuplicate": 0
+  },
+  {
+    "lender": "LLAMALEND",
+    "source": "curve-api",
+    "from": "2026-05-04T00:00:00.000Z",
+    "to": "2026-08-12T08:48:34.170Z",
+    "resolution": "1d",
+    "runAt": "2026-08-12T08:48:55.267Z",
+    "elapsedMs": 20825,
+    "files": {
+      "LLAMALEND/1/2026-08.ndjson": 1240,
+      "LLAMALEND/1/2026-07.ndjson": 3064,
+      "LLAMALEND/1/2026-06.ndjson": 2880,
+      "LLAMALEND/1/2026-05.ndjson": 2566,
+      "LLAMALEND/252/2026-08.ndjson": 288,
+      "LLAMALEND/252/2026-07.ndjson": 744,
+      "LLAMALEND/252/2026-06.ndjson": 720,
+      "LLAMALEND/252/2026-05.ndjson": 648,
+      "LLAMALEND/42161/2026-08.ndjson": 528,
+      "LLAMALEND/42161/2026-07.ndjson": 1364,
+      "LLAMALEND/42161/2026-06.ndjson": 1320,
+      "LLAMALEND/42161/2026-05.ndjson": 1188,
+      "LLAMALEND/146/2026-08.ndjson": 120,
+      "LLAMALEND/146/2026-07.ndjson": 310,
+      "LLAMALEND/146/2026-06.ndjson": 300,
+      "LLAMALEND/146/2026-05.ndjson": 270,
+      "LLAMALEND/10/2026-08.ndjson": 192,
+      "LLAMALEND/10/2026-07.ndjson": 496,
+      "LLAMALEND/10/2026-06.ndjson": 428,
+      "LLAMALEND/10/2026-05.ndjson": 270
+    },
+    "written": 18936,
+    "skippedAsDuplicate": 0
+  },
+  {
+    "lender": "MORPHO_BLUE",
+    "source": "morpho-api",
+    "from": "2026-07-13T00:00:00.000Z",
+    "to": "2026-08-12T08:50:24.454Z",
+    "resolution": "1d",
+    "runAt": "2026-08-12T08:52:44.404Z",
+    "elapsedMs": 139855,
+    "files": {
+      "MORPHO_BLUE/1/2026-07.ndjson": 62166,
+      "MORPHO_BLUE/1/2026-08.ndjson": 40218
+    },
+    "written": 102384,
+    "skippedAsDuplicate": 3362
+  },
+  {
+    "lender": "MORPHO_BLUE",
+    "source": "morpho-api",
+    "from": "2026-07-13T00:00:00.000Z",
+    "to": "2026-08-12T08:53:19.595Z",
+    "resolution": "1d",
+    "runAt": "2026-08-12T08:54:49.093Z",
+    "elapsedMs": 89412,
+    "files": {
+      "MORPHO_BLUE/1/2026-07.ndjson": 62242,
+      "MORPHO_BLUE/1/2026-08.ndjson": 40266
+    },
+    "written": 102508,
+    "skippedAsDuplicate": 3362
+  },
+  {
+    "lender": "MORPHO_BLUE",
+    "source": "morpho-api",
+    "from": "2026-07-13T00:00:00.000Z",
+    "to": "2026-08-12T08:55:37.559Z",
+    "resolution": "1d",
+    "runAt": "2026-08-12T08:57:18.489Z",
+    "elapsedMs": 100334,
+    "files": {
+      "MORPHO_BLUE/1/2026-07.ndjson": 62242,
+      "MORPHO_BLUE/1/2026-08.ndjson": 40266
+    },
+    "written": 102508,
+    "skippedAsDuplicate": 0
+  }
+]

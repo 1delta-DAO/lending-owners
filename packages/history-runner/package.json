@@ -1,0 +1,18 @@
+{
+  "name": "@lending-owners/history-runner",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "tsx --env-file-if-exists=../../.env src/index.ts",
+    "build": "tsc -b",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@1delta/initializer-sdk": "^0.0.11",
+    "@lending-owners/core": "workspace:*",
+    "@lending-owners/fetcher-compound-v3": "workspace:*",
+    "@lending-owners/fetcher-llamalend": "workspace:*",
+    "@lending-owners/fetcher-morpho-blue": "workspace:*"
+  }
+}

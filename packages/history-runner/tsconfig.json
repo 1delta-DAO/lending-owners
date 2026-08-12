@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
+    "types": ["node"]
+  },
+  "include": ["src"],
+  "references": [
+    { "path": "../core" },
+    { "path": "../fetchers/compound-v3" },
+    { "path": "../fetchers/llamalend" },
+    { "path": "../fetchers/morpho-blue" }
+  ]
+}

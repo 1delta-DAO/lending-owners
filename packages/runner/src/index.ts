@@ -1,4 +1,4 @@
-import type { OwnershipFetcher } from "@lending-owners/core";
+import type { ChainId, OwnershipFetcher } from "@lending-owners/core";
 import type { OwnershipSnapshot } from "@lending-owners/core";
 import { isPlaceholderEnvValue } from "@lending-owners/core";
 import { fetchLenderMetaFromDirAndInitialize } from "@1delta/initializer-sdk";
@@ -12,7 +12,7 @@ import { createSparkFetcher } from "@lending-owners/fetcher-spark";
 import { createVenusFetcher } from "@lending-owners/fetcher-venus";
 import { createDForceFetcher } from "@lending-owners/fetcher-dforce";
 import { createMoonwellFetcher } from "@lending-owners/fetcher-moonwell";
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -108,6 +108,60 @@ function parseSelectedLenders(args: string[]): Set<LenderKey> | null {
   return selected.size > 0 ? selected : null;
 }
 
+/** `--chain 1` / `--chains 1,8453` restricts the run to those chains. */
+function parseSelectedChains(args: string[]): ChainId[] | null {
+  const selected = new Set<string>();
+  for (let i = 0; i < args.length; i += 1) {
+    if (args[i] !== "--chain" && args[i] !== "--chains") continue;
+    const value = args[i + 1];
+    if (!value) throw new Error(`missing value for ${args[i]}`);
+    for (const chain of value.split(",")) {
+      const trimmed = chain.trim();
+      if (!trimmed) continue;
+      if (!/^\d+$/.test(trimmed)) {
+        throw new Error(`invalid chain id "${trimmed}" — expected a numeric chain id`);
+      }
+      selected.add(trimmed);
+    }
+    i += 1;
+  }
+  return selected.size > 0 ? ([...selected] as ChainId[]) : null;
+}
+
+/**
+ * Merges a chain-restricted snapshot into the previous one. A run scoped to some
+ * chains knows nothing about the others, so writing it straight out would delete
+ * every market on the chains it did not visit.
+ */
+async function mergeWithPrevious(
+  outputPath: string,
+  snapshot: OwnershipSnapshot,
+  chains: ChainId[],
+): Promise<OwnershipSnapshot> {
+  let previous: OwnershipSnapshot;
+  try {
+    previous = JSON.parse(await readFile(outputPath, "utf8")) as OwnershipSnapshot;
+  } catch {
+    return snapshot; // nothing to preserve
+  }
+  const fetched = new Set(chains.map(String));
+  const markets = { ...snapshot.markets };
+  let kept = 0;
+  for (const [marketUid, market] of Object.entries(previous.markets ?? {})) {
+    if (fetched.has(String(market.chainId))) continue;
+    markets[marketUid] = market;
+    kept += 1;
+  }
+  console.log(
+    `[${snapshot.lenderKey}] merged into previous snapshot: kept ${kept} market(s) on chains outside ${chains.join(", ")}`,
+  );
+  return {
+    ...snapshot,
+    markets,
+    chainFreshness: { ...previous.chainFreshness, ...snapshot.chainFreshness },
+  };
+}
+
 function sortOwners(owners: Record<string, number>): Record<string, number> {
   const sorted = Object.entries(owners).sort((a, b) => {
     if (b[1] !== a[1]) return b[1] - a[1];
@@ -145,6 +199,7 @@ function countOwnerEntries(snapshot: OwnershipSnapshot): number {
 async function main() {
   const args = process.argv.slice(2);
   const selectedLenders = parseSelectedLenders(args);
+  const selectedChains = parseSelectedChains(args);
   const allowPartial = hasFlag(args, "--allow-partial");
   const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../..");
   const dataDir = path.join(repoRoot, "data");
@@ -213,8 +268,15 @@ async function main() {
     const startedAt = Date.now();
     console.log(`fetching ${f.lenderKey}...`);
     try {
-      const snap = normalizeSnapshot(await f.fetch());
+      const fetched = await f.fetch(
+        selectedChains ? { chainIds: selectedChains } : undefined,
+      );
       const outputPath = path.join(dataDir, `${f.lenderKey}.json`);
+      const snap = normalizeSnapshot(
+        selectedChains
+          ? await mergeWithPrevious(outputPath, fetched, selectedChains)
+          : fetched,
+      );
       const failedChains = snap.failedChains ?? [];
       if (failedChains.length > 0 && !allowPartial) {
         // Writing here would delete every market on the failed chains from the

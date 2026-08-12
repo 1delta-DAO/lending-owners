@@ -258,6 +258,67 @@ Blocking edges only where stated; everything else parallelises.
    quoting ~297,900 % APY, whose share price has moved 45,000× since 2024. It is
    real data. Do not add a sanity filter that silently drops it — flag it.
 
+### 0.11 Build log — 2026-08-12
+
+**A0 is done and A4 is working.** What exists in this repo now:
+
+```
+packages/core/src/history.ts        HistoryPoint / HistoryFetcher contract
+packages/core/src/http.ts           PacedClient — concurrency, pacing, 429/5xx backoff
+packages/history-runner/            CLI + NdjsonSink (append-time dedup, manifest)
+packages/fetchers/compound-v3/src/hist/   30-day rolling window  → 810 pts/run
+packages/fetchers/llamalend/src/hist/     100-snapshot window    → 18,936 pts/run
+packages/fetchers/morpho-blue/src/hist/   full depth + share price
+.github/workflows/capture-history.yml     daily, 03:10 UTC, no secrets
+data/history/.gitignore                   commits A0 only, ignores the rest
+```
+
+Measured on the first real runs:
+
+| Run                              |     Points | Wall clock | Note                                    |
+| -------------------------------- | ---------: | ---------- | --------------------------------------- |
+| `COMPOUND_V3 --days 35`          |        810 | 0.8 s      | 27 of 28 comets resolve to a uid        |
+| `LLAMALEND --days 100`           |     18,936 | 21 s       | 198 uids = 99 markets × 2 sides         |
+| `MORPHO_BLUE --chain 1 --days 30` |    102,508 | 100 s      | 1,714 markets, 1,336 with a share price |
+
+Re-running any of them writes **0 rows and reports every point as a duplicate** —
+the idempotency the daily job depends on, verified rather than assumed.
+
+**Sanity check of the actual product.** Over the 30-day Ethereum Morpho window,
+1,145 markets have both a computable realized return (from `supplyAssets` /
+`supplyShares`) and a quoted series: **median gap +0.0000 pp**, which is what a
+correct pipeline should show over a short window, with the interesting mass in
+the tails (one market at −95.4 % realized against +3.2 % quoted). 141 markets
+were excluded as degenerate — see §0.10.5, they are real, not broken.
+
+**Four things learned in the build, none of which were in the analysis:**
+
+1. **Rates are PERCENT, not fractions.** `lending_snapshots.deposit_rate` holds
+   `4.90` for 4.90 % (`yield-tracer/app/src/integst/lending/index.ts`), and the
+   sources disagree with each other — Compound and Morpho return fractions,
+   Curve returns percent. Every fetcher normalizes on the way out. This was a
+   silent 100× error waiting to happen across the whole backfill.
+2. **Morpho's complexity budget scales with `first × series`, not with the
+   window.** Charged before execution, so asking for two years costs exactly
+   what asking for 30 days costs: 20 markets × 9 series = 1,804,300 and 50 × 11
+   = 5,519,250 both give ~10,035 per market-series against a 1,000,000 cap. So
+   **a full-depth run is no more expensive than a shallow one** — page size is a
+   constant ~6, and the first backfill should just ask for everything.
+3. **Morpho appends a trailing "as of now" point** on top of the aligned daily
+   grid, so the current bucket always arrives twice (31 points for a 30-day
+   window). Collapsed to the aligned sample; left alone it would have collided
+   on `(marketUid, dataTs)` and hidden real duplicates behind constant noise.
+4. **`orderBy` must be immutable when paging.** `SupplyAssetsUsd` re-orders
+   between requests as values move, which both duplicates and *skips* markets.
+   `UniqueKey` is the only stable choice. **The ownership fetcher's
+   `fetchAllPages` has the same latent bug** — it pages `SupplyAssetsUsd` too.
+
+Still to do, unchanged: A1 (`computeMarketUid` into `data-sdk`), A2/A3 in
+`yield-tracer`, A5 (Euler, Aave V3, Venus, Moonwell), A6 (archival), A7
+(subgraphs). Compound V3 has one unmapped comet on Base
+(`0x2c776041ccfe903071af44aa147368a9c8eea518`) whose rows are dropped until the
+registry picks it up.
+
 ---
 
 ## 1. The problem, stated precisely

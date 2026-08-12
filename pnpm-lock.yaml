@@ -90,6 +90,12 @@ importers:
         specifier: workspace:*
         version: link:../../core
 
+  packages/fetchers/llamalend:
+    dependencies:
+      '@lending-owners/core':
+        specifier: workspace:*
+        version: link:../../core
+
   packages/fetchers/moonwell:
     dependencies:
       '@1delta/chain-registry':
@@ -146,6 +152,24 @@ importers:
       '@lending-owners/core':
         specifier: workspace:*
         version: link:../../core
+
+  packages/history-runner:
+    dependencies:
+      '@1delta/initializer-sdk':
+        specifier: ^0.0.11
+        version: 0.0.11
+      '@lending-owners/core':
+        specifier: workspace:*
+        version: link:../core
+      '@lending-owners/fetcher-compound-v3':
+        specifier: workspace:*
+        version: link:../fetchers/compound-v3
+      '@lending-owners/fetcher-llamalend':
+        specifier: workspace:*
+        version: link:../fetchers/llamalend
+      '@lending-owners/fetcher-morpho-blue':
+        specifier: workspace:*
+        version: link:../fetchers/morpho-blue
 
   packages/runner:
     dependencies:

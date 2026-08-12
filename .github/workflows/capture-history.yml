@@ -1,0 +1,63 @@
+name: Capture decaying history
+
+# The two sources that serve a ROLLING window: Compound V3 keeps 30 days,
+# Curve/LlamaLend keeps 100 snapshots. Whatever falls off the end is gone from
+# the API for good — DefiLlama holds supply-side for some of it, borrow-side for
+# none. So this job is not a backfill, it is a ratchet: every day it runs is a
+# day permanently secured, every day it does not is a day lost.
+#
+# Deliberately a separate workflow from the per-lender ownership jobs: it must
+# keep running even when a subgraph key expires and those fail, and it needs no
+# secrets at all.
+#
+# See LENDING_HISTORY_BACKFILL_PLAN.md §0.1 and §0.9 A0.
+
+on:
+  schedule:
+    # 03:10 UTC — after Compound's ~00:0x daily point has landed, and clear of
+    # the ownership jobs so the two never race on a push.
+    - cron: "10 3 * * *"
+  workflow_dispatch:
+    inputs:
+      days:
+        description: "Window to request (default 35, i.e. a little more than Compound's 30)"
+        required: false
+        default: "35"
+
+concurrency:
+  group: capture-history
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Capture rolling-window sources
+        run: pnpm fetch:history -- --decaying --days ${{ github.event.inputs.days || '35' }}
+
+      - name: Commit result
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/history
+          git diff --staged --quiet && echo "no new points" || (
+            git commit -m "capture history - $(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+            git pull --rebase origin main
+            git push
+          )

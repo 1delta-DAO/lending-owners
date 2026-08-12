@@ -15,7 +15,9 @@
     "fetch:spark": "pnpm --filter @lending-owners/runner run start -- --lender SPARK",
     "fetch:venus": "pnpm --filter @lending-owners/runner run start -- --lender VENUS",
     "fetch:dforce": "pnpm --filter @lending-owners/runner run start -- --lender DFORCE",
-    "fetch:moonwell": "pnpm --filter @lending-owners/runner run start -- --lender MOONWELL"
+    "fetch:moonwell": "pnpm --filter @lending-owners/runner run start -- --lender MOONWELL",
+    "fetch:history": "pnpm --filter @lending-owners/history-runner run start --",
+    "capture:daily": "pnpm --filter @lending-owners/history-runner run start -- --decaying --days 35"
   },
   "devDependencies": {
     "@types/node": "^25.6.0",

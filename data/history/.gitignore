@@ -1,0 +1,18 @@
+# Git is NOT the store for backfilled history — 30 days of Morpho on ONE chain
+# is already 50 MB, and a full two-year run across every chain is multiple GB.
+# That output belongs in object storage, replayed into yield-tracer through
+# POST /ingest/lending-history (LENDING_HISTORY_BACKFILL_PLAN.md §0.8).
+#
+# The two exceptions are the sources that serve a ROLLING window — Compound V3
+# (30 days) and LlamaLend (100 snapshots). Those are a ratchet, not a backfill:
+# uncaptured days are gone for good, they are small (~2.5 MB/month combined),
+# and committing them is what makes the daily GH Action a durable record until
+# the bucket exists. Enforced here rather than left to convention, because the
+# failure mode is a multi-GB accidental commit.
+*
+!.gitignore
+!manifest.json
+!COMPOUND_V3/
+!COMPOUND_V3/**
+!LLAMALEND/
+!LLAMALEND/**

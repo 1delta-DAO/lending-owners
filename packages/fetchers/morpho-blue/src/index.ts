@@ -686,3 +686,5 @@ export function createMorphoBlueFetcher(
     },
   };
 }
+
+export * from "./hist/index.js";

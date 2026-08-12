@@ -6,7 +6,26 @@ The repo is a **pnpm workspace**: shared types live in `@lending-owners/core`, p
 
 ## Second axis: historical backfill
 
-Ownership is the repo's first axis. The second — **historical rates, totals and share-price/index series** — is planned in [LENDING_HISTORY_BACKFILL_PLAN.md](LENDING_HISTORY_BACKFILL_PLAN.md) (moved here from `lending-sdks` on 2026-08-11). It lands as a `hist/` module beside each fetcher's `index.ts` plus a `history-runner` CLI; output is **NDJSON to object storage**, not committed JSON, and is replayed into `yield-tracer` through an authed ingest route. Start at §0.9 — the A0–A7 action plan. §0.10 lists the five things that will bite.
+Ownership is the repo's first axis. The second — **historical rates, totals and share-price/index series** — is documented in [LENDING_HISTORY_BACKFILL_PLAN.md](LENDING_HISTORY_BACKFILL_PLAN.md). It lives as a `hist/` module beside each fetcher's `index.ts` plus the `@lending-owners/history-runner` CLI. Output is **NDJSON**, one line per `(market_uid, data_ts)`, replayed into `yield-tracer` through an authed ingest route — this side never writes to Postgres.
+
+```bash
+# the daily ratchet: the two sources whose windows roll (Compound V3 = 30 days,
+# LlamaLend = 100 snapshots). Uncaptured days are gone for good.
+pnpm capture:daily
+
+# backfill one lender
+pnpm fetch:history -- --lender MORPHO_BLUE --days 730
+pnpm fetch:history -- --lender COMPOUND_V3 --days 35 --dry-run
+pnpm fetch:history -- --lender LLAMALEND --chain 1 --resolution 1d --out /tmp/hist
+```
+
+Flags: `--lender KEY[,KEY]` / `--decaying` / `--all`, `--from ISO` or `--days N`, `--to ISO`, `--resolution 1d|1h`, `--chain id[,id]`, `--out DIR` (default `data/history/`), `--dry-run`.
+
+Runs are **idempotent** — re-running writes nothing and reports every point as a duplicate, which is what makes the daily job safe to retry. Output lands in `data/history/<LENDER>/<chainId>/<yyyy-mm>.ndjson`; note that [`data/history/.gitignore`](data/history/.gitignore) commits only the two rolling-window sources, because 30 days of Morpho on one chain is already 50 MB.
+
+Rates in the output are **percent** (`4.90` = 4.90 % APY), matching `lending_snapshots`. Sources disagree on this among themselves, so each `hist/` module normalizes on the way out.
+
+Start at plan §0.9 for the A0–A7 plan, §0.10 for the things that will bite, and §0.11 for what is already built and what the first runs measured.
 
 ## Requirements
 

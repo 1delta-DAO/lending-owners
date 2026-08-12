@@ -107,8 +107,43 @@ async function queryRpcBlock(
 }
 
 /**
- * Checks how far behind a subgraph is relative to the chain tip.
+ * Compares a data source's indexed block against the chain tip.
  * Logs a warning if the lag exceeds STALE_MINUTES_WARN.
+ * Returns null on any failure — freshness checks are non-fatal.
+ */
+export async function checkIndexedBlockFreshness(
+  lenderKey: string,
+  sourceLabel: string,
+  indexedBlock: number,
+  chainId: ChainId,
+  signal?: AbortSignal,
+): Promise<ChainFreshness | null> {
+  try {
+    const rpcBlock = await queryRpcBlock(chainId, signal);
+    const blocksBehind = Math.max(0, rpcBlock - indexedBlock);
+    const secondsPerBlock = BLOCK_SECONDS[String(chainId)] ?? 12;
+    const minutesBehind = Math.round((blocksBehind * secondsPerBlock) / 60);
+    if (minutesBehind > STALE_MINUTES_WARN) {
+      console.warn(
+        `[${lenderKey}] chain ${chainId}: ${sourceLabel} is ${blocksBehind} blocks (~${minutesBehind} min) behind tip (${sourceLabel}=${indexedBlock} rpc=${rpcBlock})`,
+      );
+    }
+    return {
+      subgraphBlock: indexedBlock,
+      rpcBlock,
+      blocksBehind,
+      minutesBehind,
+    };
+  } catch (err) {
+    console.warn(
+      `[${lenderKey}] chain ${chainId}: freshness check failed: ${(err as Error).message}`,
+    );
+    return null;
+  }
+}
+
+/**
+ * Checks how far behind a subgraph is relative to the chain tip.
  * Returns null on any failure — freshness checks are non-fatal.
  */
 export async function checkSubgraphFreshness(
@@ -118,24 +153,20 @@ export async function checkSubgraphFreshness(
   signal?: AbortSignal,
   apiKey?: string,
 ): Promise<ChainFreshness | null> {
+  let subgraphBlock: number;
   try {
-    const [subgraphBlock, rpcBlock] = await Promise.all([
-      querySubgraphBlock(subgraphUrl, signal, apiKey),
-      queryRpcBlock(chainId, signal),
-    ]);
-    const blocksBehind = Math.max(0, rpcBlock - subgraphBlock);
-    const secondsPerBlock = BLOCK_SECONDS[String(chainId)] ?? 12;
-    const minutesBehind = Math.round((blocksBehind * secondsPerBlock) / 60);
-    if (minutesBehind > STALE_MINUTES_WARN) {
-      console.warn(
-        `[${lenderKey}] chain ${chainId}: subgraph is ${blocksBehind} blocks (~${minutesBehind} min) behind tip (subgraph=${subgraphBlock} rpc=${rpcBlock})`,
-      );
-    }
-    return { subgraphBlock, rpcBlock, blocksBehind, minutesBehind };
+    subgraphBlock = await querySubgraphBlock(subgraphUrl, signal, apiKey);
   } catch (err) {
     console.warn(
       `[${lenderKey}] chain ${chainId}: freshness check failed: ${(err as Error).message}`,
     );
     return null;
   }
+  return checkIndexedBlockFreshness(
+    lenderKey,
+    "subgraph",
+    subgraphBlock,
+    chainId,
+    signal,
+  );
 }

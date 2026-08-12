@@ -1,8 +1,12 @@
 # lending-owners
 
-Snapshots **supply-side ownership** for lending markets across several protocols. A scheduled runner queries subgraphs or HTTP APIs, aggregates positions per market, and writes JSON under [`data/`](data/) (one file per lender, e.g. `data/MORPHO_BLUE.json`).
+Snapshots **supply-side ownership** for lending markets across several protocols. Morpho Blue additionally records the **borrow** and **collateral** sides (`borrowers`, `collateralOwners`), since its isolated markets have a collateral asset distinct from the loan asset. A scheduled runner queries subgraphs or HTTP APIs, aggregates positions per market, and writes JSON under [`data/`](data/) (one file per lender, e.g. `data/MORPHO_BLUE.json`).
 
 The repo is a **pnpm workspace**: shared types live in `@lending-owners/core`, protocol-specific logic in `@lending-owners/fetcher-*`, and the CLI in `@lending-owners/runner`.
+
+## Second axis: historical backfill
+
+Ownership is the repo's first axis. The second — **historical rates, totals and share-price/index series** — is planned in [LENDING_HISTORY_BACKFILL_PLAN.md](LENDING_HISTORY_BACKFILL_PLAN.md) (moved here from `lending-sdks` on 2026-08-11). It lands as a `hist/` module beside each fetcher's `index.ts` plus a `history-runner` CLI; output is **NDJSON to object storage**, not committed JSON, and is replayed into `yield-tracer` through an authed ingest route. Start at §0.9 — the A0–A7 action plan. §0.10 lists the five things that will bite.
 
 ## Requirements
 
@@ -50,7 +54,6 @@ These are **[The Graph](https://thegraph.com/docs/en/querying/querying-the-graph
 |----------|---------|
 | `AAVE_V3_SUBGRAPH_API_KEY` | AAVE_V3 |
 | `COMPOUND_V3_SUBGRAPH_API_KEY` | COMPOUND_V3 |
-| `MORPHO_BLUE_SUBGRAPH_API_KEY` | MORPHO_BLUE |
 | `SILO_SUBGRAPH_API_KEY` | SILO |
 | `SPARK_SUBGRAPH_API_KEY` | SPARK |
 | `VENUS_SUBGRAPH_API_KEY` | VENUS |
@@ -63,6 +66,7 @@ These are **[The Graph](https://thegraph.com/docs/en/querying/querying-the-graph
 |--------|--------|
 | **AAVE_V4** | Uses the public Aave v4 GraphQL API; workflows use an empty `.env`. |
 | **EULER** | Uses public Goldsky subgraph URLs; workflows use an empty `.env`. |
+| **MORPHO_BLUE** | Uses Morpho's own API (`blue-api.morpho.org`); workflows use an empty `.env`. The Messari subgraphs it used before are unmaintained — mainnet, Base, OP and Unichain all stopped resolving in Aug 2026. |
 
 ### Placeholder values
 
@@ -70,19 +74,23 @@ If a subgraph env var is set to **`xxx`**, that value is **not** treated as a re
 
 If you select only lenders that are all skipped this way, the process exits with code **1**.
 
+### Partial snapshots
+
+A fetcher reports chains whose data source failed via `failedChains`. Because each run **overwrites** `data/<LENDER>.json`, writing a snapshot that is missing a chain silently deletes every market on it — so the runner **refuses to write** in that case, logs the failed chains and exits with code **1**, leaving the previous file in place. Pass `--allow-partial` to overwrite anyway.
+
 ## GitHub Actions
 
 Workflows live under [`.github/workflows/`](.github/workflows/). Each fetch workflow:
 
 - Runs on **schedule** (below) and **`workflow_dispatch`**
-- Checks out the repo, installs with pnpm, writes `.env` from **repository secrets** (or `touch .env` for AAVE_V4 / EULER)
+- Checks out the repo, installs with pnpm, writes `.env` from **repository secrets** (or `touch .env` for AAVE_V4 / EULER / MORPHO_BLUE)
 - Runs the runner for one lender, then commits `data/<LENDER>.json` if it changed
 
 ### Repository secrets (subgraph lenders)
 
 Configure these in **Settings → Secrets and variables → Actions** (names must match):
 
-`AAVE_V3_SUBGRAPH_API_KEY`, `COMPOUND_V3_SUBGRAPH_API_KEY`, `MORPHO_BLUE_SUBGRAPH_API_KEY`, `SILO_SUBGRAPH_API_KEY`, `SPARK_SUBGRAPH_API_KEY`, `VENUS_SUBGRAPH_API_KEY`, `DFORCE_SUBGRAPH_API_KEY`, `MOONWELL_SUBGRAPH_API_KEY`
+`AAVE_V3_SUBGRAPH_API_KEY`, `COMPOUND_V3_SUBGRAPH_API_KEY`, `SILO_SUBGRAPH_API_KEY`, `SPARK_SUBGRAPH_API_KEY`, `VENUS_SUBGRAPH_API_KEY`, `DFORCE_SUBGRAPH_API_KEY`, `MOONWELL_SUBGRAPH_API_KEY`
 
 ### Scheduled runs (UTC)
 

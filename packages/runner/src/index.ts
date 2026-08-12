@@ -39,7 +39,6 @@ function requireEnv(name: string): string {
 const LENDER_SUBGRAPH_ENV: Partial<Record<LenderKey, string>> = {
   AAVE_V3: "AAVE_V3_SUBGRAPH_API_KEY",
   COMPOUND_V3: "COMPOUND_V3_SUBGRAPH_API_KEY",
-  MORPHO_BLUE: "MORPHO_BLUE_SUBGRAPH_API_KEY",
   SILO: "SILO_SUBGRAPH_API_KEY",
   SPARK: "SPARK_SUBGRAPH_API_KEY",
   VENUS: "VENUS_SUBGRAPH_API_KEY",
@@ -78,6 +77,10 @@ function normalizeLenderKey(value: string): LenderKey {
     );
   }
   return normalized as LenderKey;
+}
+
+function hasFlag(args: string[], flag: string): boolean {
+  return args.includes(flag);
 }
 
 function parseSelectedLenders(args: string[]): Set<LenderKey> | null {
@@ -121,6 +124,10 @@ function normalizeSnapshot(snapshot: OwnershipSnapshot): OwnershipSnapshot {
       {
         ...market,
         owners: sortOwners(market.owners),
+        ...(market.borrowers ? { borrowers: sortOwners(market.borrowers) } : {}),
+        ...(market.collateralOwners
+          ? { collateralOwners: sortOwners(market.collateralOwners) }
+          : {}),
       },
     ]),
   );
@@ -136,7 +143,9 @@ function countOwnerEntries(snapshot: OwnershipSnapshot): number {
 }
 
 async function main() {
-  const selectedLenders = parseSelectedLenders(process.argv.slice(2));
+  const args = process.argv.slice(2);
+  const selectedLenders = parseSelectedLenders(args);
+  const allowPartial = hasFlag(args, "--allow-partial");
   const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../..");
   const dataDir = path.join(repoRoot, "data");
   await mkdir(dataDir, { recursive: true });
@@ -157,11 +166,7 @@ async function main() {
         skipMetadataInit: true,
       }),
     AAVE_V4: () => createAaveV4Fetcher({ skipMetadataInit: true }),
-    MORPHO_BLUE: () =>
-      createMorphoBlueFetcher({
-        subgraphApiKey: requireEnv("MORPHO_BLUE_SUBGRAPH_API_KEY"),
-        skipMetadataInit: true,
-      }),
+    MORPHO_BLUE: () => createMorphoBlueFetcher({ skipMetadataInit: true }),
     EULER: () => createEulerFetcher({ skipMetadataInit: true }),
     SILO: () =>
       createSiloFetcher({
@@ -210,6 +215,17 @@ async function main() {
     try {
       const snap = normalizeSnapshot(await f.fetch());
       const outputPath = path.join(dataDir, `${f.lenderKey}.json`);
+      const failedChains = snap.failedChains ?? [];
+      if (failedChains.length > 0 && !allowPartial) {
+        // Writing here would delete every market on the failed chains from the
+        // committed snapshot — a silent data loss that is hard to notice later.
+        // Keeping the previous file stale is the safer failure mode.
+        console.error(
+          `[${f.lenderKey}] partial snapshot: chain(s) ${failedChains.join(", ")} failed — keeping previous ${outputPath}. Re-run, or pass --allow-partial to overwrite anyway.`,
+        );
+        process.exitCode = 1;
+        continue;
+      }
       await writeFile(outputPath, `${JSON.stringify(snap, null, 2)}\n`, "utf8");
       const elapsedMs = Date.now() - startedAt;
       console.log(

@@ -31,7 +31,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
 
       - name: Create .env
-        run: echo "MORPHO_BLUE_SUBGRAPH_API_KEY=${{ secrets.MORPHO_BLUE_SUBGRAPH_API_KEY }}" > .env
+        run: touch .env
 
       - name: Fetch owners
         run: pnpm --filter @lending-owners/runner run start -- --lender MORPHO_BLUE

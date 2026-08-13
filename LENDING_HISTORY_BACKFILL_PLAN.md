@@ -313,11 +313,167 @@ were excluded as degenerate — see §0.10.5, they are real, not broken.
    `UniqueKey` is the only stable choice. **The ownership fetcher's
    `fetchAllPages` has the same latent bug** — it pages `SupplyAssetsUsd` too.
 
-Still to do, unchanged: A1 (`computeMarketUid` into `data-sdk`), A2/A3 in
-`yield-tracer`, A5 (Euler, Aave V3, Venus, Moonwell), A6 (archival), A7
-(subgraphs). Compound V3 has one unmapped comet on Base
+Compound V3 has one unmapped comet on Base
 (`0x2c776041ccfe903071af44aa147368a9c8eea518`) whose rows are dropped until the
 registry picks it up.
+
+### 0.12 A2 + A3 — the ingest half, built and tested
+
+In `../yield-tracer/app`:
+
+```
+migrations/0107_market_index_snapshots.sql   new table + `source` on lending_snapshots
+migrations/meta/_journal.json                journaled (see the warning below)
+src/db/schema/index.ts                       marketIndexSnapshots + source column
+src/integst/lendingHistory/index.ts          the ingest logic
+src/routes/ingest/lendingHistory.ts          POST /ingest/lending-history (authed)
+src/routes/lendingHistory.ts                 GET  /lending/history  — the read side
+scripts/ingest-history.ts                    NDJSON replay, direct-DB or over HTTP
+test/ingest-lending-history.test.ts          9 unit tests, no container needed
+```
+
+**`0106_earn_unified.sql` is not in `meta/_journal.json`, so it has never run.**
+Drizzle's migrator reads the journal and ignores un-listed files. Unrelated to
+this work, but it means the earn-unified table and view do not exist on any
+database that was migrated by the app. Worth checking prod.
+
+#### The local test, reproducible
+
+A throwaway Postgres on port **55432** so the compose stack — which mounts real
+local data — is never touched:
+
+```bash
+docker run -d --name yt_hist_test -e POSTGRES_USER=postgres \
+  -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=appdb -p 55432:5432 postgres:16-alpine
+export DATABASE_URL=postgres://postgres:postgres@localhost:55432/appdb
+
+cd ../yield-tracer/app
+npx tsx -e 'import{drizzle}from"drizzle-orm/node-postgres";import{migrate}from"drizzle-orm/node-postgres/migrator";import pg from"pg";const p=new pg.Pool({connectionString:process.env.DATABASE_URL});await migrate(drizzle(p),{migrationsFolder:"./migrations"});await p.end()'
+
+# markets rows must exist first — both tables have an FK (§0.10.1)
+npx tsx scripts/ingest-history.ts --dir ../../lending-owners/data/history/MORPHO_BLUE
+```
+
+The container is currently **stopped, not removed** — `docker start yt_hist_test`
+brings it back with the test data intact.
+
+#### What the run proved
+
+All 105 migrations applied clean, then a real replay of the Morpho Ethereum
+NDJSON (30 days, 3,370 uids — 80 % seeded into `markets`, 20 % deliberately not):
+
+```
+done in 7.0s — spot=81802 index=32303 unknownMarkets=20582 invalid=0 filesFailed=0
+```
+
+- **The FK path behaves.** 20,582 rows for unseeded markets were dropped,
+  counted and sampled in the response instead of aborting the batch — which is
+  what would happen on a real backfill containing delisted or untracked markets.
+- **Idempotent end to end.** Two full replays leave `lending_snapshots` at
+  81,802 rows, not 163,604.
+- **Provenance works.** `SELECT source, count(*)` → `morpho-api 81802`,
+  `compound-api 12`; live-cron rows would be untouched and distinguishable.
+- **Auth and validation.** No token → 401, malformed body → 400, and the same
+  script replays over HTTP through the authed route.
+- **The product, end to end.** `GET /lending/history` on a real Morpho USDC
+  market, straight out of the database:
+
+  ```
+  realizedApy  5.6320 %      (from supplyAssets/supplyShares, exact)
+  quotedApy    5.7133 %      (daily-compounded deposit_rate)
+  gapPp       -0.0813 pp
+  ```
+
+  Independently close to the −0.0764 pp measured on Aave V3 USDC in §0.6 — two
+  different protocols, two different sources, the same direction and magnitude.
+  The 30-decimal share price survives as a string the whole way.
+
+`npx vitest run` — 9 new tests pass. The suite has 7 pre-existing failures in
+`test/pairs.test.ts` (error-message drift, unrelated), and `src/routes/earn.ts`
+has one pre-existing typecheck error.
+
+Still to do: **A1** (`computeMarketUid` into `data-sdk`) — now the last thing
+between this and trusting these uids in prod; **§6's partitioning decision**,
+which 0107 does not make: `market_index_snapshots` is a plain table, and the
+plan's own advice is to decide partitioning before the bulk load, not after;
+**A5** (Euler, Aave V3, Venus, Moonwell), **A6** (archival), **A7** (subgraphs).
+
+### 0.13 Backdated depth per lender — probed 2026-08-12
+
+Reframing: the cron secures history **forward** from today, so what matters for
+the remaining families is **how far back a one-time run reaches**, not cadence.
+That inverts part of the earlier ranking — a 30-day rolling window is now worth
+almost nothing as a backfill (its content is already captured), while a source
+with two years of depth is worth a single run and never touching again.
+
+#### Newly found, all free and keyless
+
+| Family     | Mkts | Source                                                      | Backdated depth                                          | Index?                                                                 |
+| ---------- | ---: | ----------------------------------------------------------- | -------------------------------------------------------- | ---------------------------------------------------------------------- |
+| **Silo**   |  570 | `api-v3.silo.finance` GraphQL `marketTimeseriess`           | **daily to 2025-05-09 (~460 d)** ✔ measured               | ✅ **both** — `collateralAssetsSupply`/`collateralSharesSupply` + `debtIndex` |
+| **Fluid**  |  512 | `api.fluid.instadapp.io` `…/apr-history` (4 route families) | **hourly, ~31-day rolling** ✔ measured (741 pts)          | ❌ — but **every point carries `blocknumber`**                          |
+| **Aave V4**|   82 | `api.v4.aave.com` `supplyApyHistory` / `assetSupplyHistory`  | exists, keyed by `ReserveId`, mirrors V3 — window unmeasured | ❌                                                                    |
+
+**Silo is the find of this round**: 570 markets, ~15 months of daily history,
+and it publishes shares *and* a debt index — the only source besides Morpho that
+delivers both halves. It also carries `totalBadDebtAssets`, which is exactly
+what explains a negative realized return. Note its API serves 550 markets across
+chains 1/42161/43114/50/1776/56/5000 — **Sonic is absent**, so the Sonic Silos
+fall to archival. Fluid's window is too short to be a backfill, but the block
+numbers make its archival index reads pinned single calls rather than searches.
+
+#### DefiLlama is the deepest backdated source for the Compound-fork tail
+
+For a one-time backdated fill this reverses §3a's conclusion in one specific
+way: llama holds **years** where first-party APIs hold months. Measured on the
+largest pool per family:
+
+```
+COMPOUND_V2  1,644 d (2022-02)    VENUS      1,499 d (2022-07)
+BENQI        1,464 d (2022-08)    TECTONIC   1,462 d (2022-08)
+COMPOUND_V3  1,403 d (2022-10)    KINZA        895 d (2024-03)
+AAVE_V3        851 d (2024-04)    MORPHO_BLUE  698 d (2024-09)
+FLUID          584 d (2024-12)    MOONWELL     489 d (2025-04)
+LISTA_DAO      450 d (2025-05)    LLAMALEND    337 d (2025-09)
+```
+
+Everything else about §3a still holds — 26.7 % coverage, no borrow-side history
+without Pro, and no non-heuristic join for Morpho/Euler. Use it **only** for the
+head of the Compound-fork families, where the identity is unambiguous
+(chain + protocol + one underlying) and the depth is otherwise unreachable.
+
+**One correction to §3a:** `pricePerShare` is no longer null on every lending
+pool. Measured non-null and moving: Fraxlend 71/71, Gearbox 106/293, Resupply
+95/342 (Dolomite's 106/346 are a flat `1`, i.e. useless). But every one of those
+series **begins ~2026-04-29** — llama started populating the field recently, so
+it is a forward asset, not backdated depth. It does not change the verdict.
+
+#### Still no public history API
+
+**Gearbox (305)**, **Lista/Moolah (480)**, **Teller (554)**, **Term Finance
+(203)**, **TermMax (190)**, **Morpho Midnight (54)** — probed, nothing found.
+Lista is a Morpho Blue fork but is not on `blue-api`; Teller/Term/TermMax are
+fixed-term and have no utilization curve to serve in the first place. These are
+archival-only, and for the fixed-term three the spot series is not even
+meaningful.
+
+#### One-time backfill, ranked by markets × depth
+
+| Order | Run                              |  Mkts | Depth        | Gets the index? |
+| ----- | -------------------------------- | ----: | ------------ | --------------- |
+| 1     | Morpho (built)                   | 6,910 | to creation  | ✅ exact        |
+| 2     | **Silo** ← best new              |   570 | ~460 d       | ✅ both sides   |
+| 3     | Euler                            | 2,485 | to 2026-04-23 | ❌ → archival   |
+| 4     | Aave V3                          |   307 | 365 d        | ❌ → archival   |
+| 5     | Venus                            |   111 | 365 d        | ❌, has block № |
+| 6     | Moonwell                         |    47 | ~356 d       | ❌              |
+| 7     | Fluid                            |   512 | 31 d hourly  | ❌, has block № |
+| 8     | llama, Compound forks only       |  ~600 | 2–4 y        | ❌              |
+| 9     | Aave V4                          |    82 | unmeasured   | ❌              |
+
+Compound V3 and LlamaLend are deliberately absent: their windows are already
+captured and the cron holds them from here. Nothing above needs re-running once
+done — which is the point.
 
 ---
 

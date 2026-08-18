@@ -1,6 +1,6 @@
 {
   "lenderKey": "DFORCE",
-  "fetchedAt": "2026-08-17T03:52:00.877Z",
+  "fetchedAt": "2026-08-18T03:46:26.017Z",
   "markets": {
     "DFORCE:1:0x0000000000000000000000000000000000000000": {
       "marketUid": "DFORCE:1:0x0000000000000000000000000000000000000000",
@@ -530,7 +530,7 @@
       "lenderKey": "DFORCE",
       "chainId": "42161",
       "underlying": "0xaf88d065e77c8cc2239327c5edb3a432268e5831",
-      "totalSupply": 28644.172785,
+      "totalSupply": 28947.926054,
       "owners": {
         "0x6c413690c19cfc80c3db3211c80993bf642c6456": 9007.30653,
         "0x4f27eb908eaadfea04f6b66847faabaeb45ecb15": 5475.43595,
@@ -539,7 +539,8 @@
         "0x7cc702cde94c5dc33ca8a9d4b78826a2fc962700": 2383.803394,
         "0x81b33deaaa62098e4dd767308c0edb8aaa2b1661": 716.595815,
         "0x8af13ea336cd66c56ad3fb15eb37f30231b5460b": 572.009006,
-        "0xcb6586874cc04b01cc4fdb777de502cea7b3d6c1": 439.431958
+        "0xcb6586874cc04b01cc4fdb777de502cea7b3d6c1": 439.431958,
+        "0x5e2ca63f101723864c10794e040b45b14587e3b2": 403.619648
       }
     },
     "DFORCE:42161:0xbc404429558292ee2d769e57d57d6e74bbd2792d": {
@@ -910,26 +911,26 @@
   },
   "chainFreshness": {
     "1": {
-      "subgraphBlock": 25772228,
-      "rpcBlock": 25772228,
-      "blocksBehind": 0,
+      "subgraphBlock": 25779377,
+      "rpcBlock": 25779378,
+      "blocksBehind": 1,
       "minutesBehind": 0
     },
     "10": {
-      "subgraphBlock": 155669972,
-      "rpcBlock": 155669974,
-      "blocksBehind": 2,
+      "subgraphBlock": 155713005,
+      "rpcBlock": 155713006,
+      "blocksBehind": 1,
       "minutesBehind": 0
     },
     "56": {
-      "subgraphBlock": 116395543,
-      "rpcBlock": 116395544,
+      "subgraphBlock": 116586740,
+      "rpcBlock": 116586741,
       "blocksBehind": 1,
       "minutesBehind": 0
     },
     "42161": {
-      "subgraphBlock": 495358815,
-      "rpcBlock": 495358815,
+      "subgraphBlock": 495701059,
+      "rpcBlock": 495701058,
       "blocksBehind": 0,
       "minutesBehind": 0
     }

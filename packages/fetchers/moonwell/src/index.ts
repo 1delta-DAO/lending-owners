@@ -239,3 +239,4 @@ export function createMoonwellFetcher(config: MoonwellConfig): OwnershipFetcher 
     },
   };
 }
+export * from "./hist/index.js";

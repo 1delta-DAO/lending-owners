@@ -3,13 +3,37 @@
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": "src",
-    "types": ["node"]
+    "types": [
+      "node"
+    ]
   },
-  "include": ["src"],
+  "include": [
+    "src"
+  ],
   "references": [
-    { "path": "../core" },
-    { "path": "../fetchers/compound-v3" },
-    { "path": "../fetchers/llamalend" },
-    { "path": "../fetchers/morpho-blue" }
+    {
+      "path": "../core"
+    },
+    {
+      "path": "../fetchers/aave-v3"
+    },
+    {
+      "path": "../fetchers/compound-v3"
+    },
+    {
+      "path": "../fetchers/euler"
+    },
+    {
+      "path": "../fetchers/llamalend"
+    },
+    {
+      "path": "../fetchers/moonwell"
+    },
+    {
+      "path": "../fetchers/morpho-blue"
+    },
+    {
+      "path": "../fetchers/venus"
+    }
   ]
 }

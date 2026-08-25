@@ -161,15 +161,27 @@ importers:
       '@lending-owners/core':
         specifier: workspace:*
         version: link:../core
+      '@lending-owners/fetcher-aave-v3':
+        specifier: workspace:*
+        version: link:../fetchers/aave-v3
       '@lending-owners/fetcher-compound-v3':
         specifier: workspace:*
         version: link:../fetchers/compound-v3
+      '@lending-owners/fetcher-euler':
+        specifier: workspace:*
+        version: link:../fetchers/euler
       '@lending-owners/fetcher-llamalend':
         specifier: workspace:*
         version: link:../fetchers/llamalend
+      '@lending-owners/fetcher-moonwell':
+        specifier: workspace:*
+        version: link:../fetchers/moonwell
       '@lending-owners/fetcher-morpho-blue':
         specifier: workspace:*
         version: link:../fetchers/morpho-blue
+      '@lending-owners/fetcher-venus':
+        specifier: workspace:*
+        version: link:../fetchers/venus
 
   packages/runner:
     dependencies:

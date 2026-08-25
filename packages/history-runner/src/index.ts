@@ -6,10 +6,16 @@ import {
   bucketStart,
 } from "@lending-owners/core";
 import { NdjsonSink } from "./ndjson.js";
+import { loadAaveV3Reserves } from "./reserves.js";
+import { type MarketRegistry, loadMarketRegistry } from "./registry.js";
 import { fetchLenderMetaFromDirAndInitialize } from "@1delta/initializer-sdk";
+import { createAaveV3HistoryFetcher } from "@lending-owners/fetcher-aave-v3";
 import { createCompoundV3HistoryFetcher } from "@lending-owners/fetcher-compound-v3";
+import { createEulerHistoryFetcher } from "@lending-owners/fetcher-euler";
 import { createLlamaLendHistoryFetcher } from "@lending-owners/fetcher-llamalend";
+import { createMoonwellHistoryFetcher } from "@lending-owners/fetcher-moonwell";
 import { createMorphoBlueHistoryFetcher } from "@lending-owners/fetcher-morpho-blue";
+import { createVenusHistoryFetcher } from "@lending-owners/fetcher-venus";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -29,11 +35,19 @@ import { fileURLToPath } from "node:url";
 
 type FetcherFactory = () => HistoryFetcher;
 
+/** Loaded once per process and shared by every fetcher — it is a 25 MB
+ *  document, and each fetcher needs the same index. */
+let registry: MarketRegistry | undefined;
+
 /** Registry. Add a lender here once its `hist/` module exists. */
 const FETCHERS: Record<string, FetcherFactory> = {
+  AAVE_V3: () => createAaveV3HistoryFetcher({ reserves: loadAaveV3Reserves() }),
   COMPOUND_V3: () => createCompoundV3HistoryFetcher({ skipMetadataInit: true }),
+  EULER: () => createEulerHistoryFetcher(),
   LLAMALEND: () => createLlamaLendHistoryFetcher(),
+  MOONWELL: () => createMoonwellHistoryFetcher(),
   MORPHO_BLUE: () => createMorphoBlueHistoryFetcher(),
+  VENUS: () => createVenusHistoryFetcher(),
 };
 
 /**
@@ -201,6 +215,7 @@ async function runLender(key: string, args: Args): Promise<void> {
     to: args.to,
     resolution: args.resolution,
     chainIds: args.chainIds,
+    resolveUid: registry?.resolve,
     onProgress: (done, total, label) => {
       const now = Date.now();
       if (now - lastLog < 5000 && done !== total) return;
@@ -256,6 +271,12 @@ async function main(): Promise<void> {
   // is required on top of `compoundV3Pools` — the pools registry maps comet
   // addresses but not their base assets, and without the base asset there is no
   // uid to key a Compound row by.
+  // One shared market registry. Fetchers hand over a protocol-native address
+  // and get back the uid our book already uses, so rows join `markets` by
+  // construction instead of by re-deriving `computeMarketUid` per family.
+  registry = await loadMarketRegistry();
+  console.log(`[registry] ${registry.size} market uids loaded`);
+
   await fetchLenderMetaFromDirAndInitialize({
     compoundV3Pools: true,
     compoundV3BaseData: true,

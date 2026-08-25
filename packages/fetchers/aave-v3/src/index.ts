@@ -289,3 +289,4 @@ export function createAaveV3Fetcher(config: AaveV3Config): OwnershipFetcher {
     },
   };
 }
+export * from "./hist/index.js";

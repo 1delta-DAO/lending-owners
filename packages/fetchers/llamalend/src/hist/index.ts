@@ -57,6 +57,8 @@ interface CurveSnapshot {
   total_assets: number;
   total_debt_usd: number;
   total_assets_usd: number;
+  collateral_balance: number;
+  collateral_balance_usd: number;
   n_loans: number;
 }
 
@@ -185,9 +187,12 @@ export function createLlamaLendHistoryFetcher(
               utilization: s.total_assets > 0 ? s.total_debt / s.total_assets : 0,
             };
 
-            // Collateral side exists in our book as its own market_uid with no
-            // rates (see `/meta/lending/complete`). Emitting it keeps the two
-            // sides in step rather than leaving half the uids without history.
+            // Collateral side exists in our book as its own market_uid, with no
+            // rates (see `/meta/lending/complete`) but with a real balance.
+            // Carrying `collateral_balance` matters: a row with only a key and
+            // a timestamp has no spot data, so the ingest side drops it and the
+            // uid ends up with no history at all. Since this source decays,
+            // that would be lost daily rather than merely delayed.
             if (collateral && collateral !== borrowed) {
               yield {
                 marketUid: makeMarketUid(lenderKey, chainId, collateral),
@@ -196,6 +201,8 @@ export function createLlamaLendHistoryFetcher(
                 dataTs,
                 observedTs,
                 source: "curve-api",
+                totalDeposits: s.collateral_balance,
+                totalDepositsUsd: s.collateral_balance_usd,
               };
             }
           }

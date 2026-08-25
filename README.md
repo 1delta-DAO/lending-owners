@@ -23,6 +23,18 @@ Flags: `--lender KEY[,KEY]` / `--decaying` / `--all`, `--from ISO` or `--days N`
 
 Runs are **idempotent** — re-running writes nothing and reports every point as a duplicate, which is what makes the daily job safe to retry. Output lands in `data/history/<LENDER>/<chainId>/<yyyy-mm>.ndjson`; note that [`data/history/.gitignore`](data/history/.gitignore) commits only the two rolling-window sources, because 30 days of Morpho on one chain is already 50 MB.
 
+### Converting to SQL
+
+For an operator who would rather run `psql` than a Node script:
+
+```bash
+pnpm export:history-sql --dir data/history --out data/history-sql
+# then, from yield-tracer/app:
+./scripts/apply-history-sql.sh ../../lending-owners/data/history-sql
+```
+
+Each generated file is one transaction that stages into a `TEMP` table, joins `markets` (so rows for markets the live cron never saw are **skipped, not fatal** — both target tables have an FK), de-duplicates on `(market_uid, data_ts)`, then upserts with `COALESCE`. Safe to run against production and safe to run twice; the skip count is echoed before `COMMIT`.
+
 Rates in the output are **percent** (`4.90` = 4.90 % APY), matching `lending_snapshots`. Sources disagree on this among themselves, so each `hist/` module normalizes on the way out.
 
 Start at plan §0.9 for the A0–A7 plan, §0.10 for the things that will bite, and §0.11 for what is already built and what the first runs measured.

@@ -475,6 +475,76 @@ Compound V3 and LlamaLend are deliberately absent: their windows are already
 captured and the cron holds them from here. Nothing above needs re-running once
 done — which is the point.
 
+### 0.14 Inventory and the SQL path — 2026-08-25
+
+#### What we hold today
+
+The daily job has run every morning since 2026-08-13 (`03:5x` UTC, unbroken
+through today). Committed on `main`:
+
+| Family          |   Rows | Uids | Chains | Distinct days | Window                  |
+| --------------- | -----: | ---: | -----: | ------------: | ----------------------- |
+| **COMPOUND_V3** |  1,161 |   27 |     10 |        **43** | 2026-07-14 → 2026-08-25 |
+| **LLAMALEND**   | 21,510 |  198 |      5 |       **113** | 2026-05-05 → 2026-08-25 |
+
+**The ratchet has already outgrown both sources.** Compound's API serves a
+30-day window and we hold 43 days; Curve's serves 100 snapshots and we hold 113.
+Thirteen days of each now exist **only in this repo** — the first data in the
+project that could not be re-fetched from anywhere.
+
+Not committed, by design: a 102,508-row / 3,370-uid Morpho sample (Ethereum,
+30 days) used to test the ingest path. Morpho is a one-time backfill to object
+storage, not a git-committed ratchet (§0.8).
+
+#### SQL export — for operators who would rather run psql
+
+```bash
+# lending-owners: NDJSON → self-contained .sql
+pnpm export:history-sql --dir data/history --out data/history-sql
+
+# yield-tracer: apply them in order, stop on first real error
+./scripts/apply-history-sql.sh ../../lending-owners/data/history-sql
+```
+
+Each file is one transaction that is safe against production and safe to run
+twice. Three things do that, none of them free:
+
+1. **Stage, then join.** Rows land in a `TEMP` table and insert
+   `JOIN markets USING (market_uid)`. Both targets carry an FK, so a direct
+   INSERT of a backfill — which legitimately contains markets the live cron
+   never saw — aborts the whole transaction on the first orphan. The join makes
+   it a skip, and the script `\echo`s the count before COMMIT.
+2. **De-duplicate first.** `ON CONFLICT DO UPDATE` twice for one key in one
+   statement raises "cannot affect row a second time", so `DISTINCT ON
+   (market_uid, data_ts)` collapses to the last row per key.
+3. **COALESCE on conflict**, so a rates-only source cannot blank totals a
+   richer source already wrote for that bucket.
+
+Verified against a real database: 40 generated files applied cleanly, reported
+their skips, and a second full apply left the row count **identical**.
+
+#### A gap the SQL test exposed
+
+LlamaLend's collateral-side rows were being emitted as **key and timestamp
+only** — no data at all. Such a row has no spot fields, so ingest correctly
+drops it, and those uids ended up with no history whatsoever. Curve's snapshot
+payload carries `collateral_balance` / `collateral_balance_usd` the whole time;
+the fetcher simply was not reading them. Fixed and verified — 312/312 collateral
+rows now carry a balance, and both sides now land in `lending_snapshots`.
+
+**This does not repair what is already committed.** The NDJSON sink de-duplicates
+on `(market_uid, data_ts)`, so a re-run skips those rows rather than enriching
+them. The ~10,000 collateral rows already on disk stay empty unless the
+LlamaLend shards are regenerated:
+
+```bash
+rm -rf data/history/LLAMALEND && pnpm fetch:history -- --lender LLAMALEND --days 100
+```
+
+That recovers balances for the 100 days the API still serves, and costs the ~13
+days older than the window — which hold no collateral balance anyway, so nothing
+of value is lost. Worth doing before that window rolls further.
+
 ---
 
 ## 1. The problem, stated precisely

@@ -46,6 +46,22 @@ const COLUMNS = [
   "index_kind",
 ] as const;
 
+/**
+ * Ceilings mirroring `numeric(p,s)` on the target columns. Applied in the
+ * INSERT rather than at COPY time: the staging table uses unconstrained
+ * `numeric`, so the value lands, and `NULLIF`-style guards then drop only what
+ * the real column cannot hold. Without this a single dust market quoting 1.4e11
+ * % APY raises `numeric field overflow` and rolls back the whole file.
+ */
+const RATE_MAX = "1e10";
+const AMOUNT_MAX = "1e22";
+const USD_MAX = "1e30";
+
+/** `NULL` when the magnitude cannot be represented — never clamped, because a
+ *  clamped 9999999999.99 reads as a real measurement. */
+const capped = (col: string, max: string): string =>
+  `CASE WHEN abs(s.${col}) >= ${max} THEN NULL ELSE s.${col} END`;
+
 const STAGE_DDL = `CREATE TEMP TABLE _hist_stage (
   market_uid           text,
   data_ts              timestamptz,
@@ -104,8 +120,13 @@ const SPOT_INSERT = `INSERT INTO lending_snapshots (
     utilization, source
 )
 SELECT DISTINCT ON (s.market_uid, s.data_ts)
-       s.market_uid, s.data_ts, s.deposit_rate, s.variable_borrow_rate,
-       s.total_deposits, s.total_debt, s.total_deposits_usd, s.total_debt_usd,
+       s.market_uid, s.data_ts,
+       ${capped("deposit_rate", RATE_MAX)},
+       ${capped("variable_borrow_rate", RATE_MAX)},
+       ${capped("total_deposits", AMOUNT_MAX)},
+       ${capped("total_debt", AMOUNT_MAX)},
+       ${capped("total_deposits_usd", USD_MAX)},
+       ${capped("total_debt_usd", USD_MAX)},
        s.utilization, s.source
   FROM _hist_stage s
   JOIN markets m ON m.market_uid = s.market_uid

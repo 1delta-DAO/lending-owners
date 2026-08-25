@@ -144,6 +144,12 @@ importers:
         specifier: workspace:*
         version: link:../../core
 
+  packages/fetchers/vaults:
+    dependencies:
+      '@lending-owners/core':
+        specifier: workspace:*
+        version: link:../../core
+
   packages/fetchers/venus:
     dependencies:
       '@1delta/chain-registry':
@@ -179,6 +185,9 @@ importers:
       '@lending-owners/fetcher-morpho-blue':
         specifier: workspace:*
         version: link:../fetchers/morpho-blue
+      '@lending-owners/fetcher-vaults':
+        specifier: workspace:*
+        version: link:../fetchers/vaults
       '@lending-owners/fetcher-venus':
         specifier: workspace:*
         version: link:../fetchers/venus

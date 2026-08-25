@@ -18,7 +18,8 @@
     "fetch:moonwell": "pnpm --filter @lending-owners/runner run start -- --lender MOONWELL",
     "fetch:history": "pnpm --filter @lending-owners/history-runner run start --",
     "capture:daily": "pnpm --filter @lending-owners/history-runner run start -- --decaying --days 35",
-    "export:history-sql": "pnpm --filter @lending-owners/history-runner run export:sql --"
+    "export:history-sql": "pnpm --filter @lending-owners/history-runner run export:sql --",
+    "validate:history": "pnpm --filter @lending-owners/history-runner run validate --"
   },
   "devDependencies": {
     "@types/node": "^25.6.0",

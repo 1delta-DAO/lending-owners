@@ -109,9 +109,14 @@ export function createMoonwellHistoryFetcher(
             dataTs: bucketStart(tsMs, ctx.resolution).toISOString(),
             observedTs: new Date(tsMs).toISOString(),
             source: "moonwell-ponder",
-            // Ponder stores these as fractions (0.049 = 4.9 %).
-            depositRate: Number(s.baseSupplyApy) * 100,
-            variableBorrowRate: Number(s.baseBorrowApy) * 100,
+            // Ponder already stores PERCENT, not fractions — verified against
+            // live Base markets (`baseSupplyApy: 3.955` / `baseBorrowApy:
+            // 5.217` is a 3.96 %/5.22 % market, not 396 %/522 %). Scaling these
+            // by 100 is the exact silent error the HistoryPoint contract warns
+            // about, and it survives review easily because the numbers still
+            // look like plausible rates.
+            depositRate: Number(s.baseSupplyApy),
+            variableBorrowRate: Number(s.baseBorrowApy),
             totalDepositsUsd: Number.isFinite(supplyUsd) ? supplyUsd : undefined,
             totalDebtUsd: Number.isFinite(borrowUsd) ? borrowUsd : undefined,
             utilization: supplyUsd > 0 ? borrowUsd / supplyUsd : undefined,

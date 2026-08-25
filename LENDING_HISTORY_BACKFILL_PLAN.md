@@ -523,6 +523,74 @@ twice. Three things do that, none of them free:
 Verified against a real database: 40 generated files applied cleanly, reported
 their skips, and a second full apply left the row count **identical**.
 
+### 0.15 Format back-check and ingest verification — 2026-08-25
+
+Seven families fetched (193k rows), then validated against the columns they are
+destined for and replayed into a **fresh database seeded with all 16,662 real
+market uids** from the live book — so the join rates below are the real ones,
+not an artefact of a thin fixture.
+
+#### Tables and lookups: verified
+
+`0107` applies cleanly on top of all 105 prior migrations;
+`market_index_snapshots` exists with its FK, PK and both indexes, and
+`lending_snapshots.source` defaults to `'live-cron'`.
+
+| Source            |    Rows |  Uids | Unknown | Window                  |
+| ----------------- | ------: | ----: | ------: | ----------------------- |
+| `morpho-api`      |  63,511 | 2,071 |  38,997 | 2026-07-13 -> 2026-08-12 |
+| `euler-api`       |  35,773 |   329 |       0 | 2026-04-23 -> 2026-08-25 |
+| `moonwell-ponder` |  16,051 |    47 |       0 | 2025-08-25 -> 2026-08-25 |
+| `venus-api`       |   9,940 |    28 |       0 | 2025-08-25 -> 2026-08-25 |
+| `aave-api`        |   8,432 |    26 |       0 | 2025-08-26 -> 2026-08-25 |
+| `curve-api`       |   8,144 |    88 |  11,000 | 2026-05-18 -> 2026-08-25 |
+| `compound-api`    |   1,075 |    25 |      86 | 2026-07-14 -> 2026-08-25 |
+
+Plus **28,608 accumulator rows across 935 markets**, all `assets_per_share`.
+A second full replay left both tables identical (142,926 / 28,608).
+
+**The uid registry works.** Every family resolved through it -- Euler, Moonwell,
+Venus, Aave -- landed with **zero** unknown markets. The three with unknowns are
+the ones still deriving uids locally, and in all three cases the dropped rows
+are **over-collection, not drift**: of 678 Morpho market ids we hold but the
+book does not, **zero** appear in the book under any other uid. We are correct
+for every market the book tracks, and additionally collect markets it does not.
+
+Read path, end to end on a real Morpho market:
+
+```
+realizedApy  0.0268 %   quotedApy  0.0275 %   gapPp  -0.0006 pp
+supplyIndex  0.000001001317517126253529660348   (30 dp intact through SQL and JSON)
+```
+
+#### Three format defects the back-check caught
+
+1. **Moonwell rates were 100x too high -- my error.** Ponder returns
+   **percent already** (`baseSupplyApy: 3.955` is a 3.96 % market), and I scaled
+   by 100. Precisely the failure the contract warns about, and invisible in
+   review because the numbers still look like rates. Fixed; the family's median
+   deposit rate moved from 28.6 to **0.286**.
+2. **10 Moonwell rows overflow `numeric(18,8)`.** Real markets quoting 1.4e11 %
+   borrow APY. Postgres does **not** clamp -- it raises `numeric field overflow`
+   and aborts the whole multi-row INSERT, so one dust market would have taken
+   down a batch of thousands. Both ingest paths now null the unrepresentable
+   field, count it (`outOfRange`), and keep the rest of the row. Nulled rather
+   than clamped: a clamped `9999999999.99` reads as a real measurement.
+3. **72 % of Euler rows were nearly empty.** Escrow / collateral-only vaults
+   report `supplyApy: null`, so those rows carried only `utilization: 0`. The
+   raw `totalAssets`/`totalBorrows` were in the response all along; mapped them
+   through the vault's `decimals`. Rows with totals went from 29 % to **100 %**.
+
+#### `pnpm validate:history`
+
+The back-check is now a command, not a one-off, because this class of defect
+recurs with every new source. It checks magnitudes against each column's real
+`numeric(p,s)` ceiling, flags a median deposit rate outside [0.05, 200] as a
+likely percent/fraction mix-up, and rejects index values that are not decimal
+strings. It exits non-zero, so it can gate a run.
+
+---
+
 #### A gap the SQL test exposed
 
 LlamaLend's collateral-side rows were being emitted as **key and timestamp

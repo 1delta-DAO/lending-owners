@@ -8,10 +8,25 @@ The repo is a **pnpm workspace**: shared types live in `@lending-owners/core`, p
 
 Ownership is the repo's first axis. The second — **historical rates, totals and share-price/index series** — is documented in [LENDING_HISTORY_BACKFILL_PLAN.md](LENDING_HISTORY_BACKFILL_PLAN.md). It lives as a `hist/` module beside each fetcher's `index.ts` plus the `@lending-owners/history-runner` CLI. Output is **NDJSON**, one line per `(market_uid, data_ts)`, replayed into `yield-tracer` through an authed ingest route — this side never writes to Postgres.
 
+**Vault providers** (the earn surface — MetaMorpho, Pendle PTs, Fluid, Yearn,
+Lagoon, Upshift, Silo managed vaults, GMX GM/GLV, Hyperliquid vaults, Yield
+Basis, Cap, Hyperbeat, Gearbox pools) live in one shared package,
+[`@lending-owners/fetcher-vaults`](packages/fetchers/vaults/), registered as
+`VAULT_<PROVIDER>` runner keys. Their uids (`VAULT_MORPHO:1:0x…`) deliberately
+do NOT join the lending `markets` table — the SQL export skips them until a
+vault ingest exists. The curl-verified source matrix (endpoints, retention,
+units, traps) is margin-fetcher's `src/vaults/HISTORY_APIS.md`; every module
+cites its row.
+
 ```bash
-# the daily ratchet: the two sources whose windows roll (Compound V3 = 30 days,
-# LlamaLend = 100 snapshots). Uncaptured days are gone for good.
+# the daily ratchet: the sources whose windows roll (Compound V3 = 30 days,
+# LlamaLend = 100 snapshots, Cap = 1 year, Gearbox = 1 year). Uncaptured
+# days are gone for good.
 pnpm capture:daily
+
+# vault-provider examples
+pnpm fetch:history -- --lender VAULT_MORPHO --days 730 --chain 1
+pnpm fetch:history -- --lender VAULT_PENDLE --days 3650   # full life, one call/market
 
 # backfill one lender
 pnpm fetch:history -- --lender MORPHO_BLUE --days 730

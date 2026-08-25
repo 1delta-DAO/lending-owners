@@ -26,17 +26,19 @@ interface EulerVault {
   address: string;
   symbol?: string;
   createdAt?: string;
+  /** Needed to turn the raw bigint totals into human units. */
+  decimals?: number;
 }
 
 interface TotalsPoint {
-  totalAssets: string;
-  totalBorrows: string;
+  totalAssets?: string;
+  totalBorrows?: string;
   utilization: number;
-  supplyApy: number;
-  borrowApy: number;
+  supplyApy: number | null;
+  borrowApy: number | null;
   timestamp: string;
-  totalAssetsUsd?: number;
-  totalBorrowsUsd?: number;
+  totalAssetsUsd?: number | null;
+  totalBorrowsUsd?: number | null;
 }
 
 export interface EulerHistoryConfig {
@@ -129,6 +131,17 @@ export function createEulerHistoryFetcher(config: EulerHistoryConfig = {}): Hist
             continue;
           }
           const lenderKey = marketUid.slice(0, marketUid.indexOf(":"));
+          // Escrow / collateral-only vaults report `supplyApy: null` with zero
+          // borrows — they genuinely have no interest rate. Without mapping the
+          // raw totals those rows would carry nothing but `utilization: 0`,
+          // which is 72 % of Euler vaults reduced to an empty key.
+          const decimals = vault.decimals ?? 18;
+          const toHuman = (raw: string | undefined): number | undefined => {
+            if (raw == null) return undefined;
+            const n = Number(raw);
+            return Number.isFinite(n) ? n / 10 ** decimals : undefined;
+          };
+
           for (const p of points) {
             const tsMs = Date.parse(p.timestamp);
             if (!Number.isFinite(tsMs)) continue;
@@ -140,10 +153,12 @@ export function createEulerHistoryFetcher(config: EulerHistoryConfig = {}): Hist
               observedTs: new Date(tsMs).toISOString(),
               source: "euler-api",
               // Euler already reports percent (8.18 = 8.18 %).
-              depositRate: p.supplyApy,
-              variableBorrowRate: p.borrowApy,
-              totalDepositsUsd: p.totalAssetsUsd,
-              totalDebtUsd: p.totalBorrowsUsd,
+              depositRate: p.supplyApy ?? undefined,
+              variableBorrowRate: p.borrowApy ?? undefined,
+              totalDeposits: toHuman(p.totalAssets),
+              totalDebt: toHuman(p.totalBorrows),
+              totalDepositsUsd: p.totalAssetsUsd ?? undefined,
+              totalDebtUsd: p.totalBorrowsUsd ?? undefined,
               utilization: p.utilization,
             };
           }

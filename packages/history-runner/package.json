@@ -7,7 +7,8 @@
     "start": "tsx --env-file-if-exists=../../.env src/index.ts",
     "build": "tsc -b",
     "typecheck": "tsc --noEmit",
-    "export:sql": "tsx src/sql.ts"
+    "export:sql": "tsx src/sql.ts",
+    "validate": "tsx src/validate.ts"
   },
   "dependencies": {
     "@1delta/initializer-sdk": "^0.0.11",
@@ -18,6 +19,7 @@
     "@lending-owners/fetcher-llamalend": "workspace:*",
     "@lending-owners/fetcher-moonwell": "workspace:*",
     "@lending-owners/fetcher-morpho-blue": "workspace:*",
+    "@lending-owners/fetcher-vaults": "workspace:*",
     "@lending-owners/fetcher-venus": "workspace:*"
   }
 }

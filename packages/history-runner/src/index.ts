@@ -15,6 +15,21 @@ import { createEulerHistoryFetcher } from "@lending-owners/fetcher-euler";
 import { createLlamaLendHistoryFetcher } from "@lending-owners/fetcher-llamalend";
 import { createMoonwellHistoryFetcher } from "@lending-owners/fetcher-moonwell";
 import { createMorphoBlueHistoryFetcher } from "@lending-owners/fetcher-morpho-blue";
+import {
+  createCapVaultHistoryFetcher,
+  createFluidVaultHistoryFetcher,
+  createGearboxVaultHistoryFetcher,
+  createGmxVaultHistoryFetcher,
+  createHyperbeatVaultHistoryFetcher,
+  createHypercoreVaultHistoryFetcher,
+  createLagoonVaultHistoryFetcher,
+  createMorphoVaultHistoryFetcher,
+  createPendleVaultHistoryFetcher,
+  createSiloVaultHistoryFetcher,
+  createUpshiftVaultHistoryFetcher,
+  createYearnVaultHistoryFetcher,
+  createYieldBasisVaultHistoryFetcher,
+} from "@lending-owners/fetcher-vaults";
 import { createVenusHistoryFetcher } from "@lending-owners/fetcher-venus";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -48,6 +63,24 @@ const FETCHERS: Record<string, FetcherFactory> = {
   MOONWELL: () => createMoonwellHistoryFetcher(),
   MORPHO_BLUE: () => createMorphoBlueHistoryFetcher(),
   VENUS: () => createVenusHistoryFetcher(),
+  // Vault providers (the earn surface). Source matrix + traps:
+  // margin-fetcher `src/vaults/HISTORY_APIS.md`. Uids are
+  // `VAULT_<PROVIDER>:<chainId>:<vaultAddress>` and deliberately do NOT join
+  // the lending `markets` table — the SQL export skips them until a vault
+  // ingest exists.
+  VAULT_CAP: () => createCapVaultHistoryFetcher(),
+  VAULT_FLUID: () => createFluidVaultHistoryFetcher(),
+  VAULT_GEARBOX: () => createGearboxVaultHistoryFetcher(),
+  VAULT_GMX: () => createGmxVaultHistoryFetcher(),
+  VAULT_HYPERBEAT: () => createHyperbeatVaultHistoryFetcher(),
+  VAULT_HYPERCORE: () => createHypercoreVaultHistoryFetcher(),
+  VAULT_LAGOON: () => createLagoonVaultHistoryFetcher(),
+  VAULT_MORPHO: () => createMorphoVaultHistoryFetcher(),
+  VAULT_PENDLE: () => createPendleVaultHistoryFetcher(),
+  VAULT_SILO: () => createSiloVaultHistoryFetcher(),
+  VAULT_UPSHIFT: () => createUpshiftVaultHistoryFetcher(),
+  VAULT_YEARN: () => createYearnVaultHistoryFetcher(),
+  VAULT_YIELDBASIS: () => createYieldBasisVaultHistoryFetcher(),
 };
 
 /**
@@ -55,7 +88,7 @@ const FETCHERS: Record<string, FetcherFactory> = {
  * from the API for good. These are what `--decaying` selects, and they are the
  * only part of the plan that gets worse by waiting (plan §0.1).
  */
-const DECAYING: string[] = ["COMPOUND_V3", "LLAMALEND"];
+const DECAYING: string[] = ["COMPOUND_V3", "LLAMALEND", "VAULT_CAP", "VAULT_GEARBOX"];
 
 /** Rows buffered before a write. Big enough that appends are not chatty, small
  *  enough that a crash loses little and memory stays flat on a 700-point-per-

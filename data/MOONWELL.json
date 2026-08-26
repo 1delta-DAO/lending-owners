@@ -1,6 +1,6 @@
 {
   "lenderKey": "MOONWELL",
-  "fetchedAt": "2026-08-25T05:22:31.048Z",
+  "fetchedAt": "2026-08-26T05:22:40.201Z",
   "markets": {
     "MOONWELL:8453:0x04c0599ae5a44757c0af6f9ec3b93da8976c150a": {
       "marketUid": "MOONWELL:8453:0x04c0599ae5a44757c0af6f9ec3b93da8976c150a",
@@ -28,7 +28,7 @@
       "lenderKey": "MOONWELL",
       "chainId": "8453",
       "underlying": "0x0b3e328455c4059eeb9e3f84b5543f74e24e7e1b",
-      "totalSupply": 1576677.7904180377,
+      "totalSupply": 1577349.8062622908,
       "owners": {
         "0x1a7c950a8fff56a7cc679b4cbd085f910c1e7234": 484999.9999999998,
         "0x5c70b3f22595caf8314f77dabc628363aaee18ad": 300000.61409617454,
@@ -96,14 +96,13 @@
       "lenderKey": "MOONWELL",
       "chainId": "8453",
       "underlying": "0x4200000000000000000000000000000000000006",
-      "totalSupply": 4703.491842980066,
+      "totalSupply": 4458.829800821521,
       "owners": {
         "0x70c1997ca695cc2c3a08ac1ba0f19d5a7e30c7fc": 1650.5322440563855,
         "0xa2ee86d40add561d7f6176e961c7a12734cd87d6": 484.66265792813766,
-        "0x580236a4b422a574bf3f38f4ec92051fcc20bcdb": 218.96770460358036,
-        "0x6f859acddd93a106777da55c98fd51f2a504fd7a": 202.29643224460412,
         "0x61a985c7f057c71166ce1613873ef212ce8d2e3f": 189.66971543447184,
-        "0x2d7a6b617f11b6755bfd3ab79f1d7cb963ff9e9c": 134.0055788146653,
+        "0x2d7a6b617f11b6755bfd3ab79f1d7cb963ff9e9c": 162.83926673813275,
+        "0x6f859acddd93a106777da55c98fd51f2a504fd7a": 142.33065482518464,
         "0x1332a68384718224d14723f0ab9aa546cdb438e9": 93.80001993384185,
         "0xf66dc065a781cfaea4e9a25383b671ef69949f03": 93.61789117154706,
         "0xf3b028f4cb27dd237d324563b6824f18f0585fe4": 78.00000365749982,
@@ -138,7 +137,7 @@
       "lenderKey": "MOONWELL",
       "chainId": "8453",
       "underlying": "0x60a3e35cc302bfa44cb288bc5a4f316fdb1adb42",
-      "totalSupply": 529918.12014,
+      "totalSupply": 529703.513249,
       "owners": {
         "0x416ec2ca21a38cbcfeacd6a14532b3f348356d23": 83439.964341,
         "0xd1757bab220258ddd4bab23255deecb0df02912b": 63138.199766,
@@ -158,7 +157,6 @@
         "0x5550d586673be20581a88956114081f16bb6787f": 7201.676414,
         "0xccf66087fbe3626f3561c778f9a3ce81a93abaec": 6881.336675,
         "0x3b2b389e6ba7cd904abcf3d213515e652cb60073": 6118.339865,
-        "0x47c9e65fc3109829cf610de3904350b993e09859": 5477.099983,
         "0xfe6e5a14c0f8054040725ef0a6730f5dfe57ad42": 5307.800241
       }
     },
@@ -167,7 +165,7 @@
       "lenderKey": "MOONWELL",
       "chainId": "8453",
       "underlying": "0x7300b37dfdfab110d83290a29dfb31b1740219fe",
-      "totalSupply": 4866325.990569911,
+      "totalSupply": 4847026.352897347,
       "owners": {
         "0x502c5a64592bbbad91e6fc7df1f68f827786b7c1": 1301308.1009201086,
         "0x06c7dd28190c68f95ac3ec12e54f9271c60aeb37": 1005778.3766962256,
@@ -184,7 +182,7 @@
       "lenderKey": "MOONWELL",
       "chainId": "8453",
       "underlying": "0x820c137fa70c8691f0e44dc420a5e53c168921dc",
-      "totalSupply": 11520.077623849958,
+      "totalSupply": 11521.337584229987,
       "owners": {
         "0xe2053b8b6f059065242cd3a9b14bf0f200c65857": 2138.701304397537,
         "0xa8f424dc78867a9231f3f53377348d5dd6152946": 1235.6879406676446,
@@ -212,23 +210,23 @@
       "lenderKey": "MOONWELL",
       "chainId": "8453",
       "underlying": "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
-      "totalSupply": 13827185.883502,
+      "totalSupply": 13229260.538067,
       "owners": {
-        "0xbc8dd54d1ae1b738b40ffddccee1428b178fa80b": 2968001.116482,
+        "0xbc8dd54d1ae1b738b40ffddccee1428b178fa80b": 2205959.678053,
         "0x2d7a6b617f11b6755bfd3ab79f1d7cb963ff9e9c": 1461359.232739,
         "0xe9cc759c263d6d784df530ffaacf5ba88222ca4b": 990176.659327,
         "0xddcd62f4804fc8d549feb68c250b2ed7e37b873e": 670000.101092,
-        "0x60087fc6e8c51a38944cb1775fb64e3d301fb6d1": 606996.894408,
-        "0x580236a4b422a574bf3f38f4ec92051fcc20bcdb": 560986.922786,
+        "0x580236a4b422a574bf3f38f4ec92051fcc20bcdb": 561277.991561,
         "0x416ec2ca21a38cbcfeacd6a14532b3f348356d23": 525666.567489,
         "0x08568c52b98c9f8a3566c38e1d822c5d0404d25c": 396277.612491,
-        "0x1c302e07cc804ef301e3b3f5336e77cab1997372": 380061.461353,
+        "0x1c302e07cc804ef301e3b3f5336e77cab1997372": 350098.593581,
         "0xadae804a659b0d0aa7aa509a393361dec56bf1e0": 350000.026636,
         "0x50dbca1223169a2aebfd757d994fd7246c8865c1": 321997.494488,
         "0x9452ed6da616783786c6d8aaf73047ecad126c57": 305124.288522,
         "0x20f9468228a4b69b84b01e621363f58c93ad0823": 283196.234267,
         "0x765e9af7210c2d120096ce5b5709e8060b710474": 234583.702476,
-        "0x0d72f21eb70d4cad761216c56298c74f66378a5a": 210009.99633,
+        "0x0d72f21eb70d4cad761216c56298c74f66378a5a": 225000.338989,
+        "0x6f859acddd93a106777da55c98fd51f2a504fd7a": 189077.483871,
         "0x3f2426418ef15b91ff65f28a3473481d119ce81f": 140508.977839
       }
     },
@@ -237,7 +235,7 @@
       "lenderKey": "MOONWELL",
       "chainId": "8453",
       "underlying": "0x940181a94a35a4569e4529a3cdfb74e38fd98631",
-      "totalSupply": 18994403.320706673,
+      "totalSupply": 19023496.976072405,
       "owners": {
         "0x011b0a055e02425461a1ae95b30f483c4ff05be7": 6861283.21696002,
         "0x972711380c2c7a81ff3864997d5d2a47fa9cd41f": 1332523.5878197053,
@@ -257,7 +255,7 @@
       "lenderKey": "MOONWELL",
       "chainId": "8453",
       "underlying": "0xa88594d404727625a9437c3f886c7643872296ae",
-      "totalSupply": 180957963.35981154,
+      "totalSupply": 181042655.26298717,
       "owners": {
         "0xa2ee86d40add561d7f6176e961c7a12734cd87d6": 94571319.44332385,
         "0x7213e9962b40b219f2d7daf6ce83eb8fbde7abdd": 17100252.53565463,
@@ -276,11 +274,11 @@
       "lenderKey": "MOONWELL",
       "chainId": "8453",
       "underlying": "0xacfe6019ed1a7dc6f7b508c02d1b04ec88cc21bf",
-      "totalSupply": 71316.76458546397,
+      "totalSupply": 73635.19001372543,
       "owners": {
         "0xd02eef6cff9cf07d1af73bc2a6edb5ab36a0869d": 53200.30248617742,
+        "0x13f210c8baf5f5dbaff3e917e2e5a49e73bbaf12": 8209.054692502183,
         "0x8c57a8345b43db4574bf2f11aab60a1a230ff457": 6000,
-        "0x13f210c8baf5f5dbaff3e917e2e5a49e73bbaf12": 5888.330279796722,
         "0x1a7c950a8fff56a7cc679b4cbd085f910c1e7234": 2637.363538419924,
         "0x5d9f9e8241650e0df2b6052c69c6268c27ebe664": 1832.06890043673
       }
@@ -290,7 +288,7 @@
       "lenderKey": "MOONWELL",
       "chainId": "8453",
       "underlying": "0xb6fe221fe9eef5aba221c348ba20a1bf5e73624c",
-      "totalSupply": 716.8530932205755,
+      "totalSupply": 716.8533687407046,
       "owners": {
         "0xe5ebcde141e98c23c150bc350b72c23fdcb747c1": 300.16851390730824,
         "0x4c1a699166cd60473040d0618c47ad82251b9d0f": 110.65503149983782,
@@ -306,7 +304,7 @@
       "lenderKey": "MOONWELL",
       "chainId": "8453",
       "underlying": "0xbaa5cc21fd487b8fcc2f632f3f4e8d37262a0842",
-      "totalSupply": 5618347.075488741,
+      "totalSupply": 5615771.979359512,
       "owners": {
         "0x889100623a16189b7f08dd892a1ccd058e90d3e3": 5291472.101370746,
         "0x70c1997ca695cc2c3a08ac1ba0f19d5a7e30c7fc": 210141.84657753605
@@ -317,7 +315,7 @@
       "lenderKey": "MOONWELL",
       "chainId": "8453",
       "underlying": "0xc1cba3fcea344f92d9239c08c0568f6f2f0ee452",
-      "totalSupply": 1066.7631264734098,
+      "totalSupply": 1066.7254861477115,
       "owners": {
         "0x4c1a699166cd60473040d0618c47ad82251b9d0f": 375.8658939251751,
         "0xca14fd171214dd09da5cc1da5966c375380e8faf": 199.59737795230666,
@@ -343,10 +341,10 @@
       "lenderKey": "MOONWELL",
       "chainId": "8453",
       "underlying": "0xcb585250f852c6c6bf90434ab21a00f02833a4af",
-      "totalSupply": 2319624.246452,
+      "totalSupply": 2330377.869798,
       "owners": {
         "0xf977fbe3dd26449fd3662547d499b9283ae06986": 249188.328135,
-        "0xb6a83f27b9eca3811439c7b863321e0dad26ae58": 184000.849529,
+        "0xb6a83f27b9eca3811439c7b863321e0dad26ae58": 188000.867105,
         "0xc00d6c06822e5d68059d6e79116b376aa440e8bf": 109019.787277,
         "0x48094ca6bde4365b33e9cb066a967976c760d2a7": 101131.276776,
         "0xea7d48d60daf15316f035f62a43db081b906e386": 97514.871055,
@@ -363,9 +361,9 @@
         "0x1ab4f7fdd4a9672b64962a2a484636871097cc35": 45481.334188,
         "0x72685a7e0b1adb7dc4f2c4133fc69cfc06905836": 43791.664797,
         "0xb2c22e72576f71cb78a603a1c7b28f93b0eaf211": 40792.073787,
+        "0x78e3a4d811a9327600ec7ad1b946421bfe901bf4": 35804.443843,
         "0xd5c32ca3c6d75b75f2b65ec7414b030e041a0869": 33204.792638,
-        "0x85a2ecd7a05c204112e6f2d8c263e15352363bcf": 28526.999999,
-        "0x78e3a4d811a9327600ec7ad1b946421bfe901bf4": 28377.02198
+        "0x85a2ecd7a05c204112e6f2d8c263e15352363bcf": 28526.999999
       }
     },
     "MOONWELL:8453:0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf": {
@@ -373,7 +371,7 @@
       "lenderKey": "MOONWELL",
       "chainId": "8453",
       "underlying": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
-      "totalSupply": 170.58743358,
+      "totalSupply": 170.61293138,
       "owners": {
         "0x3f2426418ef15b91ff65f28a3473481d119ce81f": 30.07253461,
         "0x972711380c2c7a81ff3864997d5d2a47fa9cd41f": 19.03312628,
@@ -452,8 +450,8 @@
   },
   "chainFreshness": {
     "8453": {
-      "subgraphBlock": 50423001,
-      "rpcBlock": 50423002,
+      "subgraphBlock": 50466205,
+      "rpcBlock": 50466206,
       "blocksBehind": 1,
       "minutesBehind": 0
     }

@@ -1,6 +1,6 @@
 {
   "lenderKey": "SILO",
-  "fetchedAt": "2026-08-25T06:22:45.088Z",
+  "fetchedAt": "2026-08-26T06:24:50.298Z",
   "markets": {
     "SILO_V2_A94AF3162465901B8098D896C3E772D2C97160BC:42161:0xfd625acff4227f4fc5eb904104030c308a4b3457": {
       "marketUid": "SILO_V2_A94AF3162465901B8098D896C3E772D2C97160BC:42161:0xfd625acff4227f4fc5eb904104030c308a4b3457",
@@ -23,7 +23,7 @@
       "lenderKey": "SILO_V2",
       "chainId": "42161",
       "underlying": "0x3d9907f9a368ad0a51be60f7da3b97cf940982d8",
-      "totalSupply": 58.35898512950257,
+      "totalSupply": 59.32286874404923,
       "owners": {
         "0xd8dc994fe2b075c697e5051c89b713bf15fa9294": 24.99996669935376,
         "0x291bf1b784b8663cf670db402d83406a80853740": 6.939526280541607,
@@ -43,7 +43,7 @@
         "0x2f8393a3ac972a6a00453d0384e8495f91a2f6ed": 31875.10682,
         "0x27b356b76905726f46510a43cb9846036528bc4c": 30755.684313,
         "0x823de6b63f9cb010cbb58951c90eea30bf02bd36": 26949.26388,
-        "0x3c8999e6b8ae7eec906e0bf5de1e26ba4b03b0d8": 26307.55111,
+        "0x3c8999e6b8ae7eec906e0bf5de1e26ba4b03b0d8": 26691.240237,
         "0xbdf62f24369b7e1ad37d0c0e25687451a0a74dc8": 17866.353905,
         "0x7bf6349ae5d9de5b44416eb85baa41cc5ec3a666": 16727.747251,
         "0x6444cf36372ad04ac802a3284a21c61649677205": 15103.272335,
@@ -156,7 +156,7 @@
       "lenderKey": "SILO_V3",
       "chainId": "1",
       "underlying": "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599",
-      "totalSupply": 0.01005458,
+      "totalSupply": 0.01005488,
       "owners": {
         "0x0b38194c27a9127c4ec828c3c2ed3dc49a478971": 0.00999994
       }
@@ -164,15 +164,15 @@
   },
   "chainFreshness": {
     "1": {
-      "subgraphBlock": 25830391,
-      "rpcBlock": 25830391,
+      "subgraphBlock": 25837576,
+      "rpcBlock": 25837576,
       "blocksBehind": 0,
       "minutesBehind": 0
     },
     "42161": {
-      "subgraphBlock": 498146976,
-      "rpcBlock": 498147003,
-      "blocksBehind": 27,
+      "subgraphBlock": 498490269,
+      "rpcBlock": 498490274,
+      "blocksBehind": 5,
       "minutesBehind": 0
     }
   }

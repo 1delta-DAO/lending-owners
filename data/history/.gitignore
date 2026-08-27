@@ -16,3 +16,11 @@
 !COMPOUND_V3/**
 !LLAMALEND/
 !LLAMALEND/**
+# Vault-side rolling windows (added 2026-08-25 with @lending-owners/fetcher-vaults):
+# Cap caps at 1 year (deeper combos are WAF-403'd), Gearbox at 1 year (no `all`
+# period). Small (~1 MB/year combined) and captured by the same daily Action —
+# without these exceptions the CI runner's capture is discarded with the runner.
+!VAULT_CAP/
+!VAULT_CAP/**
+!VAULT_GEARBOX/
+!VAULT_GEARBOX/**

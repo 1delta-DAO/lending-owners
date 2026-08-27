@@ -8,8 +8,7 @@ import type { ChainId, MarketUid, UidResolver } from "@lending-owners/core";
  * `computeMarketUid`, and both history tables have an FK to `markets` — so a
  * locally-derived uid that is even slightly off is a rejected insert, not a
  * recoverable mistake. Looking the uid up in the book we are going to write
- * into makes the join true by construction, and has the useful side effect of
- * refusing to collect history for markets that do not exist.
+ * into makes the join true by construction.
  *
  * This is a stopgap for A1, not a replacement: once `computeMarketUid` is
  * shared, a fetcher can derive uids offline and this becomes a cross-check.
@@ -26,64 +25,83 @@ type MetaResponse = {
 };
 
 export interface MarketRegistry {
-  /** (chainId, leaf) → uid, where leaf is whatever the uid's third segment is. */
+  /**
+   * (chainId, leaf) → uid, only when exactly one market in the whole book uses
+   * that leaf. Prefer {@link forFamily}: a leaf is very often shared.
+   */
   resolve: UidResolver;
-  /** (chainId, family, leaf) → uid, when a leaf is ambiguous across families. */
-  resolveIn: (chainId: ChainId, family: string, leafAddress: string) => MarketUid | undefined;
-  /** All uids for a family prefix, for coverage reporting. */
-  countFor: (familyPrefix: string) => number;
+  /** A resolver scoped to one lender family — what fetchers should use. */
+  forFamily: (familyPrefix: string) => UidResolver;
+  /** Total distinct uids indexed. */
   size: number;
 }
 
 const key = (chainId: string, leaf: string): string => `${chainId}:${leaf.toLowerCase()}`;
+const lenderOf = (uid: string): string => uid.slice(0, uid.indexOf(":"));
 
 export async function loadMarketRegistry(signal?: AbortSignal): Promise<MarketRegistry> {
   const res = await fetch(META_URL, { signal });
   if (!res.ok) throw new Error(`market registry HTTP ${res.status} from ${META_URL}`);
   const body = (await res.json()) as MetaResponse;
 
-  // Stored as plain strings: `MarketUid` is a template-literal union over
-  // every chain id, and combining two of them (`a ?? b`) overflows TS's union
-  // limit. The cast happens once, at the boundary.
-  const byLeaf = new Map<string, string>();
-  const byFamilyLeaf = new Map<string, string>();
-  // A leaf can repeat across families (two protocols listing the same token as
-  // the uid leaf). Those entries are dropped from the family-agnostic map so a
-  // caller gets `undefined` and reports a miss, rather than a confident wrong
-  // uid — the failure mode that would put Venus history on a Moonwell market.
-  const ambiguous = new Set<string>();
-  const familyCounts = new Map<string, number>();
+  /**
+   * (chainId, leaf) → EVERY uid using it, not just the first.
+   *
+   * A leaf is shared far more often than it looks: Aave's leaf IS the
+   * underlying token, and that same token is the loan asset of dozens of Morpho
+   * markets on the same chain. Measured on the live book, 1,122 (chain, leaf)
+   * pairs are shared, covering **71 % of Aave V3's markets**. Keeping only
+   * unambiguous leaves silently reduced Aave to 26 of 283 markets — the lookup
+   * did not fail loudly, it just resolved almost nothing.
+   *
+   * So ambiguity is resolved by the CALLER's family instead of being discarded.
+   */
+  const byLeaf = new Map<string, string[]>();
+  let size = 0;
 
   for (const [chainId, lenders] of Object.entries(body.items ?? {})) {
-    for (const [lenderKey, markets] of Object.entries(lenders ?? {})) {
-      const family = lenderKey.split("_")[0]!;
+    for (const markets of Object.values(lenders ?? {})) {
       for (const uid of Object.keys(markets ?? {})) {
         const leaf = uid.slice(uid.lastIndexOf(":") + 1);
         const k = key(chainId, leaf);
-        if (byLeaf.has(k) && byLeaf.get(k) !== uid) ambiguous.add(k);
-        else byLeaf.set(k, uid);
-        byFamilyLeaf.set(`${family}|${k}`, uid);
-        familyCounts.set(lenderKey, (familyCounts.get(lenderKey) ?? 0) + 1);
+        const bucket = byLeaf.get(k);
+        if (bucket) {
+          if (!bucket.includes(uid)) bucket.push(uid);
+        } else byLeaf.set(k, [uid]);
+        size += 1;
       }
     }
   }
-  for (const k of ambiguous) byLeaf.delete(k);
+
+  const asUid = (u: string | undefined): MarketUid | undefined =>
+    u as unknown as MarketUid | undefined;
+  // Written as statements, not a ternary: `MarketUid` is a template-literal
+  // union over every chain id, and a conditional whose branches are
+  // `MarketUid | undefined` overflows TypeScript's union-size limit.
+  function pick(candidates: string[] | undefined): MarketUid | undefined {
+    if (!candidates || candidates.length !== 1) return undefined;
+    return asUid(candidates[0]);
+  }
 
   return {
-    size: byLeaf.size + ambiguous.size,
+    size,
     resolve: (chainId: ChainId, leafAddress: string) =>
-      byLeaf.get(key(String(chainId), leafAddress)) as MarketUid | undefined,
-    resolveIn: (chainId: ChainId, family: string, leafAddress: string) => {
-      const k = key(String(chainId), leafAddress);
-      const hit = byFamilyLeaf.get(`${family}|${k}`) ?? byLeaf.get(k);
-      return hit as MarketUid | undefined;
-    },
-    countFor: (familyPrefix: string) => {
-      let n = 0;
-      for (const [lenderKey, count] of familyCounts) {
-        if (lenderKey.startsWith(familyPrefix)) n += count;
-      }
-      return n;
-    },
+      pick(byLeaf.get(key(String(chainId), leafAddress))),
+    forFamily:
+      (familyPrefix: string): UidResolver =>
+      // Explicit return annotation: without it TypeScript infers the union of
+      // every `MarketUid` branch and hits its union-size limit.
+      (chainId: ChainId, leafAddress: string): MarketUid | undefined => {
+        const all = byLeaf.get(key(String(chainId), leafAddress));
+        if (!all) return undefined;
+        // Exact family first, then prefix — `AAVE_V3` must not match `AAVE_V2`,
+        // but `MORPHO_BLUE` must match `MORPHO_BLUE_<marketId>`.
+        const exact = all.filter((u) => lenderOf(u) === familyPrefix);
+        if (exact.length === 1) return asUid(exact[0]);
+        if (exact.length > 1) return undefined;
+        const prefixed = all.filter((u) => lenderOf(u).startsWith(familyPrefix));
+        if (prefixed.length !== 1) return undefined;
+        return asUid(prefixed[0]);
+      },
   };
 }

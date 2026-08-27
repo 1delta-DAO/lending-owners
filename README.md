@@ -52,7 +52,7 @@ Each generated file is one transaction that stages into a `TEMP` table, joins `m
 
 Rates in the output are **percent** (`4.90` = 4.90 % APY), matching `lending_snapshots`. Sources disagree on this among themselves, so each `hist/` module normalizes on the way out.
 
-Start at plan §0.9 for the A0–A7 plan, §0.10 for the things that will bite, and §0.11 for what is already built and what the first runs measured.
+The operational checklist — what is held, what decays daily, what has no source and needs our own recorder, and the ingest gaps — is [HISTORY_GAPS.md](HISTORY_GAPS.md). Start at plan §0.9 for the A0–A7 plan, §0.10 for the things that will bite, and §0.11 for what is already built and what the first runs measured.
 
 ## Requirements
 

@@ -1,6 +1,6 @@
 {
   "lenderKey": "DFORCE",
-  "fetchedAt": "2026-08-29T09:49:39.945Z",
+  "fetchedAt": "2026-08-30T09:00:30.923Z",
   "markets": {
     "DFORCE:1:0x0000000000000000000000000000000000000000": {
       "marketUid": "DFORCE:1:0x0000000000000000000000000000000000000000",
@@ -529,7 +529,7 @@
       "lenderKey": "DFORCE",
       "chainId": "42161",
       "underlying": "0xaf88d065e77c8cc2239327c5edb3a432268e5831",
-      "totalSupply": 29259.372816,
+      "totalSupply": 29343.111304,
       "owners": {
         "0x6c413690c19cfc80c3db3211c80993bf642c6456": 9007.30653,
         "0x4f27eb908eaadfea04f6b66847faabaeb45ecb15": 4521.042613,
@@ -606,10 +606,10 @@
       "lenderKey": "DFORCE",
       "chainId": "42161",
       "underlying": "0xfa7f8980b0f1e64a2062791cc3b0871572f1f7f0",
-      "totalSupply": 1089.5015111165108,
+      "totalSupply": 1082.005757732105,
       "owners": {
         "0xebafb18ef4aaffc84709676463d93f6879b232d1": 979.5836206539716,
-        "0x30b4116d38b84dfca14e9dd0fda72cfa5175b299": 108.31807875478867
+        "0x30b4116d38b84dfca14e9dd0fda72cfa5175b299": 100.8185004711481
       }
     },
     "DFORCE:42161:0xfd086bc7cd5c481dcc9c85ebe478a1c0b69fcbb9": {
@@ -908,26 +908,26 @@
   },
   "chainFreshness": {
     "1": {
-      "subgraphBlock": 25860121,
-      "rpcBlock": 25860121,
+      "subgraphBlock": 25867051,
+      "rpcBlock": 25867051,
       "blocksBehind": 0,
       "minutesBehind": 0
     },
     "10": {
-      "subgraphBlock": 156199102,
-      "rpcBlock": 156199103,
+      "subgraphBlock": 156240828,
+      "rpcBlock": 156240829,
       "blocksBehind": 1,
       "minutesBehind": 0
     },
     "56": {
-      "subgraphBlock": 118746400,
-      "rpcBlock": 118746401,
+      "subgraphBlock": 118931814,
+      "rpcBlock": 118931815,
       "blocksBehind": 1,
       "minutesBehind": 0
     },
     "42161": {
-      "subgraphBlock": 499566381,
-      "rpcBlock": 499566379,
+      "subgraphBlock": 499896193,
+      "rpcBlock": 499896191,
       "blocksBehind": 0,
       "minutesBehind": 0
     }

@@ -1,6 +1,6 @@
 {
   "lenderKey": "SILO",
-  "fetchedAt": "2026-09-04T10:03:00.298Z",
+  "fetchedAt": "2026-09-05T09:32:12.846Z",
   "markets": {
     "SILO_V2_A94AF3162465901B8098D896C3E772D2C97160BC:42161:0xfd625acff4227f4fc5eb904104030c308a4b3457": {
       "marketUid": "SILO_V2_A94AF3162465901B8098D896C3E772D2C97160BC:42161:0xfd625acff4227f4fc5eb904104030c308a4b3457",
@@ -23,7 +23,7 @@
       "lenderKey": "SILO_V2",
       "chainId": "42161",
       "underlying": "0x3d9907f9a368ad0a51be60f7da3b97cf940982d8",
-      "totalSupply": 70.3008999614389,
+      "totalSupply": 71.74099253843232,
       "owners": {
         "0xd8dc994fe2b075c697e5051c89b713bf15fa9294": 24.99996669935376,
         "0x291bf1b784b8663cf670db402d83406a80853740": 6.939526280541607,
@@ -40,7 +40,7 @@
       "owners": {
         "0x27b356b76905726f46510a43cb9846036528bc4c": 62959.85003,
         "0x569d327288d8354f16813afb01bba0e60c1301f9": 47187.206083,
-        "0x310b222776e08cc15256693200efd81d9a2ae210": 42601.418029,
+        "0x310b222776e08cc15256693200efd81d9a2ae210": 42697.213467,
         "0x3c8999e6b8ae7eec906e0bf5de1e26ba4b03b0d8": 32289.26498,
         "0x2f8393a3ac972a6a00453d0384e8495f91a2f6ed": 31875.10682,
         "0x823de6b63f9cb010cbb58951c90eea30bf02bd36": 26954.6545,
@@ -152,7 +152,7 @@
       "lenderKey": "SILO_V3",
       "chainId": "1",
       "underlying": "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599",
-      "totalSupply": 0.01005767,
+      "totalSupply": 0.01005797,
       "owners": {
         "0x0b38194c27a9127c4ec828c3c2ed3dc49a478971": 0.00999994
       }
@@ -160,16 +160,16 @@
   },
   "chainFreshness": {
     "1": {
-      "subgraphBlock": 25903229,
-      "rpcBlock": 25903229,
+      "subgraphBlock": 25910249,
+      "rpcBlock": 25910249,
       "blocksBehind": 0,
       "minutesBehind": 0
     },
     "42161": {
-      "subgraphBlock": 501628772,
-      "rpcBlock": 501628796,
-      "blocksBehind": 24,
-      "minutesBehind": 0
+      "subgraphBlock": 501958772,
+      "rpcBlock": 501959050,
+      "blocksBehind": 278,
+      "minutesBehind": 1
     }
   }
 }

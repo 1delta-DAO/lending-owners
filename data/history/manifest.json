@@ -3035,5 +3035,75 @@
     },
     "written": 4,
     "skippedAsDuplicate": 127
+  },
+  {
+    "lender": "COMPOUND_V3",
+    "source": "compound-api",
+    "from": "2026-08-01T00:00:00.000Z",
+    "to": "2026-09-05T07:37:02.759Z",
+    "resolution": "1d",
+    "runAt": "2026-09-05T07:37:07.081Z",
+    "elapsedMs": 288,
+    "files": {
+      "COMPOUND_V3/1/2026-09.ndjson": 12,
+      "COMPOUND_V3/137/2026-09.ndjson": 4,
+      "COMPOUND_V3/42161/2026-09.ndjson": 8,
+      "COMPOUND_V3/10/2026-09.ndjson": 6,
+      "COMPOUND_V3/8453/2026-09.ndjson": 8,
+      "COMPOUND_V3/534352/2026-09.ndjson": 2,
+      "COMPOUND_V3/5000/2026-09.ndjson": 2,
+      "COMPOUND_V3/59144/2026-09.ndjson": 4,
+      "COMPOUND_V3/130/2026-09.ndjson": 4,
+      "COMPOUND_V3/2020/2026-09.ndjson": 4
+    },
+    "written": 54,
+    "skippedAsDuplicate": 756
+  },
+  {
+    "lender": "LLAMALEND",
+    "source": "curve-api",
+    "from": "2026-08-01T00:00:00.000Z",
+    "to": "2026-09-05T07:37:02.759Z",
+    "resolution": "1d",
+    "runAt": "2026-09-05T07:37:26.553Z",
+    "elapsedMs": 19469,
+    "files": {
+      "LLAMALEND/1/2026-09.ndjson": 208,
+      "LLAMALEND/252/2026-09.ndjson": 48,
+      "LLAMALEND/42161/2026-09.ndjson": 100,
+      "LLAMALEND/146/2026-09.ndjson": 20,
+      "LLAMALEND/10/2026-09.ndjson": 32
+    },
+    "written": 408,
+    "skippedAsDuplicate": 6738
+  },
+  {
+    "lender": "VAULT_CAP",
+    "source": "cap-api",
+    "from": "2026-08-01T00:00:00.000Z",
+    "to": "2026-09-05T07:37:02.759Z",
+    "resolution": "1d",
+    "runAt": "2026-09-05T07:37:27.353Z",
+    "elapsedMs": 797,
+    "files": {
+      "VAULT_CAP/1/2026-09.ndjson": 2
+    },
+    "written": 2,
+    "skippedAsDuplicate": 34
+  },
+  {
+    "lender": "VAULT_GEARBOX",
+    "source": "gearbox-api",
+    "from": "2026-08-01T00:00:00.000Z",
+    "to": "2026-09-05T07:37:02.759Z",
+    "resolution": "1d",
+    "runAt": "2026-09-05T07:37:45.659Z",
+    "elapsedMs": 18305,
+    "files": {
+      "VAULT_GEARBOX/1/2026-09.ndjson": 2,
+      "VAULT_GEARBOX/143/2026-09.ndjson": 4
+    },
+    "written": 6,
+    "skippedAsDuplicate": 122
   }
 ]

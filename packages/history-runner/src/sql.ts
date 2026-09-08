@@ -2,6 +2,7 @@ import { createReadStream } from "node:fs";
 import { mkdir, readdir, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { createInterface } from "node:readline";
+import { fileURLToPath } from "node:url";
 import type { HistoryPoint } from "@lending-owners/core";
 
 /**
@@ -146,7 +147,12 @@ ON CONFLICT (market_uid, data_ts) DO UPDATE SET
     total_deposits_usd   = COALESCE(excluded.total_deposits_usd,   lending_snapshots.total_deposits_usd),
     total_debt_usd       = COALESCE(excluded.total_debt_usd,       lending_snapshots.total_debt_usd),
     utilization          = COALESCE(excluded.utilization,          lending_snapshots.utilization),
-    source               = excluded.source;`;
+    -- First-writer provenance: a backfill row merging into a live-cron row must
+    -- not relabel it, or DELETE ... WHERE source <> 'live-cron' would delete
+    -- live measurements. Mirrors the TypeScript ingest path.
+    source               = CASE WHEN lending_snapshots.source = 'live-cron'
+                                THEN 'live-cron'
+                                ELSE excluded.source END;`;
 
 const INDEX_INSERT = `INSERT INTO market_index_snapshots (
     market_uid, data_ts, block_number, supply_index, borrow_index, index_kind, source
@@ -216,6 +222,22 @@ export function renderSql(lines: string[], meta: SqlExportMeta): string {
   ].join("\n");
 }
 
+/**
+ * Vault-provider families are collected and kept on disk, but deliberately
+ * excluded from SQL export.
+ *
+ * Their uids are `VAULT_<provider>:<chain>:<address>` and there is no matching
+ * row in `markets` — verified: of 332 VAULT_FLUID, 24 VAULT_GEARBOX and 14
+ * VAULT_SILO addresses, zero are lending-market leaves. Exporting them would
+ * produce SQL whose every row is silently skipped by the `JOIN markets`, which
+ * looks like a successful apply and loads nothing.
+ *
+ * The NDJSON is retained so the moment a vault ingest target exists, the data
+ * is already there and does not have to be re-fetched from windows that will
+ * have rolled by then. Pass `--include-vaults` to export them anyway.
+ */
+const VAULT_PREFIX = "VAULT_";
+
 async function collectFiles(dir: string): Promise<string[]> {
   const out: string[] = [];
   const walk = async (d: string): Promise<void> => {
@@ -260,9 +282,13 @@ async function convert(file: string, inDir: string, outDir: string): Promise<num
 
 async function main(): Promise<void> {
   const argv = process.argv.slice(2);
-  let inDir = "data/history";
-  let outDir = "data/history-sql";
+  // Defaults and relative paths resolve from the REPO root, not the package —
+  // this is run through pnpm from either place.
+  const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../..");
+  let inDir = path.join(repoRoot, "data", "history");
+  let outDir = path.join(repoRoot, "data", "history-sql");
   const only: string[] = [];
+  let includeVaults = false;
   for (let i = 0; i < argv.length; i += 1) {
     const a = argv[i];
     const v = (): string => {
@@ -270,15 +296,13 @@ async function main(): Promise<void> {
       if (!x) throw new Error(`missing value for ${a}`);
       return x;
     };
-    if (a === "--dir") { inDir = path.resolve(v()); i += 1; }
-    else if (a === "--out") { outDir = path.resolve(v()); i += 1; }
+    if (a === "--dir") { inDir = path.resolve(repoRoot, v()); i += 1; }
+    else if (a === "--out") { outDir = path.resolve(repoRoot, v()); i += 1; }
     else if (a === "--family" || a === "--lender") { only.push(v().toUpperCase()); i += 1; }
+    else if (a === "--include-vaults") { includeVaults = true; }
     else if (a === "--") { /* pnpm separator */ }
     else if (a?.startsWith("--")) throw new Error(`unknown flag ${a}`);
   }
-  inDir = path.resolve(inDir);
-  outDir = path.resolve(outDir);
-
   const s = await stat(inDir).catch(() => null);
   if (!s) {
     console.error(`no such directory: ${inDir}`);
@@ -288,6 +312,16 @@ async function main(): Promise<void> {
   let files = await collectFiles(inDir);
   if (only.length > 0) {
     files = files.filter((f) => only.some((fam) => path.relative(inDir, f).startsWith(`${fam}/`)));
+  }
+  if (!includeVaults) {
+    const before = files.length;
+    files = files.filter((f) => !path.relative(inDir, f).startsWith(VAULT_PREFIX));
+    const skipped = before - files.length;
+    if (skipped > 0) {
+      console.log(
+        `skipping ${skipped} vault file(s) — no \`markets\` row to join; NDJSON is kept on disk (--include-vaults to override)`,
+      );
+    }
   }
   if (files.length === 0) {
     console.error("no .ndjson files matched");

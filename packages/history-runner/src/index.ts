@@ -3,6 +3,7 @@ import {
   type HistoryFetcher,
   type HistoryPoint,
   type HistoryResolution,
+  alignToObservation,
   bucketStart,
 } from "@lending-owners/core";
 import { NdjsonSink } from "./ndjson.js";
@@ -104,6 +105,8 @@ interface Args {
   chainIds?: ChainId[];
   days?: number;
   dryRun: boolean;
+  /** Opt out of `alignToObservation` and keep raw floor-to-resolution labels. */
+  keepDayBuckets: boolean;
 }
 
 function parseArgs(argv: string[], repoRoot: string): Args {
@@ -115,6 +118,7 @@ function parseArgs(argv: string[], repoRoot: string): Args {
   let chainIds: ChainId[] | undefined;
   let days: number | undefined;
   let dryRun = false;
+  let keepDayBuckets = false;
 
   const value = (i: number, flag: string): string => {
     const v = argv[i + 1];
@@ -179,6 +183,9 @@ function parseArgs(argv: string[], repoRoot: string): Args {
       case "--dry-run":
         dryRun = true;
         break;
+      case "--keep-day-buckets":
+        keepDayBuckets = true;
+        break;
       case "--":
         // pnpm inserts its own `--` ahead of forwarded args, so a bare
         // separator can appear once or twice depending on invocation.
@@ -207,6 +214,7 @@ function parseArgs(argv: string[], repoRoot: string): Args {
     chainIds,
     days,
     dryRun,
+    keepDayBuckets,
   };
 }
 
@@ -228,6 +236,7 @@ async function runLender(key: string, args: Args): Promise<void> {
     );
   }
 
+  const keepDayBuckets = args.keepDayBuckets;
   const from = bucketStart(args.from!, args.resolution);
   console.log(
     `[${key}] ${fmt(from)} → ${fmt(args.to)} @${args.resolution}${args.chainIds ? ` chains=${args.chainIds.join(",")}` : ""}${args.dryRun ? " (dry run)" : ""}`,
@@ -259,7 +268,10 @@ async function runLender(key: string, args: Args): Promise<void> {
       console.log(`[${key}] ${label}: ${done}/${total}`);
     },
   })) {
-    buffer.push(point);
+    // Label by the hour the sample was actually taken in, not by the start of
+    // the day it fell in. See `alignToObservation` — five families both drift
+    // and carry an accumulator, where the difference is a ~2x error.
+    buffer.push(keepDayBuckets ? point : alignToObservation(point));
     seen += 1;
     if (buffer.length >= FLUSH_EVERY) await flush();
   }

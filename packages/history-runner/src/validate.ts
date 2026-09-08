@@ -40,12 +40,15 @@ const PLAUSIBLE_MEDIAN = { low: 0.05, high: 200 };
 interface FamilyStats {
   rows: number;
   uids: Set<string>;
+  keys: Set<string>;
   overflow: Map<string, number>;
   overflowExample: Map<string, number>;
   nonFinite: number;
   badTimestamp: number;
   missingUid: number;
   emptyRows: number;
+  offHour: number;
+  dupKeys: number;
   depositRates: number[];
   indexRows: number;
   badIndex: number;
@@ -58,12 +61,15 @@ function emptyStats(): FamilyStats {
   return {
     rows: 0,
     uids: new Set(),
+    keys: new Set(),
     overflow: new Map(),
     overflowExample: new Map(),
     nonFinite: 0,
     badTimestamp: 0,
     missingUid: 0,
     emptyRows: 0,
+    offHour: 0,
+    dupKeys: 0,
     depositRates: [],
     indexRows: 0,
     badIndex: 0,
@@ -92,6 +98,12 @@ function checkRow(s: FamilyStats, r: HistoryPoint): void {
   const ts = Date.parse(r.dataTs);
   if (!Number.isFinite(ts)) s.badTimestamp += 1;
   else {
+    // `lending_snapshots` is keyed on hour buckets (the live cron floors to the
+    // hour), so anything off-boundary cannot line up with it.
+    if (ts % 3_600_000 !== 0) s.offHour += 1;
+    const key = `${r.marketUid} ${r.dataTs}`;
+    if (s.keys.has(key)) s.dupKeys += 1;
+    else s.keys.add(key);
     const d = r.dataTs.slice(0, 10);
     if (!s.minTs || d < s.minTs) s.minTs = d;
     if (!s.maxTs || d > s.maxTs) s.maxTs = d;
@@ -156,10 +168,13 @@ async function main(): Promise<void> {
   // through pnpm from either place.
   const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../..");
   let dir = path.join(repoRoot, "data", "history");
+  let strict = false;
   for (let i = 0; i < argv.length; i += 1) {
     if (argv[i] === "--dir") {
-      dir = path.resolve(argv[i + 1] ?? dir);
+      dir = path.resolve(repoRoot, argv[i + 1] ?? dir);
       i += 1;
+    } else if (argv[i] === "--strict") {
+      strict = true;
     }
   }
   dir = path.resolve(dir);
@@ -188,7 +203,21 @@ async function main(): Promise<void> {
     }
   }
 
-  let problems = 0;
+  // Two classes of finding, and conflating them made the tool useless: it exited
+  // non-zero on conditions the ingest already handles, so a caller could not
+  // tell "stop, this will corrupt the import" from "134 rows will be nulled".
+  //
+  //  BLOCKING  — would break or silently corrupt an import: mis-aligned or
+  //              unparseable timestamps, duplicate keys (ON CONFLICT cannot
+  //              fire twice for one key), non-finite numbers, index values that
+  //              are not decimal strings, or a median rate outside the
+  //              plausible band, which means a percent/fraction unit error.
+  //  HANDLED   — known and dealt with downstream: values too large for their
+  //              column are nulled and counted (`outOfRange`), and rows with a
+  //              key but no data are dropped. Both are reported, neither stops
+  //              a run.
+  const blocking: string[] = [];
+  const handled: string[] = [];
   console.log(
     `${"family".padEnd(14)}${"rows".padStart(9)}${"uids".padStart(7)}${"medRate".padStart(9)}${"index".padStart(8)}${"empty".padStart(7)}  window`,
   );
@@ -202,39 +231,64 @@ async function main(): Promise<void> {
   }
 
   console.log();
+  // Vault families are excluded from SQL export (no `markets` row to join), so
+  // a finding there does not affect a lending import at all. Saying so is the
+  // difference between "5 problems" and "134 rows, both handled".
+  const inSql = (family: string) => !family.startsWith("VAULT_");
   for (const [family, s] of [...byFamily].sort()) {
-    const say = (msg: string) => {
-      problems += 1;
-      console.log(`  ${family}: ${msg}`);
-    };
+    const scope = inSql(family) ? "" : " [not in SQL export]";
+    const block = (msg: string) => blocking.push(`  ${family}: ${msg}${scope}`);
+    const note = (msg: string) => handled.push(`  ${family}: ${msg}${scope}`);
+
     for (const [field, count] of s.overflow) {
       const worst = s.overflowExample.get(field);
-      say(
-        `${count} row(s) OVERFLOW ${COLUMN_LIMITS[field]!.column} (worst ${worst?.toExponential(3)}) — ` +
-          `these abort the whole INSERT batch, they are not clamped`,
+      note(
+        `${count} row(s) exceed ${COLUMN_LIMITS[field]!.column} (worst ${worst?.toExponential(3)}) — ` +
+          `the field is nulled at ingest and counted; the row still lands`,
       );
     }
-    if (s.nonFinite > 0) say(`${s.nonFinite} non-finite numeric value(s)`);
-    if (s.badTimestamp > 0) say(`${s.badTimestamp} unparseable row(s)/timestamp(s)`);
-    if (s.missingUid > 0) say(`${s.missingUid} row(s) with no market_uid`);
-    if (s.badIndex > 0) say(`${s.badIndex} index value(s) not a decimal string — precision already lost`);
+    if (s.emptyRows > 0) {
+      note(`${s.emptyRows} row(s) carry a key but no data — dropped at ingest`);
+    }
+
+    if (s.nonFinite > 0) block(`${s.nonFinite} non-finite numeric value(s)`);
+    if (s.badTimestamp > 0) block(`${s.badTimestamp} unparseable row(s)/timestamp(s)`);
+    if (s.missingUid > 0) block(`${s.missingUid} row(s) with no market_uid`);
+    if (s.offHour > 0) {
+      block(`${s.offHour} timestamp(s) not on an hour boundary — breaks the hourly grid`);
+    }
+    if (s.dupKeys > 0) {
+      block(`${s.dupKeys} duplicate (market_uid, data_ts) key(s) — ON CONFLICT cannot fire twice`);
+    }
+    if (s.badIndex > 0) {
+      block(`${s.badIndex} index value(s) not a decimal string — precision already lost`);
+    }
     const med = median(s.depositRates);
     if (med !== undefined && (med < PLAUSIBLE_MEDIAN.low || med > PLAUSIBLE_MEDIAN.high)) {
-      say(
+      block(
         `median deposit rate ${med.toFixed(4)} is outside [${PLAUSIBLE_MEDIAN.low}, ${PLAUSIBLE_MEDIAN.high}] — ` +
           `likely a percent/fraction unit error`,
       );
     }
-    if (s.emptyRows > 0) {
-      say(`${s.emptyRows} row(s) carry a key but no data — these are dropped at ingest`);
-    }
   }
 
-  if (problems === 0) console.log("no problems found");
-  else {
-    console.log(`\n${problems} problem(s) — fix before ingesting`);
-    process.exitCode = 1;
+  if (handled.length > 0) {
+    console.log("handled downstream (not blocking):");
+    for (const line of handled) console.log(line);
+    console.log();
   }
+  if (blocking.length > 0) {
+    console.log("BLOCKING — fix before ingesting:");
+    for (const line of blocking) console.log(line);
+    process.exitCode = 1;
+    return;
+  }
+  console.log(
+    strict && handled.length > 0
+      ? "no blocking problems, but --strict was requested"
+      : "no blocking problems — safe to export and import",
+  );
+  if (strict && handled.length > 0) process.exitCode = 1;
 }
 
 main();

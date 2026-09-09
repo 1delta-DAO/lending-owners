@@ -62,10 +62,18 @@ export function createPendleVaultHistoryFetcher(
             `with mandatory ISO bounds and is not wired here (HISTORY_APIS.md).`,
         );
       }
+      // Paced to Pendle's PUBLISHED budget, not to what the network allows.
+      // The API exposes `x-ratelimit-limit: 100` per window with an
+      // `x-ratelimit-reset` epoch; at `minIntervalMs: 150` this module was
+      // asking at ~6.7 req/s against a ~1.7 req/s budget, so a backfill spent
+      // most of its run being 429'd and skipping markets outright (126 skipped
+      // on the 2026-09-09 run). 700 ms between request starts is ~86 req/min —
+      // under the limit with room for the retry traffic. `concurrency` only
+      // overlaps latency here; `minIntervalMs` is what sets the rate.
       const client = new PacedClient({
         label: LENDER_KEY,
         concurrency: config.concurrency ?? 4,
-        minIntervalMs: 150,
+        minIntervalMs: 700,
         signal: ctx.signal,
       });
 

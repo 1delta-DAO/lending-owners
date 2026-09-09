@@ -5,6 +5,9 @@
  * `src/vaults/HISTORY_APIS.md` and every module cites its row.
  */
 export { createCapVaultHistoryFetcher } from "./cap.js";
+export { createDefiLlamaVaultHistoryFetcher } from "./defillama.js";
+export { createEulerEarnVaultHistoryFetcher } from "./eulerEarn.js";
+export { createFalconVaultHistoryFetcher } from "./falcon.js";
 export { createFluidVaultHistoryFetcher } from "./fluid.js";
 export { createGearboxVaultHistoryFetcher } from "./gearbox.js";
 export { createGmxVaultHistoryFetcher } from "./gmx.js";
@@ -13,7 +16,17 @@ export { createHypercoreVaultHistoryFetcher } from "./hypercore.js";
 export { createLagoonVaultHistoryFetcher } from "./lagoon.js";
 export { createMorphoVaultHistoryFetcher } from "./morpho.js";
 export { createPendleVaultHistoryFetcher } from "./pendle.js";
+export { createReVaultHistoryFetcher } from "./re.js";
+export { createSdolaVaultHistoryFetcher } from "./sdola.js";
+export { createSfrxusdVaultHistoryFetcher } from "./sfrxusd.js";
 export { createSiloVaultHistoryFetcher } from "./silo.js";
+export { createSkyVaultHistoryFetcher } from "./sky.js";
+export { createSparkSavingsVaultHistoryFetcher } from "./sparkSavings.js";
+export { createStrataVaultHistoryFetcher } from "./strata.js";
+export { createToriVaultHistoryFetcher } from "./tori.js";
 export { createUpshiftVaultHistoryFetcher } from "./upshift.js";
+export { createUsddVaultHistoryFetcher } from "./usdd.js";
+export { createWrenVaultHistoryFetcher } from "./wren.js";
+export { createYoVaultHistoryFetcher } from "./yo.js";
 export { createYearnVaultHistoryFetcher } from "./yearn.js";
 export { createYieldBasisVaultHistoryFetcher } from "./yieldbasis.js";

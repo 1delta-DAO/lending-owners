@@ -10,7 +10,10 @@ Ownership is the repo's first axis. The second — **historical rates, totals an
 
 **Vault providers** (the earn surface — MetaMorpho, Pendle PTs, Fluid, Yearn,
 Lagoon, Upshift, Silo managed vaults, GMX GM/GLV, Hyperliquid vaults, Yield
-Basis, Cap, Hyperbeat, Gearbox pools) live in one shared package,
+Basis, Cap, Hyperbeat, Gearbox pools, and since 2026-09-09 the savings registry
+— Re, sDOLA, Sky/Maker, Spark, sfrxUSD, USDD, Wren, Strata, Falcon, Tori, YO —
+plus Euler Earn and a generic DefiLlama `/chart` fallback) live in one shared
+package,
 [`@lending-owners/fetcher-vaults`](packages/fetchers/vaults/), registered as
 `VAULT_<PROVIDER>` runner keys. Their uids (`VAULT_MORPHO:1:0x…`) deliberately
 do NOT join the lending `markets` table — the SQL export skips them until a
@@ -51,6 +54,28 @@ pnpm export:history-sql --dir data/history --out data/history-sql
 Each generated file is one transaction that stages into a `TEMP` table, joins `markets` (so rows for markets the live cron never saw are **skipped, not fatal** — both target tables have an FK), de-duplicates on `(market_uid, data_ts)`, then upserts with `COALESCE`. Safe to run against production and safe to run twice; the skip count is echoed before `COMMIT`.
 
 Rates in the output are **percent** (`4.90` = 4.90 % APY), matching `lending_snapshots`. Sources disagree on this among themselves, so each `hist/` module normalizes on the way out.
+
+### Coverage — what is held, what is missing
+
+```bash
+pnpm coverage:history              # → data/coverage/ (gitignored)
+pnpm coverage:history -- --offline # disk only, no book fetch
+```
+
+Streams the NDJSON on disk and diffs it against the live market book (the same
+`/meta/lending/complete` document the uid registry is built from), then writes
+`COVERAGE.md` to read plus `coverage.json`, `missing-markets.csv` and
+`orphan-markets.csv` to work through. It answers three things the hand-written
+checklist can only answer as of its last edit: what is held (per key, chain and
+market — points, window, density, which series), what is missing (split into
+gaps inside a family we already fetch, which is a backfill run, versus families
+with no `hist/` module, which is code to write, ranked by size), and which rows
+will not join `markets` at ingest. The earn side gets the same treatment at
+provider granularity against the declared roster in
+[`vault-providers.ts`](packages/history-runner/src/vault-providers.ts) — every
+source the live fetcher pulls spot data for, and whether its upstream API also
+serves history, rolls a window, or has nothing at all. Rolling-window sources whose newest point has
+gone stale are called out first, because those days are being lost as you read.
 
 The operational checklist — what is held, what decays daily, what has no source and needs our own recorder, and the ingest gaps — is [HISTORY_GAPS.md](HISTORY_GAPS.md). Start at plan §0.9 for the A0–A7 plan, §0.10 for the things that will bite, and §0.11 for what is already built and what the first runs measured.
 

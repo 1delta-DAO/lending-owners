@@ -1,37 +1,14 @@
 import {
   type ChainId,
-  type HistoryFetcher,
   type HistoryPoint,
   type HistoryResolution,
   alignToObservation,
   bucketStart,
 } from "@lending-owners/core";
 import { NdjsonSink } from "./ndjson.js";
-import { loadAaveV3Reserves } from "./reserves.js";
+import { FETCHERS, DECAYING } from "./fetchers.js";
 import { type MarketRegistry, loadMarketRegistry } from "./registry.js";
 import { fetchLenderMetaFromDirAndInitialize } from "@1delta/initializer-sdk";
-import { createAaveV3HistoryFetcher } from "@lending-owners/fetcher-aave-v3";
-import { createCompoundV3HistoryFetcher } from "@lending-owners/fetcher-compound-v3";
-import { createEulerHistoryFetcher } from "@lending-owners/fetcher-euler";
-import { createLlamaLendHistoryFetcher } from "@lending-owners/fetcher-llamalend";
-import { createMoonwellHistoryFetcher } from "@lending-owners/fetcher-moonwell";
-import { createMorphoBlueHistoryFetcher } from "@lending-owners/fetcher-morpho-blue";
-import {
-  createCapVaultHistoryFetcher,
-  createFluidVaultHistoryFetcher,
-  createGearboxVaultHistoryFetcher,
-  createGmxVaultHistoryFetcher,
-  createHyperbeatVaultHistoryFetcher,
-  createHypercoreVaultHistoryFetcher,
-  createLagoonVaultHistoryFetcher,
-  createMorphoVaultHistoryFetcher,
-  createPendleVaultHistoryFetcher,
-  createSiloVaultHistoryFetcher,
-  createUpshiftVaultHistoryFetcher,
-  createYearnVaultHistoryFetcher,
-  createYieldBasisVaultHistoryFetcher,
-} from "@lending-owners/fetcher-vaults";
-import { createVenusHistoryFetcher } from "@lending-owners/fetcher-venus";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -49,47 +26,9 @@ import { fileURLToPath } from "node:url";
  *   pnpm capture:daily
  */
 
-type FetcherFactory = () => HistoryFetcher;
-
 /** Loaded once per process and shared by every fetcher — it is a 25 MB
  *  document, and each fetcher needs the same index. */
 let registry: MarketRegistry | undefined;
-
-/** Registry. Add a lender here once its `hist/` module exists. */
-const FETCHERS: Record<string, FetcherFactory> = {
-  AAVE_V3: () => createAaveV3HistoryFetcher({ reserves: loadAaveV3Reserves() }),
-  COMPOUND_V3: () => createCompoundV3HistoryFetcher({ skipMetadataInit: true }),
-  EULER: () => createEulerHistoryFetcher(),
-  LLAMALEND: () => createLlamaLendHistoryFetcher(),
-  MOONWELL: () => createMoonwellHistoryFetcher(),
-  MORPHO_BLUE: () => createMorphoBlueHistoryFetcher(),
-  VENUS: () => createVenusHistoryFetcher(),
-  // Vault providers (the earn surface). Source matrix + traps:
-  // margin-fetcher `src/vaults/HISTORY_APIS.md`. Uids are
-  // `VAULT_<PROVIDER>:<chainId>:<vaultAddress>` and deliberately do NOT join
-  // the lending `markets` table — the SQL export skips them until a vault
-  // ingest exists.
-  VAULT_CAP: () => createCapVaultHistoryFetcher(),
-  VAULT_FLUID: () => createFluidVaultHistoryFetcher(),
-  VAULT_GEARBOX: () => createGearboxVaultHistoryFetcher(),
-  VAULT_GMX: () => createGmxVaultHistoryFetcher(),
-  VAULT_HYPERBEAT: () => createHyperbeatVaultHistoryFetcher(),
-  VAULT_HYPERCORE: () => createHypercoreVaultHistoryFetcher(),
-  VAULT_LAGOON: () => createLagoonVaultHistoryFetcher(),
-  VAULT_MORPHO: () => createMorphoVaultHistoryFetcher(),
-  VAULT_PENDLE: () => createPendleVaultHistoryFetcher(),
-  VAULT_SILO: () => createSiloVaultHistoryFetcher(),
-  VAULT_UPSHIFT: () => createUpshiftVaultHistoryFetcher(),
-  VAULT_YEARN: () => createYearnVaultHistoryFetcher(),
-  VAULT_YIELDBASIS: () => createYieldBasisVaultHistoryFetcher(),
-};
-
-/**
- * Sources whose window is a rolling one — data older than the window is gone
- * from the API for good. These are what `--decaying` selects, and they are the
- * only part of the plan that gets worse by waiting (plan §0.1).
- */
-const DECAYING: string[] = ["COMPOUND_V3", "LLAMALEND", "VAULT_CAP", "VAULT_GEARBOX"];
 
 /** Rows buffered before a write. Big enough that appends are not chatty, small
  *  enough that a crash loses little and memory stays flat on a 700-point-per-

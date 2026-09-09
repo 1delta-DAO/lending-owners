@@ -8,7 +8,8 @@
     "build": "tsc -b",
     "typecheck": "tsc --noEmit",
     "export:sql": "tsx src/sql.ts",
-    "validate": "tsx src/validate.ts"
+    "validate": "tsx src/validate.ts",
+    "coverage": "tsx src/coverage.ts"
   },
   "dependencies": {
     "@1delta/initializer-sdk": "^0.0.11",

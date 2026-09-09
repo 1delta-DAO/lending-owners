@@ -3,3 +3,7 @@ dist
 *.tsbuildinfo
 .env
 .DS_Store
+
+# Derived history-coverage report (`pnpm coverage:history`) — regenerate it,
+# never review a stale copy of it.
+data/coverage

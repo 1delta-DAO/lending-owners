@@ -34,7 +34,23 @@ export type HistorySource =
   | "cap-api"
   | "hyperbeat-api"
   | "yieldbasis-api"
-  | "silo-api";
+  | "silo-api"
+  // Savings-registry and earn sources added 2026-09-09 (HISTORY_GAPS §3.1/§3.3
+  // closed): every one curl-verified before the module was written, and the
+  // retention limit that decides whether it needs the daily ratchet is stated
+  // in the module's header.
+  | "re-api"
+  | "inverse-api"
+  | "blockanalitica-api"
+  | "frax-api"
+  | "wren-api"
+  | "falcon-api"
+  | "tori-api"
+  | "yo-api"
+  | "strata-api"
+  | "usdd-api"
+  | "euler-earn-api"
+  | "defillama-api";
 
 /**
  * What the raw accumulator number means. Kept alongside the value rather than

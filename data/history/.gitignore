@@ -24,3 +24,23 @@
 !VAULT_CAP/**
 !VAULT_GEARBOX/
 !VAULT_GEARBOX/**
+
+# Savings-side rolling windows (added 2026-09-09 with the savings modules):
+# Sky and Spark are capped by Blockanalitica's 365-day `days_ago` whitelist,
+# Falcon at 365 points, Tori at 30, YO's yield route at 30 days. Together they
+# are ~250 KB/year — the same ratchet argument as Cap and Gearbox, at a tenth
+# of the size.
+#
+# AAVE_V3 is deliberately NOT here despite being in `DECAYING`: its 365-day
+# window is ~11 MB per run and grows with every chain, and its accumulator is
+# reconstructible from archival RPC, so it is a bucket problem, not a git one.
+!VAULT_SKY/
+!VAULT_SKY/**
+!VAULT_SPARK/
+!VAULT_SPARK/**
+!VAULT_FALCON/
+!VAULT_FALCON/**
+!VAULT_TORI/
+!VAULT_TORI/**
+!VAULT_YO/
+!VAULT_YO/**

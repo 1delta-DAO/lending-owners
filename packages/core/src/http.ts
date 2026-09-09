@@ -106,9 +106,17 @@ export class PacedClient {
         const res = await fetch(url, { ...init, signal: this.cfg.signal });
         if (RETRYABLE_STATUS.has(res.status)) {
           const retryAfter = Number(res.headers.get("retry-after"));
+          const backoffMs = Math.min(2000 * 2 ** attempt, 60_000);
+          // `Retry-After` can only ask for MORE time than our own backoff.
+          // Pendle answers 429 with `Retry-After: 0`, and honoring that
+          // literally turned every retry into a hot loop that burned all three
+          // attempts inside a few milliseconds — which is why its rate-limited
+          // markets stayed skipped across whole re-runs ("retrying in 0s" in
+          // the logs). Measured 2026-09-09: 126 markets skipped on a re-run
+          // whose whole purpose was to clear the previous run's skips.
           const waitMs = Number.isFinite(retryAfter)
-            ? Math.min(retryAfter * 1000, 90_000)
-            : Math.min(2000 * 2 ** attempt, 60_000);
+            ? Math.min(Math.max(retryAfter * 1000, backoffMs), 90_000)
+            : backoffMs;
           if (attempt + 1 < this.maxAttempts) {
             console.warn(
               `[${this.cfg.label}] HTTP ${res.status}, retrying in ${Math.round(waitMs / 1000)}s — ${url}`,

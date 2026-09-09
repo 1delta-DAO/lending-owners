@@ -13,7 +13,7 @@ import type { ChainId, MarketUid, UidResolver } from "@lending-owners/core";
  * This is a stopgap for A1, not a replacement: once `computeMarketUid` is
  * shared, a fetcher can derive uids offline and this becomes a cross-check.
  */
-const META_URL =
+export const META_URL =
   process.env.LENDING_META_URL ?? "https://yields-r0.1delta.io/meta/lending/complete";
 
 interface MetaMarket {

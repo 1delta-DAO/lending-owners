@@ -319,16 +319,25 @@ function* emitMarket(
     if (collateral) {
       const collateralAddress = collateral.address.toLowerCase() as Address;
       if (collateralAddress !== loanAddress) {
-        yield {
-          marketUid: makeMarketUid(lenderKey, chainId, collateralAddress),
-          lenderKey,
-          chainId,
-          dataTs,
-          observedTs,
-          source: "morpho-api",
-          totalDeposits: toHuman(row.collateralAssets, collateral.decimals),
-          totalDepositsUsd: num(row.collateralAssetsUsd),
-        };
+        const totalDeposits = toHuman(row.collateralAssets, collateral.decimals);
+        const totalDepositsUsd = num(row.collateralAssetsUsd);
+        // Morpho leaves BOTH collateral fields null for most markets, and a
+        // point with a key and no values is not a measurement — the ingest
+        // drops it, so writing it only inflates the corpus. Measured on the
+        // 2026-09-09 full-depth run: 729,704 of 4.41 M rows, ~17 %, almost all
+        // of them this emission.
+        if (totalDeposits !== undefined || totalDepositsUsd !== undefined) {
+          yield {
+            marketUid: makeMarketUid(lenderKey, chainId, collateralAddress),
+            lenderKey,
+            chainId,
+            dataTs,
+            observedTs,
+            source: "morpho-api",
+            totalDeposits,
+            totalDepositsUsd,
+          };
+        }
       }
     }
   }

@@ -4,6 +4,7 @@ import path from "node:path";
 import { createInterface } from "node:readline";
 import { fileURLToPath } from "node:url";
 import type { HistoryPoint } from "@lending-owners/core";
+import { renderVaultSql, toVaultCopyLine } from "./sql-vaults.js";
 
 /**
  * NDJSON → self-contained `.sql`, for operators who would rather run psql than
@@ -223,18 +224,13 @@ export function renderSql(lines: string[], meta: SqlExportMeta): string {
 }
 
 /**
- * Vault-provider families are collected and kept on disk, but deliberately
- * excluded from SQL export.
- *
- * Their uids are `VAULT_<provider>:<chain>:<address>` and there is no matching
- * row in `markets` — verified: of 332 VAULT_FLUID, 24 VAULT_GEARBOX and 14
- * VAULT_SILO addresses, zero are lending-market leaves. Exporting them would
- * produce SQL whose every row is silently skipped by the `JOIN markets`, which
- * looks like a successful apply and loads nothing.
- *
- * The NDJSON is retained so the moment a vault ingest target exists, the data
- * is already there and does not have to be re-fetched from windows that will
- * have rolled by then. Pass `--include-vaults` to export them anyway.
+ * Vault-provider families go through `sql-vaults.ts`: a different staging
+ * shape, four target tables, and a join to `*_latest` instead of `markets`.
+ * They were excluded from export until 2026-09-11 because no target existed;
+ * yield-tracer migration 0141 plus `integst/vaultHistory` is that target, and
+ * the generated script says so in its header. `--include-vaults` is accepted
+ * for compatibility and is now the default; `--lending-only` restores the old
+ * behaviour.
  */
 const VAULT_PREFIX = "VAULT_";
 
@@ -252,6 +248,8 @@ async function collectFiles(dir: string): Promise<string[]> {
 }
 
 async function convert(file: string, inDir: string, outDir: string): Promise<number> {
+  const rel = path.relative(inDir, file);
+  const isVault = rel.startsWith(VAULT_PREFIX);
   const lines: string[] = [];
   let malformed = 0;
   const rl = createInterface({
@@ -261,7 +259,10 @@ async function convert(file: string, inDir: string, outDir: string): Promise<num
   for await (const line of rl) {
     if (!line.trim()) continue;
     try {
-      lines.push(toCopyLine(JSON.parse(line) as HistoryPoint));
+      const p = JSON.parse(line) as HistoryPoint;
+      const rendered = isVault ? toVaultCopyLine(p) : toCopyLine(p);
+      if (rendered === null) malformed += 1;
+      else lines.push(rendered);
     } catch {
       malformed += 1;
     }
@@ -269,12 +270,13 @@ async function convert(file: string, inDir: string, outDir: string): Promise<num
   if (malformed > 0) console.warn(`  ${path.basename(file)}: ${malformed} unparseable line(s)`);
   if (lines.length === 0) return 0;
 
-  const rel = path.relative(inDir, file).replace(/\.ndjson$/, ".sql");
-  const target = path.join(outDir, rel);
+  const target = path.join(outDir, rel.replace(/\.ndjson$/, ".sql"));
   await mkdir(path.dirname(target), { recursive: true });
   await writeFile(
     target,
-    renderSql(lines, { sourceFile: file, rows: lines.length, generatedFrom: path.relative(inDir, file) }),
+    isVault
+      ? renderVaultSql(lines, { rows: lines.length, generatedFrom: rel })
+      : renderSql(lines, { sourceFile: file, rows: lines.length, generatedFrom: rel }),
     "utf8",
   );
   return lines.length;
@@ -288,7 +290,7 @@ async function main(): Promise<void> {
   let inDir = path.join(repoRoot, "data", "history");
   let outDir = path.join(repoRoot, "data", "history-sql");
   const only: string[] = [];
-  let includeVaults = false;
+  let lendingOnly = false;
   for (let i = 0; i < argv.length; i += 1) {
     const a = argv[i];
     const v = (): string => {
@@ -299,7 +301,8 @@ async function main(): Promise<void> {
     if (a === "--dir") { inDir = path.resolve(repoRoot, v()); i += 1; }
     else if (a === "--out") { outDir = path.resolve(repoRoot, v()); i += 1; }
     else if (a === "--family" || a === "--lender") { only.push(v().toUpperCase()); i += 1; }
-    else if (a === "--include-vaults") { includeVaults = true; }
+    else if (a === "--include-vaults") { /* the default since 2026-09-11 */ }
+    else if (a === "--lending-only") { lendingOnly = true; }
     else if (a === "--") { /* pnpm separator */ }
     else if (a?.startsWith("--")) throw new Error(`unknown flag ${a}`);
   }
@@ -313,15 +316,10 @@ async function main(): Promise<void> {
   if (only.length > 0) {
     files = files.filter((f) => only.some((fam) => path.relative(inDir, f).startsWith(`${fam}/`)));
   }
-  if (!includeVaults) {
+  if (lendingOnly) {
     const before = files.length;
     files = files.filter((f) => !path.relative(inDir, f).startsWith(VAULT_PREFIX));
-    const skipped = before - files.length;
-    if (skipped > 0) {
-      console.log(
-        `skipping ${skipped} vault file(s) — no \`markets\` row to join; NDJSON is kept on disk (--include-vaults to override)`,
-      );
-    }
+    console.log(`--lending-only: skipping ${before - files.length} vault file(s)`);
   }
   if (files.length === 0) {
     console.error("no .ndjson files matched");

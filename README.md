@@ -16,8 +16,12 @@ plus Euler Earn and a generic DefiLlama `/chart` fallback) live in one shared
 package,
 [`@lending-owners/fetcher-vaults`](packages/fetchers/vaults/), registered as
 `VAULT_<PROVIDER>` runner keys. Their uids (`VAULT_MORPHO:1:0x…`) deliberately
-do NOT join the lending `markets` table — the SQL export skips them until a
-vault ingest exists. The curl-verified source matrix (endpoints, retention,
+do NOT join the lending `markets` table; they replay through their own ingest —
+yield-tracer's `POST /ingest/vault-history` (needs migration 0141) or the SQL
+the exporter writes for vault families via
+[`sql-vaults.ts`](packages/history-runner/src/sql-vaults.ts) — which translates
+the runner key into the live fetcher's provider (`PROVIDER_OF`, kept identical
+in both repos) and gates on `vaults_latest`. The curl-verified source matrix (endpoints, retention,
 units, traps) is margin-fetcher's `src/vaults/HISTORY_APIS.md`; every module
 cites its row.
 
@@ -52,6 +56,8 @@ pnpm export:history-sql --dir data/history --out data/history-sql
 ```
 
 Each generated file is one transaction that stages into a `TEMP` table, joins `markets` (so rows for markets the live cron never saw are **skipped, not fatal** — both target tables have an FK), de-duplicates on `(market_uid, data_ts)`, then upserts with `COALESCE`. Safe to run against production and safe to run twice; the skip count is echoed before `COMMIT`.
+
+Vault families (`VAULT_*/`) render through the same command into their own script shape: the runner key is translated to the live provider, the row is joined to `vaults_latest` (or `pendle_/gmx_/hypercore_vaults_latest` — Pendle is re-keyed from the AMM market to the PT), and the four vault snapshot tables are upserted with a provenance-aware merge — a `live-cron` row keeps its values and the backfill only fills what it left NULL. Needs yield-tracer migration 0141. `--lending-only` restores the pre-2026-09-11 behaviour.
 
 Rates in the output are **percent** (`4.90` = 4.90 % APY), matching `lending_snapshots`. Sources disagree on this among themselves, so each `hist/` module normalizes on the way out.
 

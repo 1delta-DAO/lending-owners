@@ -169,10 +169,19 @@ runner).
 
 ### 3.4 Ingestion (collection ≠ served)
 
-- [ ] **Vault uids have NO ingest target**: `VAULT_*:<chain>:<addr>` rows
-      deliberately do not join yield-tracer's lending `markets` (FK) — the
-      SQL export skips them. A vault ingest (table + route keyed on the earn
-      surface) is required before any of this history is served.
+- [x] **Vault ingest BUILT 2026-09-11** — `POST /ingest/vault-history` +
+      `integst/vaultHistory` in yield-tracer, `pnpm export:history-sql` here
+      (vault files now export by default through `sql-vaults.ts`), and
+      `scripts/ingest-history.ts` replays a mixed directory through both halves.
+      Requires yield-tracer migration **0141** (`source` provenance on the four
+      vault snapshot tables). Verified on a scratch Postgres with all 141
+      migrations: live-cron rows keep their values and provenance, Pendle is
+      re-keyed market → PT, GMX/HyperCore rates land as the fractions their
+      tables store, re-runs are no-ops. **Not yet replayed into prod** — that is
+      the operator step, same as the lending side's open item below.
+      Rows for vaults the live surface does not list are dropped and counted
+      (`unknownVaults`); the collector's runner keys map to live providers via
+      `PROVIDER_OF`, kept identical in both repos.
 - [ ] **Replay the lender-side NDJSON into yield-tracer** (`A2/A3` are
       built: `POST /ingest/lending-history` + `scripts/ingest-history.ts`) —
       confirm what has actually been replayed into prod.

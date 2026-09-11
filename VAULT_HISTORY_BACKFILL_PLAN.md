@@ -150,7 +150,12 @@ ratchet for free). Note the runner's `main()` bootstrap
 need a skip flag or their own init (the vault roster can come from
 margin-fetcher's registries or yield-tracer's `vaults_latest`).
 
-**C. Ingest** (yield-tracer): lowest-friction is a replay script writing
+**C. Ingest** (yield-tracer) — **BUILT 2026-09-11** as designed below: migration
+`0141_vault_snapshots_source`, `integst/vaultHistory`, `POST /ingest/vault-history`,
+and `scripts/ingest-history.ts` routing `VAULT_*` rows by uid; the psql twin is
+lending-owners' `sql-vaults.ts`. Original design note follows.
+
+Lowest-friction is a replay script writing
 directly into `vaults_snapshots` — no FK to satisfy, unique index is the
 idempotency key, `onConflictDoNothing` is the established write mode, and
 `/earn/history` reads it immediately. Consider mirroring migration `0107`'s

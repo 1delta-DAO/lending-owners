@@ -7,7 +7,9 @@
  * Conventions on top of `HistoryPoint`:
  *  - uid: `VAULT_<PROVIDER>:<chainId>:<vaultAddress>` via `makeMarketUid`.
  *    These deliberately do NOT join yield-tracer's lending `markets` table —
- *    the SQL export skips them, which is correct until a vault ingest exists.
+ *    they go through the vault ingest instead (`sql-vaults.ts` here,
+ *    `integst/vaultHistory` in yield-tracer), which translates the runner key
+ *    into the live provider and gates on `vaults_latest`.
  *  - share price → `supplyIndex` (decimal string) with
  *    `indexKind: "assets_per_share"`.
  *  - APY → `depositRate`, **percent** (the repo-wide rule; sources disagree —

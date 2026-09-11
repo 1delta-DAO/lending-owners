@@ -59,8 +59,8 @@ export const FETCHERS: Record<string, FetcherFactory> = {
   // Vault providers (the earn surface). Source matrix + traps:
   // margin-fetcher `src/vaults/HISTORY_APIS.md`. Uids are
   // `VAULT_<PROVIDER>:<chainId>:<vaultAddress>` and deliberately do NOT join
-  // the lending `markets` table — the SQL export skips them until a vault
-  // ingest exists.
+  // the lending `markets` table — they replay through the vault ingest
+  // (`sql-vaults.ts` / yield-tracer `integst/vaultHistory`, since 2026-09-11).
   VAULT_CAP: () => createCapVaultHistoryFetcher(),
   VAULT_FLUID: () => createFluidVaultHistoryFetcher(),
   VAULT_GEARBOX: () => createGearboxVaultHistoryFetcher(),

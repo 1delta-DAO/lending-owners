@@ -502,9 +502,10 @@ async function main(): Promise<void> {
     }
 
     // Rows whose uid is not in the book join nothing: `lending_snapshots` has an
-    // FK to `markets`, so the SQL export skips them silently. Vault uids are
-    // orphans BY DESIGN (no vault ingest yet) and are excluded here — mixing
-    // them in would bury the real lender-side misses.
+    // FK to `markets`, so the SQL export skips them silently. Vault uids never
+    // join `markets` by design — they have their own ingest, gated on
+    // `vaults_latest` — and are excluded here; mixing them in would bury the
+    // real lender-side misses.
     for (const m of markets.values()) {
       if (m.lenderKey.startsWith("VAULT_")) continue;
       if (book.has(m.uid)) inBookByKey.set(m.lenderKey, (inBookByKey.get(m.lenderKey) ?? 0) + 1);
@@ -814,8 +815,8 @@ async function main(): Promise<void> {
     }
     w();
     w(
-      "`VAULT_*` uids are orphans by design — they carry no `markets` row until a vault ingest exists " +
-        "(HISTORY_GAPS.md §3.4) — and are excluded from this count.",
+      "`VAULT_*` uids never join `markets` by design — they replay through the vault ingest, gated on " +
+        "`vaults_latest` (HISTORY_GAPS.md §3.4) — and are excluded from this count.",
     );
     w();
   }

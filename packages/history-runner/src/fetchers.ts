@@ -17,6 +17,7 @@ import {
   createHyperbeatVaultHistoryFetcher,
   createHypercoreVaultHistoryFetcher,
   createLagoonVaultHistoryFetcher,
+  createListaVaultHistoryFetcher,
   createMorphoVaultHistoryFetcher,
   createPendleVaultHistoryFetcher,
   createReVaultHistoryFetcher,
@@ -29,6 +30,7 @@ import {
   createToriVaultHistoryFetcher,
   createUpshiftVaultHistoryFetcher,
   createUsddVaultHistoryFetcher,
+  createVenusHubVaultHistoryFetcher,
   createWrenVaultHistoryFetcher,
   createYoVaultHistoryFetcher,
   createYearnVaultHistoryFetcher,
@@ -88,6 +90,9 @@ export const FETCHERS: Record<string, FetcherFactory> = {
   VAULT_USDD: () => createUsddVaultHistoryFetcher(),
   VAULT_YO: () => createYoVaultHistoryFetcher(),
   VAULT_LLAMA: () => createDefiLlamaVaultHistoryFetcher(),
+  // 2026-09-11: the three savings sources added to margin-fetcher on 09-10.
+  VAULT_VENUS_HUB: () => createVenusHubVaultHistoryFetcher(),
+  VAULT_LISTA: () => createListaVaultHistoryFetcher(),
 };
 
 /**

@@ -4967,5 +4967,83 @@
     },
     "written": 4248,
     "skippedAsDuplicate": 0
+  },
+  {
+    "lender": "VAULT_VENUS_HUB",
+    "source": "venus-api",
+    "from": "2016-09-13T00:00:00.000Z",
+    "to": "2026-09-11T11:52:46.122Z",
+    "resolution": "1d",
+    "runAt": "2026-09-11T11:52:51.615Z",
+    "elapsedMs": 850,
+    "files": {
+      "VAULT_VENUS_HUB/56/2026-08.ndjson": 75,
+      "VAULT_VENUS_HUB/56/2026-09.ndjson": 30
+    },
+    "written": 105,
+    "skippedAsDuplicate": 0
+  },
+  {
+    "lender": "VAULT_LISTA",
+    "source": "lista-api",
+    "from": "2016-09-13T00:00:00.000Z",
+    "to": "2026-09-11T11:52:46.122Z",
+    "resolution": "1d",
+    "runAt": "2026-09-11T11:52:53.721Z",
+    "elapsedMs": 2096,
+    "files": {
+      "VAULT_LISTA/56/2026-09.ndjson": 11,
+      "VAULT_LISTA/56/2026-08.ndjson": 31,
+      "VAULT_LISTA/56/2026-07.ndjson": 31,
+      "VAULT_LISTA/56/2026-06.ndjson": 30,
+      "VAULT_LISTA/56/2026-05.ndjson": 31,
+      "VAULT_LISTA/56/2026-04.ndjson": 30,
+      "VAULT_LISTA/56/2026-03.ndjson": 31,
+      "VAULT_LISTA/56/2026-02.ndjson": 28,
+      "VAULT_LISTA/56/2026-01.ndjson": 31,
+      "VAULT_LISTA/56/2025-12.ndjson": 31,
+      "VAULT_LISTA/56/2025-11.ndjson": 30,
+      "VAULT_LISTA/56/2025-10.ndjson": 31,
+      "VAULT_LISTA/56/2025-09.ndjson": 30,
+      "VAULT_LISTA/56/2025-08.ndjson": 31,
+      "VAULT_LISTA/56/2025-07.ndjson": 31,
+      "VAULT_LISTA/56/2025-06.ndjson": 30,
+      "VAULT_LISTA/56/2025-05.ndjson": 31,
+      "VAULT_LISTA/56/2025-04.ndjson": 30,
+      "VAULT_LISTA/56/2025-03.ndjson": 31,
+      "VAULT_LISTA/56/2025-02.ndjson": 28,
+      "VAULT_LISTA/56/2025-01.ndjson": 31,
+      "VAULT_LISTA/56/2024-12.ndjson": 31,
+      "VAULT_LISTA/56/2024-11.ndjson": 30,
+      "VAULT_LISTA/56/2024-10.ndjson": 31,
+      "VAULT_LISTA/56/2024-09.ndjson": 30,
+      "VAULT_LISTA/56/2024-08.ndjson": 31,
+      "VAULT_LISTA/56/2024-07.ndjson": 31,
+      "VAULT_LISTA/56/2024-06.ndjson": 30,
+      "VAULT_LISTA/56/2024-05.ndjson": 31,
+      "VAULT_LISTA/56/2024-04.ndjson": 30,
+      "VAULT_LISTA/56/2024-03.ndjson": 19
+    },
+    "written": 913,
+    "skippedAsDuplicate": 0
+  },
+  {
+    "lender": "VAULT_LLAMA",
+    "source": "defillama-api",
+    "from": "2016-09-13T00:00:00.000Z",
+    "to": "2026-09-11T11:52:46.122Z",
+    "resolution": "1d",
+    "runAt": "2026-09-11T11:52:55.058Z",
+    "elapsedMs": 1335,
+    "files": {
+      "VAULT_LLAMA/1/2026-04.ndjson": 16,
+      "VAULT_LLAMA/1/2026-05.ndjson": 31,
+      "VAULT_LLAMA/1/2026-06.ndjson": 30,
+      "VAULT_LLAMA/1/2026-07.ndjson": 31,
+      "VAULT_LLAMA/1/2026-08.ndjson": 31,
+      "VAULT_LLAMA/1/2026-09.ndjson": 26
+    },
+    "written": 165,
+    "skippedAsDuplicate": 1578
   }
 ]

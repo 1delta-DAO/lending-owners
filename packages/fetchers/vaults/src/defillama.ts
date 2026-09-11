@@ -75,6 +75,18 @@ const POOLS: Array<{ uuid: string; chainId: ChainId; address: string; symbol: st
     address: "0x38eeb52f0771140d10c4e9a9a72349a329fe8a6a",
     symbol: "apyUSD",
   },
+  // Saturn sUSDat (added 2026-09-11). Llama's `saturn` pool measures the
+  // INCOME leg — the STRC dividend pass-through — which is what the spot
+  // fetcher measures too, and 136 of its 150 points carry `pricePerShare`,
+  // which is the MARK (96 % of NAV is STRC held outright, and the share price
+  // ran 1.00 → 0.78 → 1.02 in five months). Both land here: `depositRate` says
+  // what the position earned, `supplyIndex` says what the principal did.
+  {
+    uuid: "47e72726-3b2b-4fe6-b4a9-a26e1fcd9a50",
+    chainId: "1" as ChainId,
+    address: "0xd166337499e176bbc38a1fbd113ab144e5bd2df7",
+    symbol: "sUSDat",
+  },
 ];
 
 interface ChartResponse {

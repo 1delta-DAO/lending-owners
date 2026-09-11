@@ -50,7 +50,8 @@ export type HistorySource =
   | "strata-api"
   | "usdd-api"
   | "euler-earn-api"
-  | "defillama-api";
+  | "defillama-api"
+  | "lista-api";
 
 /**
  * What the raw accumulator number means. Kept alongside the value rather than

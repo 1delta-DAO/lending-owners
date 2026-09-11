@@ -144,6 +144,28 @@ export const VAULT_PROVIDER_ROSTER: readonly VaultProviderRow[] = [
     doc: `${HISTORY_APIS} · ${VAULT_PLAN} §3`,
   },
 
+  // ── added to margin-fetcher 2026-09-10, history found and wired 2026-09-11 ─
+  {
+    source: "savings:venus-hub",
+    runnerKey: "VAULT_VENUS_HUB",
+    availability: "module",
+    note: "`api.venus.io/liquidity-hub/hubs/{hub}/history?range=all` — daily pps + APY + TVL since the 2026-08-07 inception; absent from the lending `/markets` routes, roster fetched from `/liquidity-hub/hubs`",
+    doc: "packages/fetchers/vaults/src/venusHub.ts (probed 2026-09-11)",
+  },
+  {
+    source: "lst:slisBNB",
+    runnerKey: "VAULT_LISTA",
+    availability: "module",
+    note: "`api.lista.org/api/datachart/history?name=slisBNBRate&cycle=1` — daily APR to 2024-03-13, paged in ≤500-day windows (730 is `Time range too large`)",
+    doc: "packages/fetchers/vaults/src/lista.ts (probed 2026-09-11)",
+  },
+  {
+    source: "savings:saturn",
+    runnerKey: "VAULT_LLAMA",
+    availability: "module",
+    note: "no official history; DefiLlama `saturn` pool since 2026-04-15 carries APY (the STRC income leg) AND pricePerShare (the mark) on 136 of 150 points — wired into the generic Llama roster",
+    doc: "packages/fetchers/vaults/src/defillama.ts · margin-fetcher `saturn.ts`",
+  },
   // ── savings-registry and earn sources, collected here since 2026-09-09 ───
   {
     source: "euler-earn",
@@ -261,8 +283,8 @@ export const VAULT_PROVIDER_ROSTER: readonly VaultProviderRow[] = [
   {
     source: "lista",
     availability: "no-api",
-    note: "no API (every guessed route 404s); Moolah vault is a MetaMorpho-fork 4626 → archival is exact",
-    doc: `${VAULT_PLAN} §2.3`,
+    note: "the Moolah VAULTS have no series anywhere public — DefiLlama's `lista-lending` pools are per-underlying aggregates with no vault identity, so they cannot be joined to a vault uid. (The earlier \"every api.lista.org route 404'd\" note was wrong in general: `datachart/history` is real and serves slisBNB — see `lst:slisBNB` — it just has no vault-level series.) Moolah is a MetaMorpho-fork 4626 → archival is exact.",
+    doc: `${VAULT_PLAN} §2.3 · packages/fetchers/vaults/src/lista.ts`,
   },
   {
     source: "lst",

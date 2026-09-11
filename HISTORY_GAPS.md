@@ -73,7 +73,9 @@ header cites the matrix row it implements.
 | VAULT_YO | APY (30d) + TVL (full) | TVL to inception, APY 30d rolling | two routes with different depths, merged into one series |
 | VAULT_FALCON | APY | **365-point rolling** | `share_price`/`tvl` measurements are rejected by the API |
 | VAULT_TORI | APY | **30-point rolling** | the vault is now older than the series — that settles the matrix's open question: the window ROLLS |
-| VAULT_LLAMA | APY + TVL + pps when present | since pool listing | the generic `/chart/{poolUuid}` fallback, seeded with 5 no-official-API assets; adding one is a line |
+| VAULT_LLAMA | APY + TVL + pps when present | since pool listing | the generic `/chart/{poolUuid}` fallback, seeded with 6 no-official-API assets (sUSDat added 2026-09-11 — its Llama pool carries the share-price MARK, not just the income APY); adding one is a line |
+| VAULT_VENUS_HUB | pps + APY + TVL | inception 2026-08-07 | added 2026-09-11; `api.venus.io/liquidity-hub/hubs/{hub}/history?range=all` — a route family the lending `/markets` API does not expose |
+| VAULT_LISTA | APR (slisBNB) | inception 2024-03-13 | added 2026-09-11; `api.lista.org/api/datachart/history` paged in ≤500-day windows. Moolah vaults still have no series anywhere |
 
 ## 2. The daily ratchet (loses data every day it does not run)
 
@@ -160,6 +162,7 @@ runner).
       attaches Aegis's YUSD series to YieldFi's vault.
 - [ ] **LST rows** — no history collection anywhere (yield-tracer records
       forward only); most are 4626/rate-getter archival-reconstructible.
+      First one wired 2026-09-11: slisBNB via Lista's datachart (`VAULT_LISTA`).
 - [ ] Lender side without hist modules: **AAVE_V4, SPARK, DFORCE, SILO
       (lender), TELLER, TERMMAX (lender), …** — see the plan for which have
       a source worth building.

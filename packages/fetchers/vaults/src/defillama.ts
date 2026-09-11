@@ -75,6 +75,25 @@ const POOLS: Array<{ uuid: string; chainId: ChainId; address: string; symbol: st
     address: "0x38eeb52f0771140d10c4e9a9a72349a329fe8a6a",
     symbol: "apyUSD",
   },
+  // Saturn sUSDat (2026-09-11). This is the vault's INCOME LEG — the STRC
+  // dividend vesting in, ~13 % — and it is deliberately paired with the
+  // `VAULT_ONCHAIN` share-price replay of the same vault, which carries the
+  // STRC mark as well: 96.5 % of NAV is a preferred stock held outright, and
+  // over the vault's life the two series disagree by ~8.5 pp with a −22.8 %
+  // drawdown in between. Neither alone is the return. lending-sdks SATURN.md §1.
+  {
+    uuid: "47e72726-3b2b-4fe6-b4a9-a26e1fcd9a50",
+    chainId: "1" as ChainId,
+    address: "0xd166337499e176bbc38a1fbd113ab144e5bd2df7",
+    symbol: "sUSDat",
+  },
+  // f(x) fxSAVE — the live fetcher's own pool; no official history route.
+  {
+    uuid: "ee0b7069-f8f3-4aa2-a415-728f13e6cc3d",
+    chainId: "1" as ChainId,
+    address: "0x7743e50f534a7f9f1791dde7dcd89f7783eefc39",
+    symbol: "fxSAVE",
+  },
 ];
 
 interface ChartResponse {

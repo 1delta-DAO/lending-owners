@@ -1,6 +1,6 @@
 # Historical data — gaps, checklist, full picture
 
-Status date: **2026-08-25**. This is the operational checklist for the
+Status date: **2026-09-11**. This is the operational checklist for the
 history axis (both the lender side and the vault-provider side). The design
 docs stay where they are — [LENDING_HISTORY_BACKFILL_PLAN.md](LENDING_HISTORY_BACKFILL_PLAN.md)
 for the lender side, margin-fetcher's `src/vaults/HISTORY_APIS.md` for the
@@ -73,7 +73,26 @@ header cites the matrix row it implements.
 | VAULT_YO | APY (30d) + TVL (full) | TVL to inception, APY 30d rolling | two routes with different depths, merged into one series |
 | VAULT_FALCON | APY | **365-point rolling** | `share_price`/`tvl` measurements are rejected by the API |
 | VAULT_TORI | APY | **30-point rolling** | the vault is now older than the series — that settles the matrix's open question: the window ROLLS |
-| VAULT_LLAMA | APY + TVL + pps when present | since pool listing | the generic `/chart/{poolUuid}` fallback, seeded with 5 no-official-API assets; adding one is a line |
+| VAULT_LLAMA | APY + TVL + pps when present | since pool listing | the generic `/chart/{poolUuid}` fallback, seeded with 5 no-official-API assets; adding one is a line. 2026-09-11: + Saturn sUSDat (the INCOME leg — see VAULT_ONCHAIN for why both are kept) and f(x) fxSAVE |
+
+### The "no upstream history" rows (BUILT 2026-09-11)
+
+The savings registry is per-asset and the roster above was per-source, so
+every brand without a module was fetched daily and invisible to §3b. Three
+modules close that, and the roster now carries a row per brand.
+
+| key | series | depth held | note |
+| --- | --- | --- | --- |
+| VAULT_ONCHAIN | pps (+ size) at ONE block per day, archival `eth_call` | archival where a chain's public endpoints serve old state; head-only where they do not | **167 vaults / 14 chains**, generated from margin-fetcher's `SAVINGS_REGISTRY`: Saturn sUSDat, the Venus Liquidity Hub ×3, Vesper ×11 (`pricePerShare`), Hyperbeat's Pricer ×4 (the §3.1 share-price gap), Bitway ×6, Native ×108, Theo's RedStone feed on Stable, and every plain-4626 row with a current-only API (Neutrl, Parallel, Angle, Avant, OpenEden, Maple, YieldFi, Resolv, Reservoir, Resupply, InfiniFi, Hastra, f(x), scrvUSD). Blocks pinned by `coins.llama.fi/block`, bisection elsewhere; every point carries its `blockNumber`. Archival probed per run: 5/13 Ethereum and 2/27 BNB endpoints on the `rpc-tester` list serve 30–90-day-old state; Robinhood has none (head-only), Stable is reached through `rpc.stable.xyz`. In `DECAYING` because a day nobody samples on a pruned chain is gone |
+| VAULT_BITFI | pps per EPOCH from the contracts' own ledgers | full life (vaults 2025-11-03 →; bfBTC datable from the vaults' launch) | `epochRatios(e)` self-timestamped; bfBTC `ratio(e)` dated through the vaults' clock via a pinned epoch offset (416 ↔ 281, re-checked every run) and emitted under all 6 registered chains — one NAV, one product. No archival needed, ~20 s for everything |
+| VAULT_LISASTER | reward APY (a weekly Merkle CLAIM, not an accrual) + staked size | **self-archive** — the API serves only the current value | `api.lista.org/api/lisaster/overview`; in `DECAYING`, the daily run IS the archive |
+
+**Saturn specifically**: VAULT_LLAMA carries the vault's income leg (~13 %,
+the STRC dividend vesting in) and VAULT_ONCHAIN its share price, which also
+carries the STRC mark — 96.5 % of NAV is a preferred stock held outright, and
+over the vault's life the two disagree by ~8.5 pp with a −22.8 % drawdown
+between them. Both are kept because neither alone is the return
+(lending-sdks `SATURN.md` §1).
 
 ## 2. The daily ratchet (loses data every day it does not run)
 
@@ -116,8 +135,9 @@ runner).
       this row was never actually missing: `packages/fetchers/aave-v3/src/hist`
       has always read `supplyAPYHistory`/`borrowAPYHistory`, and AAVE_V3 is in
       the daily set as of 2026-09-09 so the 365-day window stops decaying.)
-- [ ] **Hyperbeat share price** — API is APY-only; pps must be recorded
-      forward from each vault's Pricer `getRate()`.
+- [x] **Hyperbeat share price** — `VAULT_ONCHAIN` reads each vault's Pricer
+      `getRate()` at a block (2026-09-11); HyperEVM's public endpoints served
+      the probe, so it is a backfill, not only a forward record.
 - [ ] **Fluid DEX trading-yield RATE** — the `historical-stats` route carries
       fees/shares, not the rate; record the spot `/v2/{chain}/vaults` field
       forward (or derive from fees/shares).
@@ -126,8 +146,10 @@ runner).
 - [ ] **HyperCore fine-grained buckets** — day/week/month buckets roll
       (24h/7d/30d); only ~weekly allTime reaches inception. A recorder
       polling the `month` bucket daily would densify the series.
-- [ ] **LlamaLend share price** — no accumulator in the API; archival
-      `convertToAssets` replay (plan §0.9 A6) still open.
+- [ ] **LlamaLend share price** — no accumulator in the API; the archival
+      replay now EXISTS (`VAULT_ONCHAIN`, `kind: erc4626`) and only the
+      LlamaLend vault roster has to be added to it — a generated row per
+      vault, the same way the savings rows were.
 
 ### 3.2 Rolling / floored sources — backfill impossible, only forward capture
 
@@ -159,7 +181,9 @@ runner).
       is one line; the roster is deliberately UUID-keyed because a symbol join
       attaches Aegis's YUSD series to YieldFi's vault.
 - [ ] **LST rows** — no history collection anywhere (yield-tracer records
-      forward only); most are 4626/rate-getter archival-reconstructible.
+      forward only); most are 4626/rate-getter archival-reconstructible —
+      and `VAULT_ONCHAIN` is the module to do it in (add a `kind` per LST
+      rate getter and generate the roster from the LST registry).
 - [ ] Lender side without hist modules: **AAVE_V4, SPARK, DFORCE, SILO
       (lender), TELLER, TERMMAX (lender), …** — see the plan for which have
       a source worth building.

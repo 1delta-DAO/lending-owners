@@ -44,3 +44,11 @@
 !VAULT_TORI/**
 !VAULT_YO/
 !VAULT_YO/**
+
+# Self-archives (added 2026-09-11): lisAster's API serves only the current
+# rate (one row per day), and VAULT_ONCHAIN's head-only chains have no other
+# record of yesterday. ~170 rows/day in total — the ratchet argument again.
+!VAULT_LISASTER/
+!VAULT_LISASTER/**
+!VAULT_ONCHAIN/
+!VAULT_ONCHAIN/**

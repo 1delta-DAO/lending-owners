@@ -56,6 +56,19 @@ export class PacedClient {
     return this.run(() => this.execute<T>(url, { ...init, method: "GET" }));
   }
 
+  /** POSTs a JSON body and returns the parsed JSON. Same pacing and retry
+   *  policy as `getJson`; used for JSON-RPC, where every call is a POST. */
+  async postJson<T>(url: string, body: unknown, init?: RequestInit): Promise<T> {
+    return this.run(() =>
+      this.execute<T>(url, {
+        ...init,
+        method: "POST",
+        headers: { "Content-Type": "application/json", ...(init?.headers ?? {}) },
+        body: JSON.stringify(body),
+      }),
+    );
+  }
+
   /**
    * POSTs a GraphQL document and returns `data`. Partial `errors` alongside a
    * present `data` are warned about, not thrown: Morpho returns per-field

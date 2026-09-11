@@ -270,4 +270,75 @@ export const VAULT_PROVIDER_ROSTER: readonly VaultProviderRow[] = [
     note: "27 on-chain readers, no single API; exchange-rate LSTs are exactly reconstructible, operator-pushed ones need a recorder",
     doc: `${VAULT_PLAN} §2.3 · HISTORY_GAPS §3.3`,
   },
+
+  // ── 2026-09-11: the savings sources that had NO row here at all ─────────
+  // The roster is per-SOURCE while the savings registry is per-asset, so
+  // every brand below was fetched daily and invisible to this report — the
+  // exact silence §3b exists to remove. All of them are replayed by the
+  // generic `VAULT_ONCHAIN` share-price module (archival `eth_call`, one block
+  // per day) unless a row says otherwise; the ONCHAIN roster is generated
+  // from margin-fetcher's `SAVINGS_REGISTRY` and lists the address per vault.
+  {
+    source: "savings:saturn",
+    runnerKey: "VAULT_ONCHAIN",
+    availability: "module",
+    note: "sUSDat share price via archival `convertToAssets` (the BALANCE SHEET — carries the STRC mark, −22.8 % drawdown in 2026-06) + the DefiLlama pool under VAULT_LLAMA for the INCOME leg (~13 %). Both kept; neither alone is the return",
+    doc: "lending-sdks SATURN.md §1",
+  },
+  {
+    source: "savings:venus-hub",
+    runnerKey: "VAULT_ONCHAIN",
+    availability: "module",
+    note: "vhUSDT / vhUSDC / vhU on BNB: no APY view exists by design, so the rate is a reader blend; share price is archival 4626 (BNB has 2 archival endpoints of 27 — nodereal + blastapi — probed at run time)",
+    doc: "lending-sdks savings README (Venus Liquidity Hub)",
+  },
+  {
+    source: "savings:vesper",
+    runnerKey: "VAULT_ONCHAIN",
+    availability: "module",
+    note: "`pricePerShare()` (UNDERLYING-scaled) + `totalValue()` at a block. Deliberately NOT the DefiLlama pools: Llama tracks Vesper's forward `earningRates`, 190x off the realized figure on vaETH (VESPER.md)",
+    doc: "lending-sdks VESPER.md",
+  },
+  {
+    source: "savings:lisaster",
+    runnerKey: "VAULT_LISASTER",
+    availability: "module",
+    note: "Lista's lisAster reward rate — a weekly Merkle CLAIM with no accumulator and no history route (`datachart/history` is empty); `overview.lisasterApy` is recorded daily and that IS the archive",
+    doc: "lending-sdks YIELD_SOURCES.md (lisAster)",
+  },
+  {
+    source: "savings:bitfi",
+    runnerKey: "VAULT_BITFI",
+    availability: "module",
+    note: "bfBTC + hbfUSD/pbfUSD from the CONTRACTS' own epoch ledgers (`ratio(epoch)`, `epochRatios(epoch)`) — full life, no archival needed; bfBTC dated through the vaults' clock via a pinned epoch offset",
+    doc: "lending-sdks BITFI.md",
+  },
+  {
+    source: "savings:hyperbeat-pps",
+    runnerKey: "VAULT_ONCHAIN",
+    availability: "module",
+    note: "the share-price half §3.1 listed as missing: each vault's Pricer `getRate()` (8 dec) at a block. VAULT_HYPERBEAT stays the APY source",
+    doc: "HISTORY_GAPS §3.1",
+  },
+  {
+    source: "savings:bitway",
+    runnerKey: "VAULT_ONCHAIN",
+    availability: "module",
+    note: "two-arg `convertToAssets(shares, token)` on the parent staking vault, per leg; the APR is an admin dial with no history",
+    doc: "lending-sdks BITWAY.md",
+  },
+  {
+    source: "savings:native",
+    runnerKey: "VAULT_ONCHAIN",
+    availability: "module",
+    note: "108 wNLP pools × `getNlpByWnlp(1e18)` at a block — the wrapper's own accumulator over the rebasing NTLP. Llama covers 23 of 108 and is not used",
+    doc: "lending-sdks savings README (Native Credit Pool)",
+  },
+  {
+    source: "savings:erc4626-misc",
+    runnerKey: "VAULT_ONCHAIN",
+    availability: "module",
+    note: "plain-4626 rows with an API that serves only the CURRENT rate, or none: Neutrl sNUSD, Parallel sUSDp ×4, Theo sthUSD (+ the Stable OFT via its RedStone feed), Angle stUSD/stEUR ×9, Avant ×3, OpenEden cUSDO ×3, Maple syrup ×3, YieldFi ×2, Resolv wstUSR, Reservoir srUSD, Resupply sreUSD, InfiniFi, Hastra PRIME, f(x) fxSAVE, Curve scrvUSD",
+    doc: "margin-fetcher savings/APR_BACKFILL.md",
+  },
 ] as const;

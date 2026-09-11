@@ -33,6 +33,9 @@ import {
   createYoVaultHistoryFetcher,
   createYearnVaultHistoryFetcher,
   createYieldBasisVaultHistoryFetcher,
+  createOnchainVaultHistoryFetcher,
+  createLisAsterHistoryFetcher,
+  createBitfiVaultHistoryFetcher,
 } from "@lending-owners/fetcher-vaults";
 import { createVenusHistoryFetcher } from "@lending-owners/fetcher-venus";
 
@@ -88,6 +91,15 @@ export const FETCHERS: Record<string, FetcherFactory> = {
   VAULT_USDD: () => createUsddVaultHistoryFetcher(),
   VAULT_YO: () => createYoVaultHistoryFetcher(),
   VAULT_LLAMA: () => createDefiLlamaVaultHistoryFetcher(),
+  // The "no upstream history" rows (2026-09-11, HISTORY_GAPS §3.1/§3.3):
+  // a generic archival share-price replay over every savings source without a
+  // module (Saturn, the Venus Liquidity Hub, Vesper, Neutrl, Parallel, Theo,
+  // Angle, Avant, OpenEden, Maple, YieldFi, Resolv, Reservoir, Resupply,
+  // InfiniFi, Hastra, f(x), scrvUSD, Hyperbeat's pricer, Native, Bitway — 167
+  // rows), BitFi's on-chain epoch ledgers, and the lisAster reward rate.
+  VAULT_ONCHAIN: () => createOnchainVaultHistoryFetcher(),
+  VAULT_BITFI: () => createBitfiVaultHistoryFetcher(),
+  VAULT_LISASTER: () => createLisAsterHistoryFetcher(),
 };
 
 /**
@@ -115,4 +127,12 @@ export const DECAYING: string[] = [
   // LAST_YEAR — a 365-day roll. The module has existed since the first build
   // but was never in the daily set, so the tail was being lost.
   "AAVE_V3",
+  // 2026-09-11. Neither of these has a rolling window in the usual sense —
+  // they have NO upstream window at all. lisAster's API serves the current
+  // rate and nothing else, so the daily run is the archive. VAULT_ONCHAIN is
+  // archival where a chain's public endpoints serve old state and head-only
+  // where they do not (BNB has 2 of 27; several chains have none), and on
+  // those chains a day nobody samples is a day nobody can sample later.
+  "VAULT_LISASTER",
+  "VAULT_ONCHAIN",
 ];

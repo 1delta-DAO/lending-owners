@@ -50,7 +50,13 @@ export type HistorySource =
   | "strata-api"
   | "usdd-api"
   | "euler-earn-api"
-  | "defillama-api";
+  | "defillama-api"
+  // 2026-09-11: the self-archive and on-chain sources (HISTORY_GAPS §3.1's
+  // "no upstream history" rows). `archival-rpc` above is reused for the
+  // generic share-price replay; these two name the APIs that serve only a
+  // CURRENT value, so the daily run IS the archive.
+  | "lista-api"
+  | "bitfi-onchain";
 
 /**
  * What the raw accumulator number means. Kept alongside the value rather than

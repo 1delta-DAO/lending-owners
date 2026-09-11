@@ -30,3 +30,7 @@ export { createWrenVaultHistoryFetcher } from "./wren.js";
 export { createYoVaultHistoryFetcher } from "./yo.js";
 export { createYearnVaultHistoryFetcher } from "./yearn.js";
 export { createYieldBasisVaultHistoryFetcher } from "./yieldbasis.js";
+// 2026-09-11 — the "no upstream history" rows of HISTORY_GAPS §3.1/§3.3.
+export { createOnchainVaultHistoryFetcher, ONCHAIN_VAULTS, type OnchainVaultRow } from "./onchain.js";
+export { createLisAsterHistoryFetcher } from "./lisaster.js";
+export { createBitfiVaultHistoryFetcher } from "./bitfi.js";

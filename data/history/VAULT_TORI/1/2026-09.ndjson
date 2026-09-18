@@ -15,3 +15,4 @@
 {"marketUid":"VAULT_TORI:1:0x280839980a7ed0d7717f64125fe241012e5f5815","lenderKey":"VAULT_TORI","chainId":"1","dataTs":"2026-09-15T00:00:00.000Z","source":"tori-api","depositRate":10.29}
 {"marketUid":"VAULT_TORI:1:0x280839980a7ed0d7717f64125fe241012e5f5815","lenderKey":"VAULT_TORI","chainId":"1","dataTs":"2026-09-16T00:00:00.000Z","source":"tori-api","depositRate":10.28}
 {"marketUid":"VAULT_TORI:1:0x280839980a7ed0d7717f64125fe241012e5f5815","lenderKey":"VAULT_TORI","chainId":"1","dataTs":"2026-09-17T00:00:00.000Z","source":"tori-api","depositRate":10.25}
+{"marketUid":"VAULT_TORI:1:0x280839980a7ed0d7717f64125fe241012e5f5815","lenderKey":"VAULT_TORI","chainId":"1","dataTs":"2026-09-18T00:00:00.000Z","source":"tori-api","depositRate":10.28}

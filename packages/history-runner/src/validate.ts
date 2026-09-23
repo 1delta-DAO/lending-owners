@@ -169,12 +169,22 @@ async function main(): Promise<void> {
   const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../..");
   let dir = path.join(repoRoot, "data", "history");
   let strict = false;
+  // Families whose unit has been checked by hand against the live book, so
+  // the median band does not block them. The band is a heuristic for a 100×
+  // error; a family that genuinely lends BTC at 0.004 % (Aave V4 on
+  // Avalanche, 2026-09-15: llama 0.00418 vs live 0.00417) trips it while
+  // being right. Pass the family name; it is downgraded to a note, never
+  // silenced.
+  const trustUnits = new Set<string>();
   for (let i = 0; i < argv.length; i += 1) {
     if (argv[i] === "--dir") {
       dir = path.resolve(repoRoot, argv[i + 1] ?? dir);
       i += 1;
     } else if (argv[i] === "--strict") {
       strict = true;
+    } else if (argv[i] === "--trust-units") {
+      for (const f of (argv[i + 1] ?? "").split(",")) if (f.trim()) trustUnits.add(f.trim().toUpperCase());
+      i += 1;
     }
   }
   dir = path.resolve(dir);
@@ -265,10 +275,11 @@ async function main(): Promise<void> {
     }
     const med = median(s.depositRates);
     if (med !== undefined && (med < PLAUSIBLE_MEDIAN.low || med > PLAUSIBLE_MEDIAN.high)) {
-      block(
+      const msg =
         `median deposit rate ${med.toFixed(4)} is outside [${PLAUSIBLE_MEDIAN.low}, ${PLAUSIBLE_MEDIAN.high}] — ` +
-          `likely a percent/fraction unit error`,
-      );
+        `likely a percent/fraction unit error`;
+      if (trustUnits.has(family)) note(`${msg} (accepted via --trust-units)`);
+      else block(msg);
     }
   }
 

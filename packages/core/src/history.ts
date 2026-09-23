@@ -157,6 +157,16 @@ export interface HistoryFetcher {
    *  Euler's indexer genesis, Compound's 30-day roll. Used to warn when a
    *  requested `from` predates it rather than silently returning less. */
   readonly earliest?: (now: Date) => Date | undefined;
+  /**
+   * Which key the runner's `resolveUid` should look markets up by. The
+   * default, `"leaf"`, is the uid's own last segment — what a protocol calls
+   * the market (vToken, vault, silo, underlying). Sources that only know the
+   * UNDERLYING asset — DefiLlama pools carry `underlyingTokens`, nothing
+   * else — ask for `"underlying"`, and the runner resolves through the book's
+   * `underlying` column instead, which is what makes a Compound-V2 fork
+   * (leaf = qToken) reachable from a source that has never heard of qTokens.
+   */
+  readonly resolveBy?: "leaf" | "underlying";
   fetch(ctx: HistoryContext): AsyncIterable<HistoryPoint>;
 }
 

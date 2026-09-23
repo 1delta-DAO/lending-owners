@@ -153,7 +153,13 @@ ON CONFLICT (market_uid, data_ts) DO UPDATE SET
     -- live measurements. Mirrors the TypeScript ingest path.
     source               = CASE WHEN lending_snapshots.source = 'live-cron'
                                 THEN 'live-cron'
-                                ELSE excluded.source END;`;
+                                ELSE excluded.source END
+-- A row the live cron measured is never overwritten by an API's version of
+-- the same hour. Added for the 2026-08-26 → 09-14 fetcher-a gap, where ~30 %
+-- of hours DO exist: without this guard every one of them would have taken
+-- Morpho's / Euler's number in place of our own read. Backfill fills holes;
+-- it does not re-measure.
+ WHERE lending_snapshots.source <> 'live-cron';`;
 
 const INDEX_INSERT = `INSERT INTO market_index_snapshots (
     market_uid, data_ts, block_number, supply_index, borrow_index, index_kind, source
@@ -171,7 +177,8 @@ ON CONFLICT (market_uid, data_ts) DO UPDATE SET
     supply_index = COALESCE(excluded.supply_index, market_index_snapshots.supply_index),
     borrow_index = COALESCE(excluded.borrow_index, market_index_snapshots.borrow_index),
     index_kind   = excluded.index_kind,
-    source       = excluded.source;`;
+    source       = excluded.source
+ WHERE market_index_snapshots.source <> 'live-cron';`;
 
 /** Emitted before COMMIT so an operator sees the skip count in the psql output
  *  rather than discovering the gap in a dashboard weeks later. */
@@ -247,6 +254,20 @@ async function collectFiles(dir: string): Promise<string[]> {
   return out.sort();
 }
 
+/**
+ * Rows per generated file. One file is one transaction: the COPY, the upsert
+ * and the FK-skip report commit together. Unbounded, a hourly Morpho run on
+ * Base renders 2.6 M rows into a single 500 MB transaction — several GB of
+ * WAL in one shot against a primary whose replication slot is capped at
+ * 10 GB, and hours during which the row-level locks the upsert takes sit on
+ * `lending_snapshots` while the live cron tries to write the same table.
+ * Splitting keeps each transaction short and lets the pacing loop in the
+ * ingest runbook check replication BETWEEN files, which is the whole point of
+ * pacing. Splits are numbered `.partNN.sql` and are independent: any one can
+ * be re-run alone. 0 disables splitting (the pre-2026-09-14 behaviour).
+ */
+let maxRowsPerFile = 250_000;
+
 async function convert(file: string, inDir: string, outDir: string): Promise<number> {
   const rel = path.relative(inDir, file);
   const isVault = rel.startsWith(VAULT_PREFIX);
@@ -270,15 +291,26 @@ async function convert(file: string, inDir: string, outDir: string): Promise<num
   if (malformed > 0) console.warn(`  ${path.basename(file)}: ${malformed} unparseable line(s)`);
   if (lines.length === 0) return 0;
 
-  const target = path.join(outDir, rel.replace(/\.ndjson$/, ".sql"));
-  await mkdir(path.dirname(target), { recursive: true });
-  await writeFile(
-    target,
-    isVault
-      ? renderVaultSql(lines, { rows: lines.length, generatedFrom: rel })
-      : renderSql(lines, { sourceFile: file, rows: lines.length, generatedFrom: rel }),
-    "utf8",
-  );
+  const base = rel.replace(/\.ndjson$/, "");
+  await mkdir(path.dirname(path.join(outDir, base)), { recursive: true });
+  const parts =
+    maxRowsPerFile > 0 && lines.length > maxRowsPerFile
+      ? Array.from({ length: Math.ceil(lines.length / maxRowsPerFile) }, (_, i) =>
+          lines.slice(i * maxRowsPerFile, (i + 1) * maxRowsPerFile),
+        )
+      : [lines];
+  for (const [i, part] of parts.entries()) {
+    const suffix = parts.length > 1 ? `.part${String(i + 1).padStart(2, "0")}` : "";
+    const from = parts.length > 1 ? `${rel} (part ${i + 1}/${parts.length})` : rel;
+    await writeFile(
+      path.join(outDir, `${base}${suffix}.sql`),
+      isVault
+        ? renderVaultSql(part, { rows: part.length, generatedFrom: from })
+        : renderSql(part, { sourceFile: file, rows: part.length, generatedFrom: from }),
+      "utf8",
+    );
+  }
+  if (parts.length > 1) console.log(`  ${rel}: split into ${parts.length} files of ≤${maxRowsPerFile} rows`);
   return lines.length;
 }
 
@@ -303,6 +335,10 @@ async function main(): Promise<void> {
     else if (a === "--family" || a === "--lender") { only.push(v().toUpperCase()); i += 1; }
     else if (a === "--include-vaults") { /* the default since 2026-09-11 */ }
     else if (a === "--lending-only") { lendingOnly = true; }
+    else if (a === "--max-rows") {
+      maxRowsPerFile = Number(v()); i += 1;
+      if (!Number.isFinite(maxRowsPerFile) || maxRowsPerFile < 0) throw new Error("--max-rows must be a non-negative integer");
+    }
     else if (a === "--") { /* pnpm separator */ }
     else if (a?.startsWith("--")) throw new Error(`unknown flag ${a}`);
   }

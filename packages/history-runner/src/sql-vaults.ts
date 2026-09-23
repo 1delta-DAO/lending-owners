@@ -55,6 +55,7 @@ export const PROVIDER_OF: Record<string, string> = {
   VAULT_TORI: "savings",
   VAULT_LLAMA: "savings",
   VAULT_VENUS_HUB: "savings",
+  VAULT_BITFI: "savings",
 };
 
 /** Staging columns, in COPY order. Only what a vault row can carry into a

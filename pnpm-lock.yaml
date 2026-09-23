@@ -90,6 +90,12 @@ importers:
         specifier: workspace:*
         version: link:../../core
 
+  packages/fetchers/lending-apis:
+    dependencies:
+      '@lending-owners/core':
+        specifier: workspace:*
+        version: link:../../core
+
   packages/fetchers/llamalend:
     dependencies:
       '@lending-owners/core':
@@ -176,6 +182,9 @@ importers:
       '@lending-owners/fetcher-euler':
         specifier: workspace:*
         version: link:../fetchers/euler
+      '@lending-owners/fetcher-lending-apis':
+        specifier: workspace:*
+        version: link:../fetchers/lending-apis
       '@lending-owners/fetcher-llamalend':
         specifier: workspace:*
         version: link:../fetchers/llamalend

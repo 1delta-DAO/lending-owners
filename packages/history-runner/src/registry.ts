@@ -32,6 +32,10 @@ export interface MarketRegistry {
   resolve: UidResolver;
   /** A resolver scoped to one lender family — what fetchers should use. */
   forFamily: (familyPrefix: string) => UidResolver;
+  /** Same family scoping, keyed by the market's UNDERLYING asset (the book's
+   *  `underlying` column) rather than the uid leaf — for sources that only
+   *  know the asset; see `HistoryFetcher.resolveBy`. */
+  forFamilyByUnderlying: (familyPrefix: string) => UidResolver;
   /** Total distinct uids indexed. */
   size: number;
 }
@@ -57,17 +61,22 @@ export async function loadMarketRegistry(signal?: AbortSignal): Promise<MarketRe
    * So ambiguity is resolved by the CALLER's family instead of being discarded.
    */
   const byLeaf = new Map<string, string[]>();
+  const byUnderlying = new Map<string, string[]>();
   let size = 0;
+
+  const add = (index: Map<string, string[]>, k: string, uid: string) => {
+    const bucket = index.get(k);
+    if (bucket) {
+      if (!bucket.includes(uid)) bucket.push(uid);
+    } else index.set(k, [uid]);
+  };
 
   for (const [chainId, lenders] of Object.entries(body.items ?? {})) {
     for (const markets of Object.values(lenders ?? {})) {
-      for (const uid of Object.keys(markets ?? {})) {
+      for (const [uid, m] of Object.entries(markets ?? {})) {
         const leaf = uid.slice(uid.lastIndexOf(":") + 1);
-        const k = key(chainId, leaf);
-        const bucket = byLeaf.get(k);
-        if (bucket) {
-          if (!bucket.includes(uid)) bucket.push(uid);
-        } else byLeaf.set(k, [uid]);
+        add(byLeaf, key(chainId, leaf), uid);
+        if (m?.underlying) add(byUnderlying, key(chainId, m.underlying), uid);
         size += 1;
       }
     }
@@ -83,25 +92,29 @@ export async function loadMarketRegistry(signal?: AbortSignal): Promise<MarketRe
     return asUid(candidates[0]);
   }
 
+  // Explicit return annotation: without it TypeScript infers the union of
+  // every `MarketUid` branch and hits its union-size limit.
+  const scoped =
+    (index: Map<string, string[]>) =>
+    (familyPrefix: string): UidResolver =>
+    (chainId: ChainId, address: string): MarketUid | undefined => {
+      const all = index.get(key(String(chainId), address));
+      if (!all) return undefined;
+      // Exact family first, then prefix — `AAVE_V3` must not match `AAVE_V2`,
+      // but `MORPHO_BLUE` must match `MORPHO_BLUE_<marketId>`.
+      const exact = all.filter((u) => lenderOf(u) === familyPrefix);
+      if (exact.length === 1) return asUid(exact[0]);
+      if (exact.length > 1) return undefined;
+      const prefixed = all.filter((u) => lenderOf(u).startsWith(familyPrefix));
+      if (prefixed.length !== 1) return undefined;
+      return asUid(prefixed[0]);
+    };
+
   return {
     size,
     resolve: (chainId: ChainId, leafAddress: string) =>
       pick(byLeaf.get(key(String(chainId), leafAddress))),
-    forFamily:
-      (familyPrefix: string): UidResolver =>
-      // Explicit return annotation: without it TypeScript infers the union of
-      // every `MarketUid` branch and hits its union-size limit.
-      (chainId: ChainId, leafAddress: string): MarketUid | undefined => {
-        const all = byLeaf.get(key(String(chainId), leafAddress));
-        if (!all) return undefined;
-        // Exact family first, then prefix — `AAVE_V3` must not match `AAVE_V2`,
-        // but `MORPHO_BLUE` must match `MORPHO_BLUE_<marketId>`.
-        const exact = all.filter((u) => lenderOf(u) === familyPrefix);
-        if (exact.length === 1) return asUid(exact[0]);
-        if (exact.length > 1) return undefined;
-        const prefixed = all.filter((u) => lenderOf(u).startsWith(familyPrefix));
-        if (prefixed.length !== 1) return undefined;
-        return asUid(prefixed[0]);
-      },
+    forFamily: scoped(byLeaf),
+    forFamilyByUnderlying: scoped(byUnderlying),
   };
 }

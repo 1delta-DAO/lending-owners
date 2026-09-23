@@ -40,8 +40,9 @@ interface Reserve {
 }
 
 export interface AaveV3HistoryConfig {
-  /** Reserves to walk. Required: the history API has no listing endpoint, so
-   *  the caller supplies them (the runner reads `data/AAVE_V3.json`). */
+  /** Reserves from `data/AAVE_V3.json`. With an explicit chain list the API's
+   *  own `markets` listing is the roster and this is only the fallback — see
+   *  `resolveReserves`. */
   reserves: Reserve[];
   concurrency?: number;
 }
@@ -64,6 +65,83 @@ function windowFor(days: number): (typeof WINDOWS)[number]["name"] {
   return "LAST_YEAR";
 }
 
+
+/**
+ * Every (market, chainId, underlyingToken) triple the run should ask about.
+ *
+ * `data/AAVE_V3.json` only lists the chains the ownership runner has been
+ * pointed at — four of them on 2026-09-14 — while our lending book carries
+ * Aave V3 on a dozen more (Base, Plasma, Linea, Gnosis, Sonic, Celo, Ink,
+ * X Layer …). The plan's note that the Aave API "has no listing endpoint" is
+ * out of date: `markets(request:{chainIds})` returns every pool with its
+ * reserves, and it also carries the pool address, which the hand-kept
+ * `POOL_BY_CHAIN` had WRONG for Linea. So the API is the roster and the file
+ * is the fallback for when the API is down — never the other way round.
+ */
+const MARKETS_QUERY = `query($chainIds: [ChainId!]!) {
+  markets(request: { chainIds: $chainIds }) {
+    address
+    chain { chainId }
+    reserves { underlyingToken { address symbol } }
+  }
+}`;
+
+interface MarketsResponse {
+  markets: Array<{
+    address: string;
+    chain: { chainId: number };
+    reserves: Array<{ underlyingToken: { address: string; symbol: string } }>;
+  }>;
+}
+
+async function resolveReserves(
+  client: PacedClient,
+  fromFile: Reserve[],
+  chainIds: ChainId[] | undefined,
+): Promise<Reserve[]> {
+  const wanted = chainIds?.map(Number);
+  const fileReserves = fromFile.filter((r) => !wanted || wanted.includes(Number(r.chainId)));
+  // Without an explicit chain list the file defines the scope, as before.
+  if (!wanted) return fileReserves;
+
+  let discovered: Reserve[] = [];
+  try {
+    const data = await client.graphql<MarketsResponse>(API, MARKETS_QUERY, { chainIds: wanted });
+    for (const m of data.markets ?? []) {
+      for (const r of m.reserves ?? []) {
+        discovered.push({
+          chainId: Number(m.chain.chainId),
+          market: m.address,
+          underlyingToken: r.underlyingToken.address,
+          symbol: r.underlyingToken.symbol,
+        });
+      }
+    }
+  } catch (err) {
+    console.warn(
+      `[${LENDER_KEY}] markets listing failed (${(err as Error).message}); ` +
+        `falling back to data/AAVE_V3.json (${fileReserves.length} reserves)`,
+    );
+    return fileReserves;
+  }
+
+  // API first, file for anything the API did not mention.
+  const seen = new Set(discovered.map((r) => `${r.chainId}:${r.underlyingToken.toLowerCase()}`));
+  for (const r of fileReserves) {
+    const k = `${r.chainId}:${r.underlyingToken.toLowerCase()}`;
+    if (!seen.has(k)) {
+      seen.add(k);
+      discovered.push(r);
+    }
+  }
+  const missing = wanted.filter((c) => !discovered.some((r) => Number(r.chainId) === c));
+  console.log(
+    `[${LENDER_KEY}] ${discovered.length} reserves on ${wanted.length - missing.length} chain(s) via the API` +
+      (missing.length ? ` — no Aave V3 market on: ${missing.join(",")}` : ""),
+  );
+  return discovered;
+}
+
 export function createAaveV3HistoryFetcher(config: AaveV3HistoryConfig): HistoryFetcher {
   return {
     lenderKey: LENDER_KEY,
@@ -83,9 +161,7 @@ export function createAaveV3HistoryFetcher(config: AaveV3HistoryConfig): History
       const window = windowFor(days);
       const from = ctx.from.getTime();
       const to = ctx.to.getTime();
-      const reserves = config.reserves.filter(
-        (r) => !ctx.chainIds || ctx.chainIds.includes(String(r.chainId) as ChainId),
-      );
+      const reserves = await resolveReserves(client, config.reserves, ctx.chainIds);
 
       let done = 0;
       let unresolved = 0;

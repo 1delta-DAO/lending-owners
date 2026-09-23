@@ -7,3 +7,16 @@ dist
 # Derived history-coverage report (`pnpm coverage:history`) — regenerate it,
 # never review a stale copy of it.
 data/coverage
+
+# Backfill / replay staging output — NOT a git store. Same rule as
+# data/history/.gitignore: git holds only the rolling-window ratchet, while
+# gap-fill and archival-replay output (multi-GB; one MORPHO_BLUE/8453 month is
+# 1.1 GB on its own, past GitHub's 100 MB per-file limit) belongs in object
+# storage and is replayed through POST /ingest/lending-history
+# (LENDING_HISTORY_BACKFILL_PLAN.md §0.8). Enforced here because the failure
+# mode is an accidental multi-GB commit that cannot be pushed at all.
+data/history-gap
+data/history-gap-sql
+data/history-replay
+data/history-replay-sql
+data/history-replay2-sql

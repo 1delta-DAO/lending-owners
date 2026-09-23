@@ -34,6 +34,9 @@
     },
     {
       "path": "../fetchers/venus"
+    },
+    {
+      "path": "../fetchers/lending-apis"
     }
   ]
 }

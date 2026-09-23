@@ -37,6 +37,11 @@ import {
   createYieldBasisVaultHistoryFetcher,
 } from "@lending-owners/fetcher-vaults";
 import { createVenusHistoryFetcher } from "@lending-owners/fetcher-venus";
+import {
+  createAaveV4HistoryFetcher,
+  createDefiLlamaLendingHistoryFetcher,
+  createFluidLendingHistoryFetcher,
+} from "@lending-owners/fetcher-lending-apis";
 
 /**
  * Which lenders the history runner can fetch, kept apart from the CLI so a
@@ -56,6 +61,32 @@ export const FETCHERS: Record<string, FetcherFactory> = {
   MOONWELL: () => createMoonwellHistoryFetcher(),
   MORPHO_BLUE: () => createMorphoBlueHistoryFetcher(),
   VENUS: () => createVenusHistoryFetcher(),
+  // Lending families with an API but no ownership package — fetcher-lending-apis.
+  FLUID: () => createFluidLendingHistoryFetcher(),
+  AAVE_V4: () => createAaveV4HistoryFetcher(),
+  // Families whose only history is DefiLlama's daily supply-side chart. One
+  // runner key per family so each gets its own tree and coverage row; the
+  // Llama `project` slugs were read off /pools on 2026-09-15. Adding a fork is
+  // one line — but check the slug's pools actually carry `underlyingTokens`.
+  ...Object.fromEntries(
+    (
+      [
+        ["BENQI", ["benqi-lending"]],
+        ["COLEND", ["colend-protocol"]],
+        ["CURVANCE", ["curvance"]],
+        ["DOLOMITE", ["dolomite"]],
+        ["HYPERLEND", ["hyperlend-pooled"]],
+        ["HYPURRFI", ["hypurrfi-pooled"]],
+        ["KINETIC", ["kinetic"]],
+        ["NEVERLAND", ["neverland"]],
+        ["TAKARA", ["takara-lend"]],
+        ["XLEND", ["extra-finance-xlend"]],
+      ] as Array<[string, string[]]>
+    ).map(([family, projects]) => [
+      family,
+      () => createDefiLlamaLendingHistoryFetcher({ family, projects }),
+    ]),
+  ),
   // Vault providers (the earn surface). Source matrix + traps:
   // margin-fetcher `src/vaults/HISTORY_APIS.md`. Uids are
   // `VAULT_<PROVIDER>:<chainId>:<vaultAddress>` and deliberately do NOT join

@@ -21,6 +21,7 @@
     "@lending-owners/fetcher-moonwell": "workspace:*",
     "@lending-owners/fetcher-morpho-blue": "workspace:*",
     "@lending-owners/fetcher-vaults": "workspace:*",
-    "@lending-owners/fetcher-venus": "workspace:*"
+    "@lending-owners/fetcher-venus": "workspace:*",
+    "@lending-owners/fetcher-lending-apis": "workspace:*"
   }
 }

@@ -199,7 +199,10 @@ async function runLender(key: string, args: Args): Promise<void> {
     // Family-scoped, not global: leaves are shared across lenders (Aave's leaf
     // is the underlying token, which dozens of Morpho markets also use), so a
     // global lookup resolves almost nothing for those families.
-    resolveUid: registry?.forFamily(key),
+    resolveUid:
+      fetcher.resolveBy === "underlying"
+        ? registry?.forFamilyByUnderlying(fetcher.lenderKey)
+        : registry?.forFamily(key),
     onProgress: (done, total, label) => {
       const now = Date.now();
       if (now - lastLog < 5000 && done !== total) return;

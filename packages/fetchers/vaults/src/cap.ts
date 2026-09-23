@@ -26,11 +26,12 @@ import { decimalString, fractionToPercent, num } from "./shared.js";
 const LENDER_KEY = "VAULT_CAP";
 const CHAIN_ID = "1" as ChainId;
 
-/** The vanity address margin-fetcher's `capFetcher` already queries; the
- *  series it returns describes the staked vault (stcUSD share price, staking
- *  TVL, staking APY), so the uid keys on the same address. */
+/** The vanity address margin-fetcher's `capFetcher` queries. The series it
+ *  returns describes the STAKED vault (stcUSD share price, staking TVL,
+ *  staking APY), and `vaults_latest` keys that vault on the stcUSD token —
+ *  not on cUSD — so the uid must use the stcUSD address or nothing joins. */
 const CUSD = "0xcCcc62962d17b8914c62D74FfB843d73B2a3cccC";
-const STAKED_VAULT = CUSD;
+const STAKED_VAULT = "0x88887bE419578051FF9F4eb6C858A951921D8888";
 
 interface CapPoint {
   timestamp: string; // ISO bucket start

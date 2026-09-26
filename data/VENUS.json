@@ -1,13 +1,13 @@
 {
   "lenderKey": "VENUS",
-  "fetchedAt": "2026-09-25T13:03:32.755Z",
+  "fetchedAt": "2026-09-26T12:30:36.140Z",
   "markets": {
     "VENUS:56:0x0000000000000000000000000000000000000000": {
       "marketUid": "VENUS:56:0x0000000000000000000000000000000000000000",
       "lenderKey": "VENUS",
       "chainId": "56",
       "underlying": "0x0000000000000000000000000000000000000000",
-      "totalSupply": 563616.5992733041,
+      "totalSupply": 563457.2544515629,
       "owners": {
         "0x4c3d4ea508c54009c198eef099ea7331ce845dc8": 243462.02156482576,
         "0x3bba62f3abcffdd37ee124ace8557b3d4e2b8bce": 119700.00015849421,
@@ -26,10 +26,10 @@
       "lenderKey": "VENUS",
       "chainId": "56",
       "underlying": "0x02fca66c1d1afb4e2a7884261eb00f63598a7436",
-      "totalSupply": 1244.3785916482482,
+      "totalSupply": 1500,
       "owners": {
         "0x33b914fc1b1fe541fba51b0ebda8db810b4fc979": 606.2306467825837,
-        "0x417d16b597e20ba66122fb02ef176e51e6c20bb5": 189.99999999472834,
+        "0x417d16b597e20ba66122fb02ef176e51e6c20bb5": 439.80559537904867,
         "0xc9144683c0497b422ccfe9bcfba37855cc62c0b8": 104.91835003233967,
         "0xc322bc5c997fa321c7ed71db7af11a8de475271d": 70.79932574500359,
         "0x32113fb63a8ff45e6f214e640a356692b3c1ca5a": 64.32484764654858,
@@ -81,7 +81,7 @@
       "lenderKey": "VENUS",
       "chainId": "56",
       "underlying": "0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82",
-      "totalSupply": 11621389.54038463,
+      "totalSupply": 11621997.02759241,
       "owners": {
         "0x3e8734ec146c981e3ed1f6b582d447dde701d90c": 5168560.836024857,
         "0xf8587bfb4d3e0b31029efa09d595ee6179ddfeaa": 2238121.7172372025,
@@ -166,10 +166,10 @@
       "lenderKey": "VENUS",
       "chainId": "56",
       "underlying": "0x18afdacf30f8671021dec4b78297e39d2fe87226",
-      "totalSupply": 93459.54520145105,
+      "totalSupply": 92510.21533056104,
       "owners": {
         "0xc1b89445f3d743801a3359b1041cc03199c2b270": 50457.5043517364,
-        "0xc7adc31d7b180b0ee4ac3737aab8114021ab8fd9": 41458.579811036165,
+        "0xc7adc31d7b180b0ee4ac3737aab8114021ab8fd9": 40509.13030468517,
         "0x4196771de9a4329c2f03c4a7e7c7cda7f17f8d66": 999.9999999865161
       }
     },
@@ -178,7 +178,7 @@
       "lenderKey": "VENUS",
       "chainId": "56",
       "underlying": "0x1af3f329e8be154074d8769d1ffa4ee058b1dbc3",
-      "totalSupply": 1612505.4906712996,
+      "totalSupply": 1612377.9621248033,
       "owners": {
         "0xf887bd34d36c60b76d461b064c1fe247206f275b": 500304.4504258653,
         "0x290f5566a5269a52ad70d01ac860456b3b964f01": 198811.84471599275,
@@ -201,12 +201,12 @@
       "lenderKey": "VENUS",
       "chainId": "56",
       "underlying": "0x1d2f0da169ceb9fc7b3144628db156f3f6c60dbe",
-      "totalSupply": 5282914.900167734,
+      "totalSupply": 5266723.409458179,
       "owners": {
         "0x0a956edadea2a9458e9ddf588af8c4222aa200b8": 319363.18161088036,
         "0xbb01f59c6d485b68359150a84e4c6958435a2fe2": 308748.60225087986,
         "0x5822f3de742bf398f8a31b327f21b5e07d1ed6a3": 235322.02808163915,
-        "0x4f43d4173227bf19b180f1f54804bf2c9045297b": 203781.4927284179,
+        "0x4f43d4173227bf19b180f1f54804bf2c9045297b": 202101.07703229995,
         "0x6fa1e2bf3342d4520bced905f3651f81a029d6b1": 165238.9146840986,
         "0x18a662be15f9a21d5419c7b5e0598a099c126087": 142162.3359134156,
         "0x520fd020cb4351453334abff151b0cc22d20e42b": 128256.38648718735,
@@ -256,7 +256,7 @@
       "lenderKey": "VENUS",
       "chainId": "56",
       "underlying": "0x2170ed0880ac9a755fd29b2688956bd959f933f8",
-      "totalSupply": 18138.885961245625,
+      "totalSupply": 18136.579142227703,
       "owners": {
         "0x3e8734ec146c981e3ed1f6b582d447dde701d90c": 2285.0955316003383,
         "0x97add6f966e74776de2a1eb1ddae175d88448d77": 2196.0975179408456,
@@ -348,7 +348,7 @@
       "lenderKey": "VENUS",
       "chainId": "56",
       "underlying": "0x3ee2200efb3400fabb9aacf31297cbdd1d435d47",
-      "totalSupply": 4617648.064310799,
+      "totalSupply": 4617566.75095845,
       "owners": {
         "0x4f43d4173227bf19b180f1f54804bf2c9045297b": 460584.0718561961,
         "0x449710aadf0a1d8275445436e40451411613eb22": 385001.77012264164,
@@ -390,7 +390,7 @@
       "lenderKey": "VENUS",
       "chainId": "56",
       "underlying": "0x4338665cbb7b2485a8855a139b75d5e34ab0db94",
-      "totalSupply": 44224.3085098126,
+      "totalSupply": 44222.77549100368,
       "owners": {
         "0xbb01f59c6d485b68359150a84e4c6958435a2fe2": 12960.478721850692,
         "0xdc32d6146de676141d4d474a1c187b708f10ad35": 5316.018353684804,
@@ -459,7 +459,7 @@
       "lenderKey": "VENUS",
       "chainId": "56",
       "underlying": "0x4b0f1812e5df2a09796481ff14017e6005508003",
-      "totalSupply": 1155775.2210005848,
+      "totalSupply": 1149805.3359648797,
       "owners": {
         "0x9810b49b431ee594b19357c8222884e36442e280": 450009.66261929396,
         "0xf53109bb46b37d030b8cd7dbb09972d078553647": 300015.9424815039,
@@ -476,23 +476,23 @@
       "lenderKey": "VENUS",
       "chainId": "56",
       "underlying": "0x55d398326f99059ff775485246999027b3197955",
-      "totalSupply": 181353039.70411012,
+      "totalSupply": 183092847.20404616,
       "owners": {
         "0xac3e216bd55860912062a4027a03b99587b7ffc7": 30000000,
         "0xd183f2bbf8b28d9fec8367cb06fe72b88778c86b": 10000000,
-        "0xb962e0b467e4eda5b8df916c5756f9753d46914f": 7386771.797545165,
+        "0xb962e0b467e4eda5b8df916c5756f9753d46914f": 7449551.798191692,
         "0x3e8734ec146c981e3ed1f6b582d447dde701d90c": 6594647.620306342,
         "0x55e826694d00654e8f0b1913e386ccae65e3ae87": 6485872.896702453,
         "0x5c18ad1e3118654d9149148a5438eb681178fe77": 5726440.584031914,
-        "0x9400f8ad57e9e0f352345935d6d3175975eb1d9f": 5202739.169793671,
+        "0x9400f8ad57e9e0f352345935d6d3175975eb1d9f": 5167190.776259889,
         "0x1bfb399188c78a4c73a13cd5db953297b9ad8094": 4206644.2581892675,
         "0x215462dc79523ac795216e1baa27586840fa9382": 3618002.2583935237,
         "0xccecc8286c615c0bdb96cd8062f059b0c7920088": 3478282.48977775,
+        "0xcfb9bef5f7b748ac72311f057f3a888bc73334d9": 3266262.961075941,
         "0xe67a455eb93e92c379ed9e27228d2eadb7ea9ad9": 3192303.943767608,
-        "0xcfb9bef5f7b748ac72311f057f3a888bc73334d9": 2993746.656721931,
         "0x7be3f59115f90f00d3c42d44a9284c52eac45fdd": 2752386.659156059,
         "0x4f14485da248b71d3dd755a920d0ebfefce1d966": 2488248.8388020834,
-        "0xc9e6ced9589363f8dc5695be2c79ab4ddaecc94b": 2452671.883772887,
+        "0xc9e6ced9589363f8dc5695be2c79ab4ddaecc94b": 2457813.593750659,
         "0xbae17002e6080acfb284a222f8c9ca9b0a572c4f": 2382168.1638782886,
         "0x2c789cf18dd172dad075e5af94f59b84bc16895d": 2056729.9999999998
       }
@@ -502,7 +502,7 @@
       "lenderKey": "VENUS",
       "chainId": "56",
       "underlying": "0x570a5d26f7765ecb712c0924e4de545b89fd43df",
-      "totalSupply": 16964.280052813567,
+      "totalSupply": 17056.254191818913,
       "owners": {
         "0xd9d3dd56936f90ea4c7677f554dfefd45ef6df0f": 1271.7999642390075,
         "0x93dd4a863ad3803ae1a34e014e6029318407ef10": 1156.5114414399295,
@@ -524,8 +524,7 @@
         "0x34fbdb99977699a329460cc37f52a441b39696b8": 270.59548733611285,
         "0x6b7a57a7646f14cf37139ed4cfd6ff155c63f8a0": 260.8185154102193,
         "0x14771b2c91e7bd4cce90bcd702b0fe6ef2a282e0": 227.12445535089012,
-        "0x33e6ee2a0d81030493657d8ebd4d363c604d3f18": 178.90873370367748,
-        "0xa73b75fc79bd4b22df586ab4a75b8e596a1d762a": 170.2239509268534
+        "0x33e6ee2a0d81030493657d8ebd4d363c604d3f18": 178.90873370367748
       }
     },
     "VENUS:56:0x5b1910eaad6450e50f816082aa078c41f10c292f": {
@@ -533,9 +532,9 @@
       "lenderKey": "VENUS",
       "chainId": "56",
       "underlying": "0x5b1910eaad6450e50f816082aa078c41f10c292f",
-      "totalSupply": 113.98752965406675,
+      "totalSupply": 113.99097355033184,
       "owners": {
-        "0xeba4b3c462b9c16f7ccaf4be6f4d3c17c377411e": 38.03367357955994,
+        "0xeba4b3c462b9c16f7ccaf4be6f4d3c17c377411e": 38.033673618337644,
         "0xaa40cb43f78b97701d0e5981d83822ed77dd57e9": 23.92326881765242,
         "0xb49d4146fbdf06a7b7497115e00af58f8bb32df2": 20.027906867539496,
         "0x13f210c8baf5f5dbaff3e917e2e5a49e73bbaf12": 11.026331282914267,
@@ -550,7 +549,7 @@
       "lenderKey": "VENUS",
       "chainId": "56",
       "underlying": "0x5d3a1ff2b6bab83b63cd9ad0787074081a52ef34",
-      "totalSupply": 37033.635298366135,
+      "totalSupply": 37039.87949339421,
       "owners": {
         "0x21993c4e2b836ba5e5c7f599f790969479615d51": 23613.406023465297,
         "0xf74d20494471741ccba5b0a2ccc62e532da1d6b2": 6239.553999996375,
@@ -593,7 +592,7 @@
       "lenderKey": "VENUS",
       "chainId": "56",
       "underlying": "0x7130d2a12b9bcbfae4f2634d864a1ee1ce3ead9c",
-      "totalSupply": 5797.508364323942,
+      "totalSupply": 5796.582320514897,
       "owners": {
         "0x1e7ffb649152ce1306314e531a98e91d76a861ae": 576.972845188957,
         "0xc78e0c232a1ba9822bc4108f558c69fb096e55e5": 479.0864860453068,
@@ -620,7 +619,7 @@
       "lenderKey": "VENUS",
       "chainId": "56",
       "underlying": "0x77734e70b6e88b4d82fe632a168edf6e700912b6",
-      "totalSupply": 34308.940593915686,
+      "totalSupply": 34258.758916910054,
       "owners": {
         "0x6b783dea17098c7c754303262d081f929597e6ba": 9767.85572318957,
         "0x0be1bc34589650b4c87b81c0dfdabe81deede2fa": 8495.230425291666,
@@ -662,7 +661,7 @@
       "lenderKey": "VENUS",
       "chainId": "56",
       "underlying": "0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d",
-      "totalSupply": 38556241.93720715,
+      "totalSupply": 39110594.20615275,
       "owners": {
         "0x3e8734ec146c981e3ed1f6b582d447dde701d90c": 4541285.904802808,
         "0xf9597e0364df5480f3002320f328a881de8f8976": 2553686.0560961463,
@@ -678,9 +677,10 @@
         "0x4d459be15ded0e40a83711d3cde08241c16fce81": 797036.5805134713,
         "0xc6396e4dd7642208f83b4bf955bbd2a602432c1d": 708391.576429864,
         "0x90169f13d0f26321a7491876a71f5e642c26f2db": 695157.7698705604,
-        "0xbf45a2e9bba728037a714380899fd7c4ee587312": 671828.7412405678,
+        "0xbf45a2e9bba728037a714380899fd7c4ee587312": 671642.1235648767,
         "0x50b1ba98cf117c9682048d56628b294ebbaa4ec2": 629457.7881770828,
         "0x153a3aa87c175374fb4900c290881003e5b13d83": 563163.8816903799,
+        "0x4c5421856129a4ca017e5a59542a629585b7ce76": 546033.2765425844,
         "0x9c1c724c2dabfcd43556c1c3dcd8d75527253ebb": 512310.59279996995,
         "0x9f012154919441c60a3b776495a2ae10e9e3e59b": 500004.5157242867,
         "0x4c12e6d788645d0267f2bbfb9d41fa4dac6d7ac1": 493298.33192219614,
@@ -696,7 +696,7 @@
       "lenderKey": "VENUS",
       "chainId": "56",
       "underlying": "0x8d0d000ee44948fc98c9b98a4fa4921476f08b0d",
-      "totalSupply": 960513.2520079786,
+      "totalSupply": 960550.9874476402,
       "owners": {
         "0x3e8734ec146c981e3ed1f6b582d447dde701d90c": 910832.1036288211,
         "0xeaeb0b27e39f1220ca6694edc282e634fc154993": 198450.8490228855,
@@ -732,7 +732,7 @@
       "lenderKey": "VENUS",
       "chainId": "56",
       "underlying": "0x9d2d9592cf8dfbf59107faab703d08494be14617",
-      "totalSupply": 271.04431749380313,
+      "totalSupply": 271.0492525443383,
       "owners": {
         "0x15d7029f7f6dfe2b116c9eddeb81bc228f3a680f": 229.6067326094624,
         "0x95282779ee2f3d4cf383041f7361c741cf8cc00e": 31.437584876753657,
@@ -771,7 +771,7 @@
       "lenderKey": "VENUS",
       "chainId": "56",
       "underlying": "0xb0b84d294e0c75a6abe60171b70edeb2efd14a1b",
-      "totalSupply": 686.9651937225237,
+      "totalSupply": 686.7082946061324,
       "owners": {
         "0x4b81730e55b640f4d1ad666cd020332cb336d74a": 192.61752924525092,
         "0xaca5f6abed1c4b8d9ba262b9d82f313e660ff595": 96.66551187762259,
@@ -789,7 +789,7 @@
       "lenderKey": "VENUS",
       "chainId": "56",
       "underlying": "0xba2ae424d960c26247dd6c32edc70b295c744c43",
-      "totalSupply": 79822698.08199804,
+      "totalSupply": 79976869.2378164,
       "owners": {
         "0xae7ca78b255d763dcbebf166b15cdacc6671ac11": 48404886.32070139,
         "0x36a050412491e75c0c15a0a12e12eb287ffc5a26": 8611644.06341924,
@@ -804,7 +804,7 @@
       "lenderKey": "VENUS",
       "chainId": "56",
       "underlying": "0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c",
-      "totalSupply": 100168.42648835042,
+      "totalSupply": 100116.65770125439,
       "owners": {
         "0xac3e216bd55860912062a4027a03b99587b7ffc7": 19999.999999996875,
         "0x3825e3811e15c5e8e6ea9a44e402362708e9d98a": 1025.1108551037382
@@ -815,7 +815,7 @@
       "lenderKey": "VENUS",
       "chainId": "56",
       "underlying": "0xbe9d156892e55e7154bcd3cb0fea677f9d3103e1",
-      "totalSupply": 1378.82835797945,
+      "totalSupply": 1390.6209925794499,
       "owners": {
         "0xc7ae3e2240cb4c65c16ae5b72156047843e7d93d": 565.3653325490266,
         "0xaa40cb43f78b97701d0e5981d83822ed77dd57e9": 198.2361692277249,
@@ -847,7 +847,7 @@
       "lenderKey": "VENUS",
       "chainId": "56",
       "underlying": "0xc5f0f7b66764f6ec8c8dff7ba683102295e16409",
-      "totalSupply": 5967480.073935622,
+      "totalSupply": 5985307.548913266,
       "owners": {
         "0x3e8734ec146c981e3ed1f6b582d447dde701d90c": 3692049.3693896714,
         "0x38fee735744655f4eb3b3dd827a9eeb9ae167e2e": 404319.4440341177,
@@ -908,7 +908,7 @@
       "lenderKey": "VENUS",
       "chainId": "56",
       "underlying": "0xce24439f2d9c6a2289f741120fe202248b666666",
-      "totalSupply": 28493585.046324547,
+      "totalSupply": 28494915.09758457,
       "owners": {
         "0xc1b6f1908748f45ef94711a49d3c82d9cb5b082a": 26023497.31497264,
         "0x8a680f77a5367fa7cd33a02f51896cb1d55159c3": 650999.5782514685,
@@ -941,7 +941,7 @@
       "lenderKey": "VENUS",
       "chainId": "56",
       "underlying": "0xcf6bb5389c92bdda8a3747ddb454cb7a64626c63",
-      "totalSupply": 927143.8442094731,
+      "totalSupply": 927143.8442094737,
       "owners": {
         "0xba2402ca08426f31f6f9d8bfb6b9742f22157ebd": 480400.2613361324,
         "0x36cc7b13029b5dee4034745fb4f24034f3f2ffc6": 87184.89174886126,
@@ -1005,7 +1005,7 @@
       "lenderKey": "VENUS",
       "chainId": "56",
       "underlying": "0xf8a0bf9cf54bb92f17374d9e9a321e6a111a51bd",
-      "totalSupply": 146603.67412923268,
+      "totalSupply": 146588.2277499807,
       "owners": {
         "0xf5c594e33e74eea19e98d29841c2179a469a8f10": 35486.26952368805,
         "0xc5543b3a2973dd3b9d156376e1e8e7d0dcac3664": 8006.443904131105,
@@ -1032,7 +1032,7 @@
       "lenderKey": "VENUS",
       "chainId": "56",
       "underlying": "0xfb6115445bff7b52feb98650c87f44907e58f802",
-      "totalSupply": 4840.48346703841,
+      "totalSupply": 4840.497614402353,
       "owners": {
         "0x3825e3811e15c5e8e6ea9a44e402362708e9d98a": 2054.9190632277496,
         "0xb71d05cf5cdf7a9b15b20b9aab5e91332c271c96": 302.8727725699343,
@@ -1053,10 +1053,10 @@
   },
   "chainFreshness": {
     "56": {
-      "subgraphBlock": 123953606,
-      "rpcBlock": 123953609,
-      "blocksBehind": 3,
-      "minutesBehind": 0
+      "subgraphBlock": 124141152,
+      "rpcBlock": 124141170,
+      "blocksBehind": 18,
+      "minutesBehind": 1
     }
   }
 }

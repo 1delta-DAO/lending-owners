@@ -1,6 +1,6 @@
 {
   "lenderKey": "SPARK",
-  "fetchedAt": "2026-09-27T12:53:23.904Z",
+  "fetchedAt": "2026-09-28T15:11:59.385Z",
   "markets": {
     "SPARK:1:0x18084fba666a33d37592fa2633fd49a74dd93a88": {
       "marketUid": "SPARK:1:0x18084fba666a33d37592fa2633fd49a74dd93a88",
@@ -20,7 +20,7 @@
       "lenderKey": "SPARK",
       "chainId": "1",
       "underlying": "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599",
-      "totalSupply": 2073.77468935,
+      "totalSupply": 2073.98486156,
       "owners": {
         "0xac860a0b1c178303a7f085f3842a157e91a241b1": 239.97966365,
         "0x3eeb5e43bcb9ed151a13a2cfb584a171dcb1aeba": 219.49448957,
@@ -47,9 +47,9 @@
       "lenderKey": "SPARK",
       "chainId": "1",
       "underlying": "0x6b175474e89094c44da98b954eedeac495271d0f",
-      "totalSupply": 294367879.9162317,
+      "totalSupply": 294401878.8405959,
       "owners": {
-        "0x1601843c5e9bc251a3272907010afa41fa18347e": 273625767.3937386,
+        "0x1601843c5e9bc251a3272907010afa41fa18347e": 273656817.38816917,
         "0x77565d50da284f4d614585e5de839197715dd771": 3000000
       }
     },
@@ -58,9 +58,9 @@
       "lenderKey": "SPARK",
       "chainId": "1",
       "underlying": "0x6c3ea9036406852006290770bedfcaba0e23a0e8",
-      "totalSupply": 125684923.433729,
+      "totalSupply": 133613523.47834,
       "owners": {
-        "0x1601843c5e9bc251a3272907010afa41fa18347e": 125684886.889735
+        "0x1601843c5e9bc251a3272907010afa41fa18347e": 133613049.236504
       }
     },
     "SPARK:1:0x7f39c581f595b53c5cb19bd0b3f8da6c935e2ca0": {
@@ -68,9 +68,9 @@
       "lenderKey": "SPARK",
       "chainId": "1",
       "underlying": "0x7f39c581f595b53c5cb19bd0b3f8da6c935e2ca0",
-      "totalSupply": 1105595.5826604231,
+      "totalSupply": 1135989.362600672,
       "owners": {
-        "0x3883d8cdcdda03784908cfa2f34ed2cf1604e4d7": 141799.68525951702,
+        "0x3883d8cdcdda03784908cfa2f34ed2cf1604e4d7": 143599.68525951737,
         "0x9600a48ed0f931d0c422d574e3275a90d8b22745": 114805.22151192324,
         "0x5ffcdb28b8cc958afe052947d43cb6af04833c37": 110725.3625738288,
         "0x3a0dc3fc4b84e2427ced214c9ce858ea218e97d9": 104276.03407943093,
@@ -80,11 +80,12 @@
         "0xb6569cf7c07921438349489ff7cc1e5fa9825514": 32924.501515180724,
         "0xda46f11ac5e394111d92f8879302a9347fe42259": 31393.58937102324,
         "0xd1781818f7f30b68155fec7d31f812abe7b00be9": 29242.50216649234,
+        "0xed0c6079229e2d407672a117c22b62064f4a4312": 29000.000000000004,
         "0xf0bb20865277abd641a307ece5ee04e79073416c": 27770.146512820742,
         "0x13d0503352f34b751cacfbe27e694b58561f2983": 15916.305718177255,
         "0xfdd86a96f47015d9c457c841e1d52d06ede16a92": 15670.044016404232,
+        "0xb8a451107a9f87fde481d4d686247d6e43ed715e": 15390.601024781552,
         "0x28355886a65848488cf0a3646fca395db0a762b1": 15325.288297680876,
-        "0xb8a451107a9f87fde481d4d686247d6e43ed715e": 15076.339407428557,
         "0x0ea129c1bdb8f8aba308bec6214357988dbc3ff2": 13695.229714895917,
         "0x5ae0e44de96885702bd99a6914751c952d284938": 12829.288350743549
       }
@@ -94,7 +95,7 @@
       "lenderKey": "SPARK",
       "chainId": "1",
       "underlying": "0x8236a87084f8b84306f72007f36f2618a5634494",
-      "totalSupply": 2664.08436459,
+      "totalSupply": 2657.5555311,
       "owners": {
         "0xb213531aa8113f455c626a305feaef82da605e08": 1064.82196004,
         "0x219de81f5d9b30f4759459c81c3cf47abaa0ded1": 729.09501817,
@@ -110,9 +111,9 @@
       "lenderKey": "SPARK",
       "chainId": "1",
       "underlying": "0x8292bb45bf1ee4d140127049757c2e0ff06317ed",
-      "totalSupply": 10000356.608141478,
+      "totalSupply": 10000001.066112708,
       "owners": {
-        "0x1601843c5e9bc251a3272907010afa41fa18347e": 10000000
+        "0x1601843c5e9bc251a3272907010afa41fa18347e": 10000000.066010365
       }
     },
     "SPARK:1:0x83f20f44975d03b1b09e64809b757c47f942beea": {
@@ -138,10 +139,10 @@
       "lenderKey": "SPARK",
       "chainId": "1",
       "underlying": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
-      "totalSupply": 40359910.170762,
+      "totalSupply": 40367023.40584,
       "owners": {
-        "0x1601843c5e9bc251a3272907010afa41fa18347e": 24424964.9582,
-        "0x98911f273c90b237d3d5fcaa3d5d70816e95543b": 5412238.401617,
+        "0x1601843c5e9bc251a3272907010afa41fa18347e": 24901915.765051,
+        "0x98911f273c90b237d3d5fcaa3d5d70816e95543b": 5114775.122713,
         "0xa118d7d5460ba8f52d7633ef3a94091d9a12fae7": 3000000,
         "0xd6d3a0f4dd3d48bf3653c0549aac6b3516dd933b": 1708102.134671,
         "0x19bd29e74c450ac73b49b5fb199a3d0d4c8f37b2": 1251772.644858,
@@ -207,7 +208,7 @@
       "lenderKey": "SPARK",
       "chainId": "1",
       "underlying": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
-      "totalSupply": 594486.6582134881,
+      "totalSupply": 593023.2568036315,
       "owners": {
         "0xed0c6079229e2d407672a117c22b62064f4a4312": 83709.24925255694,
         "0x9cc65c0560acdb03c4e7cef83e02fbe413920f98": 65560.15253929423,
@@ -218,7 +219,7 @@
         "0x5f39a6fb00b3e4bd7369cb40b22cf7088044136b": 30438.001675791475,
         "0x28a55c4b4f9615fde3cdaddf6cc01fcf2e38a6b0": 28366.273338738025,
         "0x267ed5f71ee47d3e45bb1569aa37889a2d10f91e": 27156.16217285566,
-        "0x1601843c5e9bc251a3272907010afa41fa18347e": 20319.488848675064,
+        "0x1601843c5e9bc251a3272907010afa41fa18347e": 19075.728275407426,
         "0x9927190b2dec3c5efa725edb6ec0cc676d12fa77": 13200,
         "0x9fc3dc011b461664c835f2527fffb1169b3c213e": 10000,
         "0xa73ecb7ccf2f5ae2cfd0a4ba9fe2c2835fdc1f8b": 7003.501815615177,
@@ -230,11 +231,11 @@
       "lenderKey": "SPARK",
       "chainId": "1",
       "underlying": "0xcbb7c0000ab88b473b1f5afd9ef808440eed33bf",
-      "totalSupply": 5779.0140998,
+      "totalSupply": 5529.01423952,
       "owners": {
-        "0x28355886a65848488cf0a3646fca395db0a762b1": 1098.9914835,
         "0xb561b1e79e448bc3a7ac4dc377eeecbc99505f60": 1031.5417561,
         "0x6ebb912e20ca195771f92703e4896223d9bd936a": 1006.7500006,
+        "0x28355886a65848488cf0a3646fca395db0a762b1": 848.9915843,
         "0xe40d278afd00e6187db21ff8c96d572359ef03bf": 580.00066099,
         "0xb99a2c4c1c4f1fc27150681b740396f6ce1cbcf5": 499.45152878,
         "0xf50623b782fb0c7cd3966b20f6ecb7d791a36ec6": 426.00017472,
@@ -250,7 +251,7 @@
       "lenderKey": "SPARK",
       "chainId": "1",
       "underlying": "0xcd5fe23c85820f7b72d0926fc9b05b43e359b7ee",
-      "totalSupply": 38371.77903470723,
+      "totalSupply": 38369.122571720676,
       "owners": {
         "0xb5c98c0d2861d39c538aff4e87cee946ffa1adf4": 8045.18512902957,
         "0x4f87de7d21aef48090958f7342e1f69dff790545": 7070.030127546807,
@@ -275,11 +276,11 @@
       "lenderKey": "SPARK",
       "chainId": "1",
       "underlying": "0xdac17f958d2ee523a2206206994597c13d831ec7",
-      "totalSupply": 324533813.354076,
+      "totalSupply": 324996946.901447,
       "owners": {
-        "0x1601843c5e9bc251a3272907010afa41fa18347e": 289811624.295856,
+        "0x1601843c5e9bc251a3272907010afa41fa18347e": 289721183.184236,
         "0xba622437b70d86eadd6f2f5fb7a5124270c35705": 20100000.301475,
-        "0x81133a5d99fd133be1c0d16ec72aee5c83fe82d3": 7923101.586168
+        "0x81133a5d99fd133be1c0d16ec72aee5c83fe82d3": 7877733.78096
       }
     },
     "SPARK:1:0xdc035d45d973e3ec169d2276ddab16f1e407384f": {
@@ -287,9 +288,9 @@
       "lenderKey": "SPARK",
       "chainId": "1",
       "underlying": "0xdc035d45d973e3ec169d2276ddab16f1e407384f",
-      "totalSupply": 1333396304.2423763,
+      "totalSupply": 1415278429.4473767,
       "owners": {
-        "0x1601843c5e9bc251a3272907010afa41fa18347e": 1283237355.2945561,
+        "0x1601843c5e9bc251a3272907010afa41fa18347e": 1365111420.2083955,
         "0x6d370e359e9cbd0fd35bb38faf705d84238cb884": 50035717.560489856
       }
     },
@@ -336,7 +337,7 @@
       "lenderKey": "SPARK",
       "chainId": "100",
       "underlying": "0x6a023ccd1ff6f2045c3309768ead9e68f978f6e1",
-      "totalSupply": 3.0034426012556983,
+      "totalSupply": 3.0034426012583286,
       "owners": {
         "0x3b40cade0a3fbabfb5287fcb38392b9cbcce90c5": 0.8225065381102945,
         "0xc7a1dde5fc21fdd1a18b2df136cb0a37f6f13620": 0.6158628835487097,
@@ -354,7 +355,7 @@
       "lenderKey": "SPARK",
       "chainId": "100",
       "underlying": "0x6c76971f98945ae98dd7d4dfca8711ebea946ea6",
-      "totalSupply": 20.77762405867606,
+      "totalSupply": 20.777624114435,
       "owners": {
         "0x9b8eabbcbe8d6b33037e85a515679d118039861e": 9.977143173702425,
         "0x59c7acc0695b57e5bcc36b70c3d3fd0edbcf8eb6": 6.281263977836828,
@@ -424,7 +425,7 @@
       "lenderKey": "SPARK",
       "chainId": "100",
       "underlying": "0xe91d153e0b41518a2ce8dd3d7944fa863463a97d",
-      "totalSupply": 3388.289450856121,
+      "totalSupply": 3388.289450856692,
       "owners": {
         "0xd8ec2c4c5ca4087db0c474143578bc3c6d717e23": 1300,
         "0x75aa0a940ce414e2c0b81f186df3fdaae2774715": 286.7141493841682,
@@ -443,14 +444,14 @@
   },
   "chainFreshness": {
     "1": {
-      "subgraphBlock": 26068917,
-      "rpcBlock": 26068917,
+      "subgraphBlock": 26076767,
+      "rpcBlock": 26076767,
       "blocksBehind": 0,
       "minutesBehind": 0
     },
     "100": {
-      "subgraphBlock": 48465637,
-      "rpcBlock": 48465638,
+      "subgraphBlock": 48484254,
+      "rpcBlock": 48484255,
       "blocksBehind": 1,
       "minutesBehind": 0
     }

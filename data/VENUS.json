@@ -1,6 +1,6 @@
 {
   "lenderKey": "VENUS",
-  "fetchedAt": "2026-09-30T14:17:34.992Z",
+  "fetchedAt": "2026-10-01T14:51:32.664Z",
   "markets": {
     "VENUS:56:0x0000000000000000000000000000000000000000": {
       "marketUid": "VENUS:56:0x0000000000000000000000000000000000000000",
@@ -372,9 +372,9 @@
   "chainFreshness": {
     "56": {
       "subgraphBlock": 4737399,
-      "rpcBlock": 124923124,
-      "blocksBehind": 120185725,
-      "minutesBehind": 6009286
+      "rpcBlock": 125119580,
+      "blocksBehind": 120382181,
+      "minutesBehind": 6019109
     }
   }
 }

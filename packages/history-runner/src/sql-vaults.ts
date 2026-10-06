@@ -30,6 +30,7 @@ export const PROVIDER_OF: Record<string, string> = {
   VAULT_MORPHO: "morpho",
   VAULT_FLUID: "fluid",
   VAULT_YEARN: "yearn",
+  VAULT_TERMMAX: "termmax",
   VAULT_UPSHIFT: "upshift",
   VAULT_LAGOON: "lagoon",
   VAULT_SILO: "silo",
@@ -56,6 +57,21 @@ export const PROVIDER_OF: Record<string, string> = {
   VAULT_LLAMA: "savings",
   VAULT_VENUS_HUB: "savings",
   VAULT_BITFI: "savings",
+  // Archive replay (app-fetcher/scripts/replay-vault-history.ts): one key per
+  // live 4626 provider, mapping straight back to it. Share price only.
+  VAULT_RPC_FLUID: "fluid",
+  VAULT_RPC_GEARBOX: "gearbox",
+  VAULT_RPC_MORPHO: "morpho",
+  VAULT_RPC_LISTA: "lista",
+  VAULT_RPC_SILO: "silo",
+  VAULT_RPC_EULER_EARN: "euler-earn",
+  VAULT_RPC_LST: "lst",
+  VAULT_RPC_SAVINGS: "savings",
+  VAULT_RPC_LAGOON: "lagoon",
+  VAULT_RPC_AAVE_EARN: "aave-earn",
+  VAULT_RPC_UPSHIFT: "upshift",
+  VAULT_RPC_YEARN: "yearn",
+  VAULT_RPC_TERMMAX: "termmax",
 };
 
 /** Staging columns, in COPY order. Only what a vault row can carry into a

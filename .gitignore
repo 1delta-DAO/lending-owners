@@ -20,3 +20,7 @@ data/history-gap-sql
 data/history-replay
 data/history-replay-sql
 data/history-replay2-sql
+# One-off vault backfills (2026-10 vault gap: replay, API pull, gated merge, SQL).
+data/vault-*
+# asset_price_snapshots hole fill from DefiLlama (2026-10, yield-tracer outage windows).
+data/price-*

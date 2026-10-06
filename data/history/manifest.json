@@ -6993,5 +6993,167 @@
     },
     "written": 4284,
     "skippedAsDuplicate": 0
+  },
+  {
+    "lender": "COMPOUND_V3",
+    "source": "compound-api",
+    "from": "2026-08-20T00:00:00.000Z",
+    "to": "2026-09-24T08:23:22.985Z",
+    "resolution": "1d",
+    "runAt": "2026-09-24T08:23:28.283Z",
+    "elapsedMs": 383,
+    "files": {
+      "COMPOUND_V3/1/2026-09.ndjson": 6,
+      "COMPOUND_V3/137/2026-09.ndjson": 2,
+      "COMPOUND_V3/42161/2026-09.ndjson": 4,
+      "COMPOUND_V3/10/2026-09.ndjson": 3,
+      "COMPOUND_V3/8453/2026-09.ndjson": 4,
+      "COMPOUND_V3/534352/2026-09.ndjson": 1,
+      "COMPOUND_V3/5000/2026-09.ndjson": 1,
+      "COMPOUND_V3/59144/2026-09.ndjson": 2,
+      "COMPOUND_V3/130/2026-09.ndjson": 2,
+      "COMPOUND_V3/2020/2026-09.ndjson": 2
+    },
+    "written": 27,
+    "skippedAsDuplicate": 783
+  },
+  {
+    "lender": "LLAMALEND",
+    "source": "curve-api",
+    "from": "2026-08-20T00:00:00.000Z",
+    "to": "2026-09-24T08:23:22.985Z",
+    "resolution": "1d",
+    "runAt": "2026-09-24T08:23:51.869Z",
+    "elapsedMs": 23582,
+    "files": {
+      "LLAMALEND/1/2026-09.ndjson": 104,
+      "LLAMALEND/252/2026-09.ndjson": 24,
+      "LLAMALEND/42161/2026-09.ndjson": 50,
+      "LLAMALEND/146/2026-09.ndjson": 10,
+      "LLAMALEND/10/2026-09.ndjson": 16
+    },
+    "written": 204,
+    "skippedAsDuplicate": 7064
+  },
+  {
+    "lender": "VAULT_CAP",
+    "source": "cap-api",
+    "from": "2026-08-20T00:00:00.000Z",
+    "to": "2026-09-24T08:23:22.985Z",
+    "resolution": "1d",
+    "runAt": "2026-09-24T08:23:52.676Z",
+    "elapsedMs": 803,
+    "files": {
+      "VAULT_CAP/1/2026-09.ndjson": 2
+    },
+    "written": 2,
+    "skippedAsDuplicate": 34
+  },
+  {
+    "lender": "VAULT_GEARBOX",
+    "source": "gearbox-api",
+    "from": "2026-08-20T00:00:00.000Z",
+    "to": "2026-09-24T08:23:22.985Z",
+    "resolution": "1d",
+    "runAt": "2026-09-24T08:24:11.259Z",
+    "elapsedMs": 18581,
+    "files": {
+      "VAULT_GEARBOX/1/2026-09.ndjson": 1,
+      "VAULT_GEARBOX/143/2026-09.ndjson": 2
+    },
+    "written": 3,
+    "skippedAsDuplicate": 133
+  },
+  {
+    "lender": "VAULT_FALCON",
+    "source": "falcon-api",
+    "from": "2026-08-20T00:00:00.000Z",
+    "to": "2026-09-24T08:23:22.985Z",
+    "resolution": "1d",
+    "runAt": "2026-09-24T08:24:12.072Z",
+    "elapsedMs": 808,
+    "files": {
+      "VAULT_FALCON/1/2026-09.ndjson": 1
+    },
+    "written": 1,
+    "skippedAsDuplicate": 34
+  },
+  {
+    "lender": "VAULT_SKY",
+    "source": "blockanalitica-api",
+    "from": "2026-08-20T00:00:00.000Z",
+    "to": "2026-09-24T08:23:22.985Z",
+    "resolution": "1d",
+    "runAt": "2026-09-24T08:24:13.011Z",
+    "elapsedMs": 935,
+    "files": {
+      "VAULT_SKY/1/2026-09.ndjson": 3
+    },
+    "written": 3,
+    "skippedAsDuplicate": 105
+  },
+  {
+    "lender": "VAULT_SPARK",
+    "source": "blockanalitica-api",
+    "from": "2026-08-20T00:00:00.000Z",
+    "to": "2026-09-24T08:23:22.985Z",
+    "resolution": "1d",
+    "runAt": "2026-09-24T08:24:13.601Z",
+    "elapsedMs": 579,
+    "files": {
+      "VAULT_SPARK/1/2026-09.ndjson": 6
+    },
+    "written": 6,
+    "skippedAsDuplicate": 210
+  },
+  {
+    "lender": "VAULT_TORI",
+    "source": "tori-api",
+    "from": "2026-08-20T00:00:00.000Z",
+    "to": "2026-09-24T08:23:22.985Z",
+    "resolution": "1d",
+    "runAt": "2026-09-24T08:24:13.707Z",
+    "elapsedMs": 102,
+    "files": {
+      "VAULT_TORI/1/2026-09.ndjson": 1
+    },
+    "written": 1,
+    "skippedAsDuplicate": 29
+  },
+  {
+    "lender": "VAULT_YO",
+    "source": "yo-api",
+    "from": "2026-08-20T00:00:00.000Z",
+    "to": "2026-09-24T08:23:22.985Z",
+    "resolution": "1d",
+    "runAt": "2026-09-24T08:24:17.372Z",
+    "elapsedMs": 3662,
+    "files": {
+      "VAULT_YO/8453/2026-09.ndjson": 8,
+      "VAULT_YO/1/2026-09.ndjson": 5
+    },
+    "written": 13,
+    "skippedAsDuplicate": 238
+  },
+  {
+    "lender": "AAVE_V3",
+    "source": "aave-api",
+    "from": "2026-08-20T00:00:00.000Z",
+    "to": "2026-09-24T08:23:22.985Z",
+    "resolution": "1d",
+    "runAt": "2026-09-24T08:24:36.209Z",
+    "elapsedMs": 18832,
+    "files": {
+      "AAVE_V3/1/2026-09.ndjson": 1464,
+      "AAVE_V3/1/2026-08.ndjson": 732,
+      "AAVE_V3/137/2026-09.ndjson": 504,
+      "AAVE_V3/137/2026-08.ndjson": 252,
+      "AAVE_V3/42161/2026-09.ndjson": 456,
+      "AAVE_V3/42161/2026-08.ndjson": 228,
+      "AAVE_V3/43114/2026-09.ndjson": 432,
+      "AAVE_V3/43114/2026-08.ndjson": 216
+    },
+    "written": 4284,
+    "skippedAsDuplicate": 0
   }
 ]

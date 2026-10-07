@@ -156,8 +156,8 @@ export const VAULT_PROVIDER_ROSTER: readonly VaultProviderRow[] = [
     source: "lst:slisBNB",
     runnerKey: "VAULT_LISTA",
     availability: "module",
-    note: "`api.lista.org/api/datachart/history?name=slisBNBRate&cycle=1` — daily APR to 2024-03-13, paged in ≤500-day windows (730 is `Time range too large`)",
-    doc: "packages/fetchers/vaults/src/lista.ts (probed 2026-09-11)",
+    note: "ARCHIVAL `ListaStakeManager.convertSnBnbToBnb` per UTC day → share price + trailing-30d realized APR. NOT `api.lista.org/api/datachart/history?name=slisBNBRate` (read until 2026-10-07): that is staking + Binance Launchpool, averaged over a window chosen by the request span (12-month composite on our 365-day pages — 18.8 % vs ~0.7 % real)",
+    doc: "packages/fetchers/vaults/src/lista.ts (re-probed 2026-10-07)",
   },
   {
     source: "savings:saturn",
@@ -283,7 +283,7 @@ export const VAULT_PROVIDER_ROSTER: readonly VaultProviderRow[] = [
   {
     source: "lista",
     availability: "no-api",
-    note: "the Moolah VAULTS have no series anywhere public — DefiLlama's `lista-lending` pools are per-underlying aggregates with no vault identity, so they cannot be joined to a vault uid. (The earlier \"every api.lista.org route 404'd\" note was wrong in general: `datachart/history` is real and serves slisBNB — see `lst:slisBNB` — it just has no vault-level series.) Moolah is a MetaMorpho-fork 4626 → archival is exact.",
+    note: "the Moolah VAULTS have no series anywhere public — DefiLlama's `lista-lending` pools are per-underlying aggregates with no vault identity, so they cannot be joined to a vault uid. (`datachart/history` serves a slisBNB series, but it is the staking + launchpool composite — see `lst:slisBNB` — and nothing vault-level.) Moolah is a MetaMorpho-fork 4626 → archival is exact.",
     doc: `${VAULT_PLAN} §2.3 · packages/fetchers/vaults/src/lista.ts`,
   },
   {

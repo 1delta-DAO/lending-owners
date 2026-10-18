@@ -1,6 +1,6 @@
 {
   "lenderKey": "DFORCE",
-  "fetchedAt": "2026-10-17T07:36:05.803Z",
+  "fetchedAt": "2026-10-18T07:51:22.365Z",
   "markets": {
     "DFORCE:1:0x0000000000000000000000000000000000000000": {
       "marketUid": "DFORCE:1:0x0000000000000000000000000000000000000000",
@@ -230,11 +230,11 @@
       "lenderKey": "DFORCE",
       "chainId": "1",
       "underlying": "0xdac17f958d2ee523a2206206994597c13d831ec7",
-      "totalSupply": 822971.411892,
+      "totalSupply": 825183.971358,
       "owners": {
         "0xe3412d2751f6cfa117a4c5eb71e84aa63a5ee5ff": 712768.592218,
         "0x5963c46aeb3f51ced435a770e40958b640480f6c": 43849.984058,
-        "0xc603a5e2bba1a8a4cd82b815e97ac3d92a75a28a": 22135.27638
+        "0xc603a5e2bba1a8a4cd82b815e97ac3d92a75a28a": 24043.683221
       }
     },
     "DFORCE:10:0x0000000000000000000000000000000000000000": {
@@ -375,13 +375,13 @@
       "lenderKey": "DFORCE",
       "chainId": "10",
       "underlying": "0x94b008aa00579c1307b0ef2c499ad98a8ce58e58",
-      "totalSupply": 4787.2868,
+      "totalSupply": 5112.485367,
       "owners": {
         "0x4f27eb908eaadfea04f6b66847faabaeb45ecb15": 803.334825,
         "0x44d933367e857ed9c0b771fe39dc8320784dc25b": 499.999999,
         "0x5963c46aeb3f51ced435a770e40958b640480f6c": 497.006278,
         "0x457826648591ea83b28dc8140a7e8952c84ca7a5": 466.344328,
-        "0x6c4a72ec1dd4fbe90e7e23c6c9187262d59345bb": 423.10775,
+        "0x6c4a72ec1dd4fbe90e7e23c6c9187262d59345bb": 451.099498,
         "0x2f0f95bb6e57b4e7bf16026b4e63d1785082d6c1": 404.111326,
         "0xf4f6f183264d2d77cb008ccfb495f3436662290a": 365.789199,
         "0x8af13ea336cd66c56ad3fb15eb37f30231b5460b": 250.687152,
@@ -538,15 +538,15 @@
       "lenderKey": "DFORCE",
       "chainId": "42161",
       "underlying": "0xaf88d065e77c8cc2239327c5edb3a432268e5831",
-      "totalSupply": 32202.059704,
+      "totalSupply": 32318.288223,
       "owners": {
         "0x6c413690c19cfc80c3db3211c80993bf642c6456": 8517.356605,
+        "0x4f27eb908eaadfea04f6b66847faabaeb45ecb15": 4635.920962,
         "0xcb6586874cc04b01cc4fdb777de502cea7b3d6c1": 4621.819335,
-        "0x4f27eb908eaadfea04f6b66847faabaeb45ecb15": 4599.509021,
         "0x3f6331c2b381fbc6a1f8e5b65d6656b97570e5d8": 4186.043324,
         "0x32a82c39247fa1cbcae715feafa85a59abf97e12": 2908.099864,
         "0x7cc702cde94c5dc33ca8a9d4b78826a2fc962700": 2383.803394,
-        "0x81b33deaaa62098e4dd767308c0edb8aaa2b1661": 929.870649,
+        "0x81b33deaaa62098e4dd767308c0edb8aaa2b1661": 898.616622,
         "0x30b4116d38b84dfca14e9dd0fda72cfa5175b299": 806.128202,
         "0x5e2ca63f101723864c10794e040b45b14587e3b2": 642.102082,
         "0x621b8fff9f955316875e75215fd8b78f21f2672f": 413.379776
@@ -630,12 +630,12 @@
       "lenderKey": "DFORCE",
       "chainId": "42161",
       "underlying": "0xfd086bc7cd5c481dcc9c85ebe478a1c0b69fcbb9",
-      "totalSupply": 33222.258204,
+      "totalSupply": 33650.483901,
       "owners": {
         "0x6c413690c19cfc80c3db3211c80993bf642c6456": 17049.270752,
         "0xaea7e4808d09b9e140ee344894c596eda69609fc": 5811.556366,
+        "0x4f27eb908eaadfea04f6b66847faabaeb45ecb15": 2335.837595,
         "0x76628f32aa435fdd22e5153c2cf001191964b1e7": 2323.924407,
-        "0x4f27eb908eaadfea04f6b66847faabaeb45ecb15": 2320.053819,
         "0x5e2ca63f101723864c10794e040b45b14587e3b2": 989.460446,
         "0xeb79d3cc84f9daee5c4b7341fb014a95a07df86f": 825.002118,
         "0x8af13ea336cd66c56ad3fb15eb37f30231b5460b": 541.658189
@@ -798,7 +798,7 @@
       "totalSupply": 214188.46228305245,
       "owners": {
         "0x36b295a58b99bcf9a2fe54c7794977a343309e4b": 104832.08957563933,
-        "0x27c27151f9bc6330b767bab8dcada11a253ccb8c": 46810.054006675404,
+        "0x27c27151f9bc6330b767bab8dcada11a253ccb8c": 48302.800107790514,
         "0x6f14066e20d8c431b0f86b869a41144f4d764ed8": 43773.75981805358,
         "0xd5bd3a27981c7298634ce818c548d9c62a8ef0f2": 4131.198108426696
       }
@@ -920,27 +920,27 @@
   },
   "chainFreshness": {
     "1": {
-      "subgraphBlock": 26210819,
-      "rpcBlock": 26210819,
+      "subgraphBlock": 26218066,
+      "rpcBlock": 26218065,
       "blocksBehind": 0,
       "minutesBehind": 0
     },
     "10": {
-      "subgraphBlock": 158311894,
-      "rpcBlock": 158311897,
-      "blocksBehind": 3,
-      "minutesBehind": 0
-    },
-    "56": {
-      "subgraphBlock": 128131418,
-      "rpcBlock": 128131420,
+      "subgraphBlock": 158355552,
+      "rpcBlock": 158355554,
       "blocksBehind": 2,
       "minutesBehind": 0
     },
+    "56": {
+      "subgraphBlock": 128325395,
+      "rpcBlock": 128325396,
+      "blocksBehind": 1,
+      "minutesBehind": 0
+    },
     "42161": {
-      "subgraphBlock": 515613883,
-      "rpcBlock": 515613881,
-      "blocksBehind": 0,
+      "subgraphBlock": 515912898,
+      "rpcBlock": 515912899,
+      "blocksBehind": 1,
       "minutesBehind": 0
     }
   }

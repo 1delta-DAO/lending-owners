@@ -1,6 +1,6 @@
 {
   "lenderKey": "DFORCE",
-  "fetchedAt": "2026-10-29T09:34:32.067Z",
+  "fetchedAt": "2026-10-30T09:43:33.155Z",
   "markets": {
     "DFORCE:1:0x0000000000000000000000000000000000000000": {
       "marketUid": "DFORCE:1:0x0000000000000000000000000000000000000000",
@@ -539,7 +539,7 @@
       "lenderKey": "DFORCE",
       "chainId": "42161",
       "underlying": "0xaf88d065e77c8cc2239327c5edb3a432268e5831",
-      "totalSupply": 32358.811603,
+      "totalSupply": 32388.112205,
       "owners": {
         "0x6c413690c19cfc80c3db3211c80993bf642c6456": 8517.356605,
         "0xcb6586874cc04b01cc4fdb777de502cea7b3d6c1": 4506.101203,
@@ -547,7 +547,7 @@
         "0x4f27eb908eaadfea04f6b66847faabaeb45ecb15": 3687.432749,
         "0x7cc702cde94c5dc33ca8a9d4b78826a2fc962700": 3009.274236,
         "0x32a82c39247fa1cbcae715feafa85a59abf97e12": 2908.099864,
-        "0x5e2ca63f101723864c10794e040b45b14587e3b2": 1195.86693,
+        "0x5e2ca63f101723864c10794e040b45b14587e3b2": 1203.321311,
         "0x81b33deaaa62098e4dd767308c0edb8aaa2b1661": 1158.390891,
         "0x30b4116d38b84dfca14e9dd0fda72cfa5175b299": 806.128202,
         "0x621b8fff9f955316875e75215fd8b78f21f2672f": 413.379776
@@ -922,26 +922,26 @@
   },
   "chainFreshness": {
     "1": {
-      "subgraphBlock": 26297530,
-      "rpcBlock": 26297530,
+      "subgraphBlock": 26304749,
+      "rpcBlock": 26304749,
       "blocksBehind": 0,
       "minutesBehind": 0
     },
     "10": {
-      "subgraphBlock": 158833847,
-      "rpcBlock": 158833848,
+      "subgraphBlock": 158877318,
+      "rpcBlock": 158877319,
       "blocksBehind": 1,
       "minutesBehind": 0
     },
     "56": {
-      "subgraphBlock": 130450019,
-      "rpcBlock": 130450019,
-      "blocksBehind": 0,
+      "subgraphBlock": 130643140,
+      "rpcBlock": 130643141,
+      "blocksBehind": 1,
       "minutesBehind": 0
     },
     "42161": {
-      "subgraphBlock": 519319090,
-      "rpcBlock": 519319087,
+      "subgraphBlock": 519640207,
+      "rpcBlock": 519640205,
       "blocksBehind": 0,
       "minutesBehind": 0
     }

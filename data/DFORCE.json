@@ -1,6 +1,6 @@
 {
   "lenderKey": "DFORCE",
-  "fetchedAt": "2026-11-03T10:32:47.637Z",
+  "fetchedAt": "2026-11-05T10:29:27.557Z",
   "markets": {
     "DFORCE:1:0x0000000000000000000000000000000000000000": {
       "marketUid": "DFORCE:1:0x0000000000000000000000000000000000000000",
@@ -231,9 +231,9 @@
       "lenderKey": "DFORCE",
       "chainId": "1",
       "underlying": "0xdac17f958d2ee523a2206206994597c13d831ec7",
-      "totalSupply": 826484.974583,
+      "totalSupply": 826586.380241,
       "owners": {
-        "0xe3412d2751f6cfa117a4c5eb71e84aa63a5ee5ff": 753376.775188,
+        "0xe3412d2751f6cfa117a4c5eb71e84aa63a5ee5ff": 753469.003711,
         "0x5963c46aeb3f51ced435a770e40958b640480f6c": 43849.984058,
         "0xc603a5e2bba1a8a4cd82b815e97ac3d92a75a28a": 24874.458567
       }
@@ -324,7 +324,7 @@
       "lenderKey": "DFORCE",
       "chainId": "10",
       "underlying": "0x68f180fcce6836688e9084f035309e29bf0a2095",
-      "totalSupply": 0.0004673,
+      "totalSupply": 0.00095336,
       "owners": {
         "0x8af13ea336cd66c56ad3fb15eb37f30231b5460b": 0.00027238
       }
@@ -351,8 +351,8 @@
         "0x6b252eed6c28c076fa22c0f006d1d7161e0705ca": 2591.327533,
         "0xcca61e6ce0a6239c75bfa9433ba29c4d2365ca49": 680.414022,
         "0x5ea1f1b4166c1d41fe33593713ea944676854867": 250.999999,
-        "0x21e8aa5d09db65ef3ac17d9e9737494701447119": 62.763006,
-        "0xc0bb435b0e42c4685247c5ec612e0989ea92b54a": 50
+        "0xc0bb435b0e42c4685247c5ec612e0989ea92b54a": 50,
+        "0x21e8aa5d09db65ef3ac17d9e9737494701447119": 44.308385
       }
     },
     "DFORCE:10:0x8c6f28f2f1a3c87f0f938b96d27520d9751ec8d9": {
@@ -921,27 +921,27 @@
   },
   "chainFreshness": {
     "1": {
-      "subgraphBlock": 26333697,
-      "rpcBlock": 26333697,
+      "subgraphBlock": 26348039,
+      "rpcBlock": 26348038,
       "blocksBehind": 0,
       "minutesBehind": 0
     },
     "10": {
-      "subgraphBlock": 159051594,
-      "rpcBlock": 159051596,
+      "subgraphBlock": 159137894,
+      "rpcBlock": 159137896,
       "blocksBehind": 2,
       "minutesBehind": 0
     },
     "56": {
-      "subgraphBlock": 131417503,
-      "rpcBlock": 131417501,
-      "blocksBehind": 0,
+      "subgraphBlock": 131800956,
+      "rpcBlock": 131800957,
+      "blocksBehind": 1,
       "minutesBehind": 0
     },
     "42161": {
-      "subgraphBlock": 520847592,
-      "rpcBlock": 520847594,
-      "blocksBehind": 2,
+      "subgraphBlock": 521449158,
+      "rpcBlock": 521449156,
+      "blocksBehind": 0,
       "minutesBehind": 0
     }
   }

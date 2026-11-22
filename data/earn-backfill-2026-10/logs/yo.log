@@ -1,0 +1,14 @@
+
+> lending-owners@0.0.0 fetch:history /home/axtar/lending-owners
+> pnpm --filter @lending-owners/history-runner run start -- -- --lender VAULT_YO --from 2019-01-01 --to 2026-10-30T00:00Z --resolution 1d --out /home/axtar/lending-owners/data/earn-backfill-2026-10/history
+
+
+> @lending-owners/history-runner@0.0.0 start /home/axtar/lending-owners/packages/history-runner
+> tsx --env-file-if-exists=../../.env src/index.ts -- -- --lender VAULT_YO --from 2019-01-01 --to 2026-10-30T00:00Z --resolution 1d --out /home/axtar/lending-owners/data/earn-backfill-2026-10/history
+
+[registry] 16557 market uids loaded
+[VAULT_YO] 2019-01-01 00:00:00 → 2026-10-30 00:00:00 @1d
+[VAULT_YO] VAULT_YO yoETH: 1/7
+[VAULT_YO] VAULT_YO yoGOLD: 7/7
+[VAULT_YO] points=2803 written=2803 duplicate=0 files=34 elapsedMs=5835
+EXIT 0

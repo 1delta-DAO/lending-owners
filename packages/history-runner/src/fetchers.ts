@@ -16,12 +16,16 @@ import {
   createGmxVaultHistoryFetcher,
   createHyperbeatVaultHistoryFetcher,
   createHypercoreVaultHistoryFetcher,
+  createIporVaultHistoryFetcher,
+  createEtherfiLiquidVaultHistoryFetcher,
   createLagoonVaultHistoryFetcher,
   createListaVaultHistoryFetcher,
   createMorphoVaultHistoryFetcher,
   createPendleVaultHistoryFetcher,
   createReVaultHistoryFetcher,
   createSdolaVaultHistoryFetcher,
+  createJrdolaVaultHistoryFetcher,
+  createSinvVaultHistoryFetcher,
   createSfrxusdVaultHistoryFetcher,
   createSiloVaultHistoryFetcher,
   createSkyVaultHistoryFetcher,
@@ -111,6 +115,9 @@ export const FETCHERS: Record<string, FetcherFactory> = {
   VAULT_FALCON: () => createFalconVaultHistoryFetcher(),
   VAULT_RE: () => createReVaultHistoryFetcher(),
   VAULT_SDOLA: () => createSdolaVaultHistoryFetcher(),
+  // 2026-10-23: Inverse jrDOLA (v2) + sINV, the margin-fetcher rows of the same day.
+  VAULT_JRDOLA: () => createJrdolaVaultHistoryFetcher(),
+  VAULT_SINV: () => createSinvVaultHistoryFetcher(),
   VAULT_SFRXUSD: () => createSfrxusdVaultHistoryFetcher(),
   VAULT_SKY: () => createSkyVaultHistoryFetcher(),
   VAULT_SPARK: () => createSparkSavingsVaultHistoryFetcher(),
@@ -124,6 +131,9 @@ export const FETCHERS: Record<string, FetcherFactory> = {
   // 2026-09-11: the three savings sources added to margin-fetcher on 09-10.
   VAULT_VENUS_HUB: () => createVenusHubVaultHistoryFetcher(),
   VAULT_LISTA: () => createListaVaultHistoryFetcher(),
+  // 2026-10-30: earn backfill lane B (EARN_BACKFILL_2026_10.md §3).
+  VAULT_IPOR: () => createIporVaultHistoryFetcher(),
+  VAULT_ETHERFI_LIQUID: () => createEtherfiLiquidVaultHistoryFetcher(),
 };
 
 /**

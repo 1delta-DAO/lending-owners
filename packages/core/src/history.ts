@@ -51,7 +51,10 @@ export type HistorySource =
   | "usdd-api"
   | "euler-earn-api"
   | "defillama-api"
-  | "lista-api";
+  | "lista-api"
+  // 2026-10-30, earn backfill lane B (EARN_BACKFILL_2026_10.md §3).
+  | "ipor-api"
+  | "sevenseas-api";
 
 /**
  * What the raw accumulator number means. Kept alongside the value rather than
@@ -143,7 +146,16 @@ export interface HistoryContext {
   /** Injected by the runner. A fetcher that needs it and does not get it should
    *  fail loudly rather than invent uids. */
   resolveUid?: UidResolver;
+  /** Optional allow-list of `<chainId>:<lower-case vault address>`. A vault
+   *  module that enumerates a whole upstream roster (Morpho, Yearn) skips the
+   *  rest BEFORE fetching history — a targeted backfill of a few hundred new
+   *  listings, not a re-collection of thousands. Absent = everything. */
+  onlyVaults?: ReadonlySet<string>;
 }
+
+/** `ctx.onlyVaults` check; true when no allow-list is set. */
+export const vaultWanted = (ctx: Pick<HistoryContext, "onlyVaults">, chainId: string, address: string): boolean =>
+  !ctx.onlyVaults || ctx.onlyVaults.has(`${chainId}:${address.toLowerCase()}`);
 
 /**
  * Sibling of `OwnershipFetcher`. Async-iterable rather than array-returning:
@@ -234,3 +246,12 @@ export function realizedApy(
 
 /** `0xAbC` → `0xabc`, for uid components. */
 export const lower = (a: string): Address => a.toLowerCase() as Address;
+
+/** margin-fetcher `utils/parsing.ts` `apyToAprPercent`, verbatim. The live
+ *  fetchers store APR (per-second compounding) in `deposit_rate`,
+ *  `variable_borrow_rate` and `total_rate`; a source that serves APY must go
+ *  through this or its rows read high (10 % APY is 9.53 % APR, and a market
+ *  pinned at 800 % APR shows as 297,996 %). */
+const SECONDS_PER_YEAR = 31_536_000;
+export const apyToAprPercent = (apyPercent: number): number =>
+  100 * ((apyPercent / 100 + 1) ** (1 / SECONDS_PER_YEAR) - 1) * SECONDS_PER_YEAR;

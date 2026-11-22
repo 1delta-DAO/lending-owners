@@ -6,6 +6,7 @@ import {
   PacedClient,
   bucketStart,
   makeMarketUid,
+  vaultWanted,
   mapWithConcurrency,
 } from "@lending-owners/core";
 import { num } from "./shared.js";
@@ -127,6 +128,7 @@ export function createLagoonVaultHistoryFetcher(
             const items = page.vaults.items ?? [];
             for (const item of items) {
               if (!item.address) continue;
+              if (!vaultWanted(ctx, chainId, item.address)) continue;
               const dec = item.asset?.decimals;
               vaults.push({
                 chainId,

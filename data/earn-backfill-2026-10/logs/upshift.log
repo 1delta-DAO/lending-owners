@@ -1,0 +1,13 @@
+
+> lending-owners@0.0.0 fetch:history /home/axtar/lending-owners
+> pnpm --filter @lending-owners/history-runner run start -- -- --lender VAULT_UPSHIFT --only /home/axtar/lending-owners/data/earn-backfill-2026-10/inventory.json --from 2019-01-01 --resolution 1d --out /home/axtar/lending-owners/data/earn-backfill-2026-10/history
+
+
+> @lending-owners/history-runner@0.0.0 start /home/axtar/lending-owners/packages/history-runner
+> tsx --env-file-if-exists=../../.env src/index.ts -- -- --lender VAULT_UPSHIFT --only /home/axtar/lending-owners/data/earn-backfill-2026-10/inventory.json --from 2019-01-01 --resolution 1d --out /home/axtar/lending-owners/data/earn-backfill-2026-10/history
+
+[registry] 16557 market uids loaded
+[VAULT_UPSHIFT] 2019-01-01 00:00:00 → 2026-10-30 18:52:17 @1d only=980 vaults
+[VAULT_UPSHIFT] VAULT_UPSHIFT Upshift ETH Optimizer: 1/4
+[VAULT_UPSHIFT] VAULT_UPSHIFT Ethena Growth sUSDe: 4/4
+[VAULT_UPSHIFT] points=2218 written=2218 duplicate=0 files=21 elapsedMs=1329

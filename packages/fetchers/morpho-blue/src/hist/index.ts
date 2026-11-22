@@ -5,6 +5,7 @@ import {
   type HistoryFetcher,
   type HistoryPoint,
   PacedClient,
+  apyToAprPercent,
   bucketStart,
   makeMarketUid,
 } from "@lending-owners/core";
@@ -301,8 +302,11 @@ function* emitMarket(
       dataTs,
       observedTs,
       source: "morpho-api",
-      depositRate: supplyApy === undefined ? undefined : supplyApy * AS_PERCENT,
-      variableBorrowRate: borrowApy === undefined ? undefined : borrowApy * AS_PERCENT,
+      // The API serves APY; the live cron stores APR. Unconverted, these rows
+      // read 1-3 % high at normal rates and absurdly high on a market pinned
+      // at its rate cap (seen 2026-11-22: 297,996 % next to live's 800 %).
+      depositRate: supplyApy === undefined ? undefined : apyToAprPercent(supplyApy * AS_PERCENT),
+      variableBorrowRate: borrowApy === undefined ? undefined : apyToAprPercent(borrowApy * AS_PERCENT),
       totalDeposits: toHuman(row.supplyAssets, loan.decimals),
       totalDebt: toHuman(row.borrowAssets, loan.decimals),
       totalDepositsUsd: num(row.supplyAssetsUsd),

@@ -1,0 +1,2 @@
+{"marketUid":"VAULT_PENDLE:42161:0x37fcd69d332a92a967194016b57ef4ff42bb4607","lenderKey":"VAULT_PENDLE","chainId":"42161","dataTs":"2026-10-19T00:00:00.000Z","source":"pendle-api","depositRate":7.049999999999999}
+{"marketUid":"VAULT_PENDLE:42161:0xdf8c542a772a3a6a5daeed0f41296c2c3d2473df","lenderKey":"VAULT_PENDLE","chainId":"42161","dataTs":"2026-10-19T00:00:00.000Z","source":"pendle-api","depositRate":7.430000000000001,"totalDepositsUsd":3744.387}

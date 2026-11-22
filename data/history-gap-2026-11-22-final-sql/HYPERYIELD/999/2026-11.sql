@@ -1,0 +1,151 @@
+-- Generated from HYPERYIELD/999/2026-11.ndjson (36 rows)
+-- Apply with:  psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f <this file>
+--
+-- Safe to re-run: every insert upserts on (market_id, data_ts).
+-- Safe against the markets FK: rows for unknown markets are skipped, not
+-- fatal, and the count is echoed before COMMIT.
+\set ON_ERROR_STOP on
+BEGIN;
+
+DO $$
+BEGIN
+  IF (SELECT relkind FROM pg_class WHERE oid = to_regclass('lending_snapshots')) IS DISTINCT FROM 'v'
+     OR (SELECT relkind FROM pg_class WHERE oid = to_regclass('market_index_snapshots')) IS DISTINCT FROM 'v' THEN
+    RAISE EXCEPTION 'this file writes the compact history layout (yield-tracer 0205); lending_snapshots / market_index_snapshots are not views here';
+  END IF;
+END $$;
+
+CREATE TEMP TABLE _hist_stage (
+  market_uid           text,
+  data_ts              timestamptz,
+  source               text,
+  block_number         bigint,
+  deposit_rate         numeric,
+  variable_borrow_rate numeric,
+  total_deposits       numeric,
+  total_debt           numeric,
+  total_deposits_usd   numeric,
+  total_debt_usd       numeric,
+  utilization          numeric,
+  supply_index         numeric(60,30),
+  borrow_index         numeric(60,30),
+  index_kind           text
+) ON COMMIT DROP;
+
+COPY _hist_stage (market_uid, data_ts, source, block_number, deposit_rate, variable_borrow_rate, total_deposits, total_debt, total_deposits_usd, total_debt_usd, utilization, supply_index, borrow_index, index_kind) FROM stdin;
+HYPERYIELD:999:0x5555555555555555555555555555555555555555	2026-11-21T19:00:00.000Z	archival-rpc	51881095	1.1100470182434274	2.8158315420435467	622.1870268008233	436.514659896584	37849.0848250522	26554.20264025145	0.7015811019735753	\N	\N	\N
+HYPERYIELD:999:0x94e8396e0869c9f2200760af0621afd240e1cf38	2026-11-21T19:00:00.000Z	archival-rpc	51881095	0.08216577777705672	1.351260956597016	37.970337625991164	3.325009859719503	2396.9310244963663	209.895928975426	0.08756861454514675	\N	\N	\N
+HYPERYIELD:999:0x02c6a2fa58cc01a18b8d9e00ea48d65e4df26c70	2026-11-21T19:00:00.000Z	archival-rpc	51881095	0.2848093356925668	1.4263072592551889	287.3291762646076	297.81544034364003	287.3291762646076	297.81544034364003	1.0364956466146529	\N	\N	\N
+HYPERYIELD:999:0xca79db4b49f608ef54a5cb813fbed3a6387bc645	2026-11-21T19:00:00.000Z	archival-rpc	51881095	0.000062912456157092	0.021198459539230125	63.5549395303396	1.3134106054554184	63.5549395303396	1.3134106054554184	0.020665751791462687	\N	\N	\N
+HYPERYIELD:999:0xbe6727b535545c67d5caa73dea54865b92cf7907	2026-11-21T19:00:00.000Z	archival-rpc	51881095	0	0	0.029727413194989	0	49.852707439679314	0	0	\N	\N	\N
+HYPERYIELD:999:0x9b498c3c8a0b8cd8ba1d9851d40d186f1872b44e	2026-11-21T19:00:00.000Z	archival-rpc	51881095	0	0	871.5004792112784	0	55.3103491817079	0	0	\N	\N	\N
+HYPERYIELD:999:0x5555555555555555555555555555555555555555	2026-11-21T20:00:00.000Z	archival-rpc	51884755	1.1100470182434274	2.8158315420435467	622.1870268008233	436.514659896584	38039.61468818692	26687.87479158838	0.7015811019735753	\N	\N	\N
+HYPERYIELD:999:0x94e8396e0869c9f2200760af0621afd240e1cf38	2026-11-21T20:00:00.000Z	archival-rpc	51884755	0.08216577777705672	1.351260956597016	37.970341186949355	3.3250149886534186	2409.0286098613165	210.9556033864898	0.08756874141010476	\N	\N	\N
+HYPERYIELD:999:0x02c6a2fa58cc01a18b8d9e00ea48d65e4df26c70	2026-11-21T20:00:00.000Z	archival-rpc	51884755	0.2848093356925668	1.4263072592551889	287.32917623866075	297.8154402089444	287.32917623866075	297.8154402089444	1.036495646239467	\N	\N	\N
+HYPERYIELD:999:0xca79db4b49f608ef54a5cb813fbed3a6387bc645	2026-11-21T20:00:00.000Z	archival-rpc	51884755	0.000062912456157092	0.021198459539230125	63.55493953033834	1.3134106054465897	63.55493953033834	1.3134106054465897	0.020665751791324183	\N	\N	\N
+HYPERYIELD:999:0xbe6727b535545c67d5caa73dea54865b92cf7907	2026-11-21T20:00:00.000Z	archival-rpc	51884755	0	0	0.029727413194989	0	50.047394903136656	0	0	\N	\N	\N
+HYPERYIELD:999:0x9b498c3c8a0b8cd8ba1d9851d40d186f1872b44e	2026-11-21T20:00:00.000Z	archival-rpc	51884755	0	0	871.5004792112784	0	55.3103491817079	0	0	\N	\N	\N
+HYPERYIELD:999:0x5555555555555555555555555555555555555555	2026-11-22T08:00:00.000Z	archival-rpc	51928675	1.1100470182434274	2.8158315420435467	622.1870436546333	436.5146899081861	37376.928753267166	26222.947955678283	0.7015811312047971	\N	\N	\N
+HYPERYIELD:999:0x94e8396e0869c9f2200760af0621afd240e1cf38	2026-11-22T08:00:00.000Z	archival-rpc	51928675	0.08216577777705672	1.351260956597016	37.97038391844766	3.325076536476007	2367.127871649418	207.29001217803997	0.0875702638039575	\N	\N	\N
+HYPERYIELD:999:0x02c6a2fa58cc01a18b8d9e00ea48d65e4df26c70	2026-11-22T08:00:00.000Z	archival-rpc	51928675	0.2848093356925668	1.4263072592551889	287.3285731293333	297.8123093591729	287.3285731293333	297.8123093591729	1.0364869254584042	\N	\N	\N
+HYPERYIELD:999:0xca79db4b49f608ef54a5cb813fbed3a6387bc645	2026-11-22T08:00:00.000Z	archival-rpc	51928675	0.000062912456157092	0.021198459539230125	63.55493950086766	1.3134104002316158	63.55493950086766	1.3134104002316158	0.020665748571968744	\N	\N	\N
+HYPERYIELD:999:0xbe6727b535545c67d5caa73dea54865b92cf7907	2026-11-22T08:00:00.000Z	archival-rpc	51928675	0	0	0.029727413194989	0	49.283927587212936	0	0	\N	\N	\N
+HYPERYIELD:999:0x9b498c3c8a0b8cd8ba1d9851d40d186f1872b44e	2026-11-22T08:00:00.000Z	archival-rpc	51928675	0	0	871.5004792112784	0	55.27655544337578	0	0	\N	\N	\N
+HYPERYIELD:999:0x5555555555555555555555555555555555555555	2026-11-22T10:00:00.000Z	archival-rpc	51935995	1.1100470182434274	2.8158315420435467	622.1870436546333	436.5146899081861	37921.27673840064	26604.85223085728	0.7015811312047971	\N	\N	\N
+HYPERYIELD:999:0x94e8396e0869c9f2200760af0621afd240e1cf38	2026-11-22T10:00:00.000Z	archival-rpc	51935995	0.08216577777705672	1.351260956597016	37.97039104036405	3.3250867945569307	2401.602564319671	210.3095794800863	0.0875705175388431	\N	\N	\N
+HYPERYIELD:999:0x02c6a2fa58cc01a18b8d9e00ea48d65e4df26c70	2026-11-22T10:00:00.000Z	archival-rpc	51935995	0.2848093356925668	1.4263072592551889	287.32875994688436	297.8132791594055	287.32875994688436	297.8132791594055	1.0364896267761685	\N	\N	\N
+HYPERYIELD:999:0xca79db4b49f608ef54a5cb813fbed3a6387bc645	2026-11-22T10:00:00.000Z	archival-rpc	51935995	0.000062912456157092	0.021198459539230125	63.554939509996416	1.3134104637984603	63.554939509996416	1.3134104637984603	0.020665749569187725	\N	\N	\N
+HYPERYIELD:999:0xbe6727b535545c67d5caa73dea54865b92cf7907	2026-11-22T10:00:00.000Z	archival-rpc	51935995	0	0	0.029727413194989	0	50.15220862516518	0	0	\N	\N	\N
+HYPERYIELD:999:0x9b498c3c8a0b8cd8ba1d9851d40d186f1872b44e	2026-11-22T10:00:00.000Z	archival-rpc	51935995	0	0	871.5004792112784	0	55.27655544337578	0	0	\N	\N	\N
+HYPERYIELD:999:0x5555555555555555555555555555555555555555	2026-11-22T09:00:00.000Z	archival-rpc	51932335	1.1100470182434274	2.8158315420435467	622.1870436546333	436.5146899081861	37921.27673840064	26604.85223085728	0.7015811312047971	\N	\N	\N
+HYPERYIELD:999:0x94e8396e0869c9f2200760af0621afd240e1cf38	2026-11-22T09:00:00.000Z	archival-rpc	51932335	0.08216577777705672	1.351260956597016	37.97038747940585	3.3250816655125224	2401.6023390913783	210.30925507135976	0.08757039067130827	\N	\N	\N
+HYPERYIELD:999:0x02c6a2fa58cc01a18b8d9e00ea48d65e4df26c70	2026-11-22T09:00:00.000Z	archival-rpc	51932335	0.2848093356925668	1.4263072592551889	287.3291782625176	297.8154507152071	287.3291782625176	297.8154507152071	1.036495675503964	\N	\N	\N
+HYPERYIELD:999:0xca79db4b49f608ef54a5cb813fbed3a6387bc645	2026-11-22T09:00:00.000Z	archival-rpc	51932335	0.000062912456157092	0.021198459539230125	63.55493953043723	1.3134106061352306	63.55493953043723	1.3134106061352306	0.020665751802127392	\N	\N	\N
+HYPERYIELD:999:0xbe6727b535545c67d5caa73dea54865b92cf7907	2026-11-22T09:00:00.000Z	archival-rpc	51932335	0	0	0.029727413194989	0	50.15220862516518	0	0	\N	\N	\N
+HYPERYIELD:999:0x9b498c3c8a0b8cd8ba1d9851d40d186f1872b44e	2026-11-22T09:00:00.000Z	archival-rpc	51932335	0	0	871.5004792112784	0	55.27655544337578	0	0	\N	\N	\N
+HYPERYIELD:999:0x5555555555555555555555555555555555555555	2026-11-22T11:00:00.000Z	archival-rpc	51939655	1.1100470182434274	2.8158315420435467	622.1870460623204	436.514694195558	37921.276885145206	26604.85249216554	0.7015811353806861	\N	\N	\N
+HYPERYIELD:999:0x94e8396e0869c9f2200760af0621afd240e1cf38	2026-11-22T11:00:00.000Z	archival-rpc	51939655	0.08216577777705672	1.351260956597016	37.97039460132224	3.325091923609231	2401.602789547963	210.30990388931198	0.08757064440656198	\N	\N	\N
+HYPERYIELD:999:0x02c6a2fa58cc01a18b8d9e00ea48d65e4df26c70	2026-11-22T11:00:00.000Z	archival-rpc	51939655	0.2848093356925668	1.4263072592551889	287.32885335565993	297.8137640607056	287.32885335565993	297.8137640607056	1.0364909774378532	\N	\N	\N
+HYPERYIELD:999:0xca79db4b49f608ef54a5cb813fbed3a6387bc645	2026-11-22T11:00:00.000Z	archival-rpc	51939655	0.000062912456157092	0.021198459539230125	63.5549395145608	1.3134104955818837	63.5549395145608	1.3134104955818837	0.02066575006779723	\N	\N	\N
+HYPERYIELD:999:0xbe6727b535545c67d5caa73dea54865b92cf7907	2026-11-22T11:00:00.000Z	archival-rpc	51939655	0	0	0.029727413194989	0	50.15220862516518	0	0	\N	\N	\N
+HYPERYIELD:999:0x9b498c3c8a0b8cd8ba1d9851d40d186f1872b44e	2026-11-22T11:00:00.000Z	archival-rpc	51939655	0	0	871.5004792112784	0	55.27655544337578	0	0	\N	\N	\N
+\.
+
+ANALYZE _hist_stage;
+
+INSERT INTO lending_snapshots_data AS t (
+    market_id, data_ts, deposit_rate, variable_borrow_rate,
+    total_deposits, total_debt, total_deposits_usd, total_debt_usd,
+    utilization, source
+)
+SELECT DISTINCT ON (m.id, s.data_ts)
+       m.id, s.data_ts,
+       CASE WHEN abs(s.deposit_rate) >= 1e10 THEN NULL ELSE s.deposit_rate END,
+       CASE WHEN abs(s.variable_borrow_rate) >= 1e10 THEN NULL ELSE s.variable_borrow_rate END,
+       CASE WHEN abs(s.total_deposits) >= 1e22 THEN NULL ELSE s.total_deposits END,
+       CASE WHEN abs(s.total_debt) >= 1e22 THEN NULL ELSE s.total_debt END,
+       CASE WHEN abs(s.total_deposits_usd) >= 1e30 THEN NULL ELSE s.total_deposits_usd END,
+       CASE WHEN abs(s.total_debt_usd) >= 1e30 THEN NULL ELSE s.total_debt_usd END,
+       s.utilization, s.source
+  FROM _hist_stage s
+  JOIN markets m ON m.market_uid = s.market_uid
+ WHERE s.deposit_rate         IS NOT NULL
+    OR s.variable_borrow_rate IS NOT NULL
+    OR s.total_deposits       IS NOT NULL
+    OR s.total_debt           IS NOT NULL
+    OR s.total_deposits_usd   IS NOT NULL
+    OR s.total_debt_usd       IS NOT NULL
+    OR s.utilization          IS NOT NULL
+ ORDER BY m.id, s.data_ts, s.ctid DESC
+ON CONFLICT (market_id, data_ts) DO UPDATE SET
+    deposit_rate         = COALESCE(excluded.deposit_rate,         t.deposit_rate),
+    variable_borrow_rate = COALESCE(excluded.variable_borrow_rate, t.variable_borrow_rate),
+    total_deposits       = COALESCE(excluded.total_deposits,       t.total_deposits),
+    total_debt           = COALESCE(excluded.total_debt,           t.total_debt),
+    total_deposits_usd   = COALESCE(excluded.total_deposits_usd,   t.total_deposits_usd),
+    total_debt_usd       = COALESCE(excluded.total_debt_usd,       t.total_debt_usd),
+    utilization          = COALESCE(excluded.utilization,          t.utilization),
+    -- First-writer provenance: a backfill row merging into a live-cron row must
+    -- not relabel it, or DELETE ... WHERE source <> 'live-cron' would delete
+    -- live measurements. Mirrors the TypeScript ingest path.
+    source               = CASE WHEN t.source = 'live-cron'
+                                THEN 'live-cron'
+                                ELSE excluded.source END
+-- A row the live cron measured is never overwritten by an API's version of
+-- the same hour. Added for the 2026-08-26 → 09-14 fetcher-a gap, where ~30 %
+-- of hours DO exist: without this guard every one of them would have taken
+-- Morpho's / Euler's number in place of our own read. Backfill fills holes;
+-- it does not re-measure.
+ WHERE t.source <> 'live-cron';
+
+INSERT INTO market_index_snapshots_data AS t (
+    market_id, data_ts, block_number, supply_index, borrow_index, index_kind, source
+)
+SELECT DISTINCT ON (m.id, s.data_ts)
+       m.id, s.data_ts, s.block_number, s.supply_index, s.borrow_index,
+       COALESCE(s.index_kind, 'unknown'), s.source
+  FROM _hist_stage s
+  JOIN markets m ON m.market_uid = s.market_uid
+ WHERE s.supply_index IS NOT NULL
+    OR s.borrow_index IS NOT NULL
+ ORDER BY m.id, s.data_ts, s.ctid DESC
+ON CONFLICT (market_id, data_ts) DO UPDATE SET
+    block_number = COALESCE(excluded.block_number, t.block_number),
+    supply_index = COALESCE(excluded.supply_index, t.supply_index),
+    borrow_index = COALESCE(excluded.borrow_index, t.borrow_index),
+    index_kind   = excluded.index_kind,
+    source       = excluded.source
+ WHERE t.source <> 'live-cron';
+
+SELECT
+    (SELECT count(*) FROM _hist_stage)                                     AS staged_rows,
+    (SELECT count(DISTINCT s.market_uid) FROM _hist_stage s
+       WHERE NOT EXISTS (SELECT 1 FROM markets m WHERE m.market_uid = s.market_uid))
+                                                                           AS unknown_markets,
+    (SELECT count(*) FROM _hist_stage s
+       WHERE NOT EXISTS (SELECT 1 FROM markets m WHERE m.market_uid = s.market_uid))
+                                                                           AS rows_skipped
+\gset _hist_
+\echo '  staged=':_hist_staged_rows'  skipped_rows=':_hist_rows_skipped'  unknown_markets=':_hist_unknown_markets
+
+COMMIT;

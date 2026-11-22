@@ -6,8 +6,9 @@ import {
   PacedClient,
   bucketStart,
   makeMarketUid,
+  vaultWanted,
 } from "@lending-owners/core";
-import { decimalString, num } from "./shared.js";
+import { apyToAprPercent, decimalString, num } from "./shared.js";
 
 /**
  * Euler Earn vaults — VAULT_HISTORY_BACKFILL_PLAN.md §2.3 "euler-earn" row and
@@ -104,6 +105,7 @@ export function createEulerEarnVaultHistoryFetcher(): HistoryFetcher {
           const address = vault.address;
           done += 1;
           if (!address) continue;
+          if (!vaultWanted(ctx, chainId, address)) continue;
 
           let rows: TotalsRow[] = [];
           try {
@@ -135,7 +137,8 @@ export function createEulerEarnVaultHistoryFetcher(): HistoryFetcher {
               chainId,
               dataTs: bucketStart(tsMs, ctx.resolution).toISOString(),
               source: "euler-earn-api",
-              depositRate: apy, // already percent
+              // percent APY → APR, as the live fetcher (`apyToAprPercent`)
+              depositRate: apy === undefined ? undefined : apyToAprPercent(apy),
               totalDepositsUsd: assets,
               supplyIndex: decimalString(pps),
               indexKind: pps === undefined ? undefined : "assets_per_share",

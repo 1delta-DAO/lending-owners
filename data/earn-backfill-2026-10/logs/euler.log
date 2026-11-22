@@ -1,0 +1,15 @@
+
+> lending-owners@0.0.0 fetch:history /home/axtar/lending-owners
+> pnpm --filter @lending-owners/history-runner run start -- -- --lender VAULT_EULER_EARN --chain 1,56,143,999,8453 --only /home/axtar/lending-owners/data/earn-backfill-2026-10/inventory.json --from 2019-01-01 --resolution 1d --out /home/axtar/lending-owners/data/earn-backfill-2026-10/history
+
+
+> @lending-owners/history-runner@0.0.0 start /home/axtar/lending-owners/packages/history-runner
+> tsx --env-file-if-exists=../../.env src/index.ts -- -- --lender VAULT_EULER_EARN --chain 1,56,143,999,8453 --only /home/axtar/lending-owners/data/earn-backfill-2026-10/inventory.json --from 2019-01-01 --resolution 1d --out /home/axtar/lending-owners/data/earn-backfill-2026-10/history
+
+[registry] 16557 market uids loaded
+[VAULT_EULER_EARN] requested from 2019-01-01 00:00:00 but this source only serves back to ~2026-04-23 00:00:00 — the rest is not recoverable here.
+[VAULT_EULER_EARN] 2019-01-01 00:00:00 → 2026-10-30 18:51:46 @1d chains=1,56,143,999,8453 only=980 vaults
+[VAULT_EULER_EARN] VAULT_EULER_EARN 1 tsUSDC: 12/20
+[VAULT_EULER_EARN] VAULT_EULER_EARN 56 K3bUSDT: 4/4
+[VAULT_EULER_EARN] VAULT_EULER_EARN 8453 lfgEAUD: 20/20
+[VAULT_EULER_EARN] points=13 written=10 duplicate=3 files=2 elapsedMs=1920

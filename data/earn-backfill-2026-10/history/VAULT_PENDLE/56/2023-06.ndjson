@@ -1,0 +1,6 @@
+{"marketUid":"VAULT_PENDLE:56:0x080f52a881ba96eee2268682733c857c560e5dd4","lenderKey":"VAULT_PENDLE","chainId":"56","dataTs":"2023-06-28T00:00:00.000Z","source":"pendle-api","depositRate":4.14,"totalDepositsUsd":1.7755}
+{"marketUid":"VAULT_PENDLE:56:0x080f52a881ba96eee2268682733c857c560e5dd4","lenderKey":"VAULT_PENDLE","chainId":"56","dataTs":"2023-06-29T00:00:00.000Z","source":"pendle-api","depositRate":4.14,"totalDepositsUsd":1.7987}
+{"marketUid":"VAULT_PENDLE:56:0x080f52a881ba96eee2268682733c857c560e5dd4","lenderKey":"VAULT_PENDLE","chainId":"56","dataTs":"2023-06-30T00:00:00.000Z","source":"pendle-api","depositRate":4.14,"totalDepositsUsd":1879.7802}
+{"marketUid":"VAULT_PENDLE:56:0x66317dec4a3d8d1e47b85f704e5df675a68bb7c9","lenderKey":"VAULT_PENDLE","chainId":"56","dataTs":"2023-06-28T00:00:00.000Z","source":"pendle-api","depositRate":7.53,"totalDepositsUsd":1.7656}
+{"marketUid":"VAULT_PENDLE:56:0x66317dec4a3d8d1e47b85f704e5df675a68bb7c9","lenderKey":"VAULT_PENDLE","chainId":"56","dataTs":"2023-06-29T00:00:00.000Z","source":"pendle-api","depositRate":7.53,"totalDepositsUsd":1.7897}
+{"marketUid":"VAULT_PENDLE:56:0x66317dec4a3d8d1e47b85f704e5df675a68bb7c9","lenderKey":"VAULT_PENDLE","chainId":"56","dataTs":"2023-06-30T00:00:00.000Z","source":"pendle-api","depositRate":7.53,"totalDepositsUsd":1883.7736}

@@ -1,0 +1,120 @@
+{
+  "mode": "tail-anchor",
+  "from": 1546300800000,
+  "to": 1793404800000,
+  "anchors": null,
+  "dirs": [
+    "/home/axtar/lending-owners/data/earn-backfill-2026-10/history",
+    "/home/axtar/lending-owners/data/earn-backfill-2026-10/history-hourly"
+  ],
+  "report": {
+    "VAULT_ETHERFI_LIQUID": {
+      "series": 3,
+      "spKept": 3,
+      "spDropped": 0,
+      "rateKept": 3,
+      "rateDropped": 0,
+      "noAnchor": 0,
+      "rows": 627
+    },
+    "VAULT_EULER_EARN": {
+      "series": 2,
+      "spKept": 2,
+      "spDropped": 0,
+      "rateKept": 2,
+      "rateDropped": 0,
+      "noAnchor": 0,
+      "rows": 1
+    },
+    "VAULT_GMX": {
+      "series": 4,
+      "spKept": 0,
+      "spDropped": 0,
+      "rateKept": 3,
+      "rateDropped": 1,
+      "noAnchor": 0,
+      "rows": 0
+    },
+    "VAULT_IPOR": {
+      "series": 12,
+      "spKept": 12,
+      "spDropped": 0,
+      "rateKept": 12,
+      "rateDropped": 0,
+      "noAnchor": 0,
+      "rows": 90226
+    },
+    "VAULT_LAGOON": {
+      "series": 4,
+      "spKept": 0,
+      "spDropped": 4,
+      "rateKept": 0,
+      "rateDropped": 0,
+      "noAnchor": 0,
+      "rows": 0
+    },
+    "VAULT_LLAMA": {
+      "series": 59,
+      "spKept": 33,
+      "spDropped": 5,
+      "rateKept": 58,
+      "rateDropped": 1,
+      "noAnchor": 0,
+      "rows": 11035
+    },
+    "VAULT_LLAMA_LST": {
+      "series": 22,
+      "spKept": 6,
+      "spDropped": 0,
+      "rateKept": 21,
+      "rateDropped": 1,
+      "noAnchor": 0,
+      "rows": 8644
+    },
+    "VAULT_MORPHO": {
+      "series": 375,
+      "spKept": 373,
+      "spDropped": 1,
+      "rateKept": 366,
+      "rateDropped": 8,
+      "noAnchor": 1,
+      "rows": 67497
+    },
+    "VAULT_PENDLE": {
+      "series": 28,
+      "spKept": 0,
+      "spDropped": 0,
+      "rateKept": 27,
+      "rateDropped": 0,
+      "noAnchor": 1,
+      "rows": 207
+    },
+    "VAULT_UPSHIFT": {
+      "series": 4,
+      "spKept": 0,
+      "spDropped": 0,
+      "rateKept": 0,
+      "rateDropped": 0,
+      "noAnchor": 4,
+      "rows": 0
+    },
+    "VAULT_YEARN": {
+      "series": 284,
+      "spKept": 203,
+      "spDropped": 81,
+      "rateKept": 183,
+      "rateDropped": 36,
+      "noAnchor": 0,
+      "rows": 193629
+    },
+    "VAULT_YO": {
+      "series": 5,
+      "spKept": 0,
+      "spDropped": 0,
+      "rateKept": 4,
+      "rateDropped": 0,
+      "noAnchor": 0,
+      "rows": 52
+    }
+  }
+}

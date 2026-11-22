@@ -1,0 +1,2 @@
+{"marketUid":"VAULT_YEARN:8453:0xb3f14e3fda2147fa7574fd003ba40df266e0b90c","lenderKey":"VAULT_YEARN","chainId":"8453","dataTs":"2024-07-31T00:00:00.000Z","source":"yearn-kong","depositRate":0,"totalDepositsUsd":0,"supplyIndex":"1","indexKind":"assets_per_share"}
+{"marketUid":"VAULT_YEARN:8453:0x81bdd5e8fbde5a85a2d38761d03d2307fe69a329","lenderKey":"VAULT_YEARN","chainId":"8453","dataTs":"2024-07-31T00:00:00.000Z","source":"yearn-kong","depositRate":0,"totalDepositsUsd":0,"supplyIndex":"1","indexKind":"assets_per_share"}

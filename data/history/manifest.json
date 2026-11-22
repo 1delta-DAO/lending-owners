@@ -7155,5 +7155,61 @@
     },
     "written": 4284,
     "skippedAsDuplicate": 0
+  },
+  {
+    "lender": "VAULT_JRDOLA",
+    "source": "inverse-api",
+    "from": "2024-01-27T00:00:00.000Z",
+    "to": "2026-10-23T15:33:16.230Z",
+    "resolution": "1d",
+    "runAt": "2026-10-23T15:33:23.794Z",
+    "elapsedMs": 2520,
+    "files": {
+      "VAULT_JRDOLA/1/2026-07.ndjson": 25,
+      "VAULT_JRDOLA/1/2026-08.ndjson": 31,
+      "VAULT_JRDOLA/1/2026-09.ndjson": 29,
+      "VAULT_JRDOLA/1/2026-10.ndjson": 23
+    },
+    "written": 108,
+    "skippedAsDuplicate": 0
+  },
+  {
+    "lender": "VAULT_SINV",
+    "source": "inverse-api",
+    "from": "2024-01-27T00:00:00.000Z",
+    "to": "2026-10-23T15:33:16.230Z",
+    "resolution": "1d",
+    "runAt": "2026-10-23T15:33:26.539Z",
+    "elapsedMs": 2739,
+    "files": {
+      "VAULT_SINV/1/2024-09.ndjson": 12,
+      "VAULT_SINV/1/2024-10.ndjson": 31,
+      "VAULT_SINV/1/2024-11.ndjson": 30,
+      "VAULT_SINV/1/2024-12.ndjson": 31,
+      "VAULT_SINV/1/2025-01.ndjson": 31,
+      "VAULT_SINV/1/2025-02.ndjson": 28,
+      "VAULT_SINV/1/2025-03.ndjson": 31,
+      "VAULT_SINV/1/2025-04.ndjson": 30,
+      "VAULT_SINV/1/2025-05.ndjson": 31,
+      "VAULT_SINV/1/2025-06.ndjson": 30,
+      "VAULT_SINV/1/2025-07.ndjson": 31,
+      "VAULT_SINV/1/2025-08.ndjson": 31,
+      "VAULT_SINV/1/2025-09.ndjson": 30,
+      "VAULT_SINV/1/2025-10.ndjson": 27,
+      "VAULT_SINV/1/2025-11.ndjson": 29,
+      "VAULT_SINV/1/2025-12.ndjson": 31,
+      "VAULT_SINV/1/2026-01.ndjson": 31,
+      "VAULT_SINV/1/2026-02.ndjson": 28,
+      "VAULT_SINV/1/2026-03.ndjson": 31,
+      "VAULT_SINV/1/2026-04.ndjson": 30,
+      "VAULT_SINV/1/2026-05.ndjson": 31,
+      "VAULT_SINV/1/2026-06.ndjson": 30,
+      "VAULT_SINV/1/2026-07.ndjson": 31,
+      "VAULT_SINV/1/2026-08.ndjson": 31,
+      "VAULT_SINV/1/2026-09.ndjson": 29,
+      "VAULT_SINV/1/2026-10.ndjson": 23
+    },
+    "written": 759,
+    "skippedAsDuplicate": 0
   }
 ]

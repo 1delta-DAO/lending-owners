@@ -7,9 +7,10 @@ import {
   PacedClient,
   bucketStart,
   makeMarketUid,
+  vaultWanted,
   mapWithConcurrency,
 } from "@lending-owners/core";
-import { decimalString, fractionToPercent, num } from "./shared.js";
+import { apyToAprPercent, decimalString, fractionToPercent, num } from "./shared.js";
 
 /**
  * Yearn V3 vaults — HISTORY_APIS.md "yearn" row.
@@ -132,8 +133,14 @@ export function createYearnVaultHistoryFetcher(
           for (const v of items) {
             const address = (v.address ?? "").toLowerCase();
             if (!address || seen.has(address)) continue;
-            if (!v.version?.startsWith("3.") || !v.endorsed) continue;
-            if ((v.tvl?.tvl ?? 0) <= MIN_TVL_USD) continue;
+            if (ctx.onlyVaults) {
+              // A targeted run names vaults prod already lists — the roster
+              // quality filters below would silently drop some of them.
+              if (!vaultWanted(ctx, chainId, address)) continue;
+            } else {
+              if (!v.version?.startsWith("3.") || !v.endorsed) continue;
+              if ((v.tvl?.tvl ?? 0) <= MIN_TVL_USD) continue;
+            }
             seen.add(address);
             vaults.push({ chainId, address, symbol: v.symbol ?? address });
           }
@@ -237,7 +244,8 @@ export function createYearnVaultHistoryFetcher(
             chainId: v.chainId,
             dataTs: new Date(bucket).toISOString(),
             source: "yearn-kong",
-            depositRate: entry.apy !== undefined ? fractionToPercent(entry.apy) : undefined,
+            // Kong's net APY fraction → APR: the live row stores yDaemon's netAPR.
+            depositRate: entry.apy !== undefined ? apyToAprPercent(fractionToPercent(entry.apy)) : undefined,
             totalDepositsUsd: entry.tvlUsd,
             supplyIndex: decimalString(entry.pps),
             indexKind: entry.pps !== undefined ? "assets_per_share" : undefined,

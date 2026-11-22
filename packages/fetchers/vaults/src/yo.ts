@@ -7,7 +7,7 @@ import {
   bucketStart,
   makeMarketUid,
 } from "@lending-owners/core";
-import { num } from "./shared.js";
+import { apyToAprPercent, num } from "./shared.js";
 
 /**
  * YO Protocol — APR_BACKFILL.md "yoETH (YO)" row. Half DECAYING.
@@ -114,7 +114,8 @@ export function createYoVaultHistoryFetcher(): HistoryFetcher {
             dataTs: new Date(bucket).toISOString(),
             observedTs: new Date(tsMs).toISOString(),
             source: "yo-api",
-            depositRate: yieldByBucket.get(bucket), // already percent
+            // percent APY → APR: live stores apyToAprPercent(yield) (yoProtocol.ts)
+            depositRate: yieldByBucket.has(bucket) ? apyToAprPercent(yieldByBucket.get(bucket)!) : undefined,
             totalDeposits: num(row.tvl),
             totalDepositsUsd: num(row.tvlUsd),
           };
@@ -131,7 +132,7 @@ export function createYoVaultHistoryFetcher(): HistoryFetcher {
             chainId: vault.chainId,
             dataTs: new Date(bucket).toISOString(),
             source: "yo-api",
-            depositRate: apy,
+            depositRate: apyToAprPercent(apy),
           };
         }
         ctx.onProgress?.(done, vaults.length, `${LENDER_KEY} ${vault.id}`);

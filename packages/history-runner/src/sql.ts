@@ -116,13 +116,28 @@ function toCopyLine(p: HistoryPoint): string {
   return COLUMNS.map((c) => copyValue(row[c])).join("\t");
 }
 
-const SPOT_INSERT = `INSERT INTO lending_snapshots (
-    market_uid, data_ts, deposit_rate, variable_borrow_rate,
+/**
+ * The history tables are in yield-tracer's compact layout (migration 0205):
+ * `lending_snapshots` and `market_index_snapshots` are VIEWS over `<name>_data`,
+ * keyed by the integer `markets.id`, and a view takes no INSERT. The staging
+ * join to `markets` that skips unknown uids also supplies that id. A database
+ * still in the legacy layout is refused up front instead of failing halfway.
+ */
+const LAYOUT_GUARD = `DO $$
+BEGIN
+  IF (SELECT relkind FROM pg_class WHERE oid = to_regclass('lending_snapshots')) IS DISTINCT FROM 'v'
+     OR (SELECT relkind FROM pg_class WHERE oid = to_regclass('market_index_snapshots')) IS DISTINCT FROM 'v' THEN
+    RAISE EXCEPTION 'this file writes the compact history layout (yield-tracer 0205); lending_snapshots / market_index_snapshots are not views here';
+  END IF;
+END $$;`;
+
+const SPOT_INSERT = `INSERT INTO lending_snapshots_data AS t (
+    market_id, data_ts, deposit_rate, variable_borrow_rate,
     total_deposits, total_debt, total_deposits_usd, total_debt_usd,
     utilization, source
 )
-SELECT DISTINCT ON (s.market_uid, s.data_ts)
-       s.market_uid, s.data_ts,
+SELECT DISTINCT ON (m.id, s.data_ts)
+       m.id, s.data_ts,
        ${capped("deposit_rate", RATE_MAX)},
        ${capped("variable_borrow_rate", RATE_MAX)},
        ${capped("total_deposits", AMOUNT_MAX)},
@@ -139,19 +154,19 @@ SELECT DISTINCT ON (s.market_uid, s.data_ts)
     OR s.total_deposits_usd   IS NOT NULL
     OR s.total_debt_usd       IS NOT NULL
     OR s.utilization          IS NOT NULL
- ORDER BY s.market_uid, s.data_ts, s.ctid DESC
-ON CONFLICT (market_uid, data_ts) DO UPDATE SET
-    deposit_rate         = COALESCE(excluded.deposit_rate,         lending_snapshots.deposit_rate),
-    variable_borrow_rate = COALESCE(excluded.variable_borrow_rate, lending_snapshots.variable_borrow_rate),
-    total_deposits       = COALESCE(excluded.total_deposits,       lending_snapshots.total_deposits),
-    total_debt           = COALESCE(excluded.total_debt,           lending_snapshots.total_debt),
-    total_deposits_usd   = COALESCE(excluded.total_deposits_usd,   lending_snapshots.total_deposits_usd),
-    total_debt_usd       = COALESCE(excluded.total_debt_usd,       lending_snapshots.total_debt_usd),
-    utilization          = COALESCE(excluded.utilization,          lending_snapshots.utilization),
+ ORDER BY m.id, s.data_ts, s.ctid DESC
+ON CONFLICT (market_id, data_ts) DO UPDATE SET
+    deposit_rate         = COALESCE(excluded.deposit_rate,         t.deposit_rate),
+    variable_borrow_rate = COALESCE(excluded.variable_borrow_rate, t.variable_borrow_rate),
+    total_deposits       = COALESCE(excluded.total_deposits,       t.total_deposits),
+    total_debt           = COALESCE(excluded.total_debt,           t.total_debt),
+    total_deposits_usd   = COALESCE(excluded.total_deposits_usd,   t.total_deposits_usd),
+    total_debt_usd       = COALESCE(excluded.total_debt_usd,       t.total_debt_usd),
+    utilization          = COALESCE(excluded.utilization,          t.utilization),
     -- First-writer provenance: a backfill row merging into a live-cron row must
     -- not relabel it, or DELETE ... WHERE source <> 'live-cron' would delete
     -- live measurements. Mirrors the TypeScript ingest path.
-    source               = CASE WHEN lending_snapshots.source = 'live-cron'
+    source               = CASE WHEN t.source = 'live-cron'
                                 THEN 'live-cron'
                                 ELSE excluded.source END
 -- A row the live cron measured is never overwritten by an API's version of
@@ -159,26 +174,26 @@ ON CONFLICT (market_uid, data_ts) DO UPDATE SET
 -- of hours DO exist: without this guard every one of them would have taken
 -- Morpho's / Euler's number in place of our own read. Backfill fills holes;
 -- it does not re-measure.
- WHERE lending_snapshots.source <> 'live-cron';`;
+ WHERE t.source <> 'live-cron';`;
 
-const INDEX_INSERT = `INSERT INTO market_index_snapshots (
-    market_uid, data_ts, block_number, supply_index, borrow_index, index_kind, source
+const INDEX_INSERT = `INSERT INTO market_index_snapshots_data AS t (
+    market_id, data_ts, block_number, supply_index, borrow_index, index_kind, source
 )
-SELECT DISTINCT ON (s.market_uid, s.data_ts)
-       s.market_uid, s.data_ts, s.block_number, s.supply_index, s.borrow_index,
+SELECT DISTINCT ON (m.id, s.data_ts)
+       m.id, s.data_ts, s.block_number, s.supply_index, s.borrow_index,
        COALESCE(s.index_kind, 'unknown'), s.source
   FROM _hist_stage s
   JOIN markets m ON m.market_uid = s.market_uid
  WHERE s.supply_index IS NOT NULL
     OR s.borrow_index IS NOT NULL
- ORDER BY s.market_uid, s.data_ts, s.ctid DESC
-ON CONFLICT (market_uid, data_ts) DO UPDATE SET
-    block_number = COALESCE(excluded.block_number, market_index_snapshots.block_number),
-    supply_index = COALESCE(excluded.supply_index, market_index_snapshots.supply_index),
-    borrow_index = COALESCE(excluded.borrow_index, market_index_snapshots.borrow_index),
+ ORDER BY m.id, s.data_ts, s.ctid DESC
+ON CONFLICT (market_id, data_ts) DO UPDATE SET
+    block_number = COALESCE(excluded.block_number, t.block_number),
+    supply_index = COALESCE(excluded.supply_index, t.supply_index),
+    borrow_index = COALESCE(excluded.borrow_index, t.borrow_index),
     index_kind   = excluded.index_kind,
     source       = excluded.source
- WHERE market_index_snapshots.source <> 'live-cron';`;
+ WHERE t.source <> 'live-cron';`;
 
 /** Emitted before COMMIT so an operator sees the skip count in the psql output
  *  rather than discovering the gap in a dashboard weeks later. */
@@ -205,11 +220,13 @@ export function renderSql(lines: string[], meta: SqlExportMeta): string {
     `-- Generated from ${meta.generatedFrom} (${meta.rows} rows)`,
     `-- Apply with:  psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f <this file>`,
     `--`,
-    `-- Safe to re-run: every insert upserts on (market_uid, data_ts).`,
+    `-- Safe to re-run: every insert upserts on (market_id, data_ts).`,
     `-- Safe against the markets FK: rows for unknown markets are skipped, not`,
     `-- fatal, and the count is echoed before COMMIT.`,
     `\\set ON_ERROR_STOP on`,
     `BEGIN;`,
+    ``,
+    LAYOUT_GUARD,
     ``,
     STAGE_DDL,
     ``,

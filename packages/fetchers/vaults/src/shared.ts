@@ -36,3 +36,6 @@ export const decimalString = (v: unknown): string | undefined => {
   if (typeof v !== "string" || v === "") return undefined;
   return Number.isFinite(Number(v)) ? v : undefined;
 };
+
+/** Lives in `core` since the lending `hist/` modules need it too. */
+export { apyToAprPercent } from "@lending-owners/core";

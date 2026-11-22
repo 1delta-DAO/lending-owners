@@ -18,6 +18,10 @@ to do what next.**
 > join `markets`. This file stays the narrative: why a gap exists and who has to do
 > what. The tables below are a snapshot; the report is the measurement.
 
+> **Open 2026-10-30:** 980 vault rows first listed Sep 15 → Oct 30 (IPOR,
+> Solana LSTs/savings, 373 Morpho vaults, Yearn, …) have no backfill. See
+> [EARN_BACKFILL_2026_10.md](EARN_BACKFILL_2026_10.md).
+
 ## 1. What is captured (on disk in `data/history/`)
 
 ### Lender side (`hist/` modules, `pnpm fetch:history -- --lender <KEY>`)
@@ -63,6 +67,8 @@ header cites the matrix row it implements.
 | --- | --- | --- | --- |
 | VAULT_RE | NAV (pps) + trailing APY | inception (reUSD 2025-05, reUSDe 2025-04) | one call serves both tokens; ~10 months deeper than the Llama pool the live fetcher still reads |
 | VAULT_SDOLA | pps + APY + TVL | inception 2024-02-08 | schema drifts across the archive; early rows carry `apr` only |
+| VAULT_JRDOLA | pps (sDOLA/share) + APR + TVL | v2 inception (2026-07-07 in the feed) | the feed serves jrDOLA **v1** until 2026-07-07 incl. its 2026-04-16 slash (1.0242 → 0.0024); v1 rows dropped by date + `pps ≥ 0.5`. Rate written as APR (yield-tracer stores it verbatim as `total_rate`) |
+| VAULT_SINV | pps (INV/share) + APR + TVL | v2 inception 2024-09-19 | feed starts 2024-09-05 on sINV **v1**; v2 had 0 supply until 09-19. Rate written as APR |
 | VAULT_SKY | rate + total (+util/borrow for stUSDS) | **365d rolling** | sUSDS, sDAI, stUSDS; `days_ago` is a whitelist — bigger is a 500 |
 | VAULT_SPARK | rate + TVL | **365d rolling** | 6 vaults in one call; `sUSDS` in that feed is Sky's and is skipped here |
 | VAULT_SFRXUSD | pps + APR + APY + supply | inception 2025-05 | block-stamped both sides (Ethereum + Fraxtal) |

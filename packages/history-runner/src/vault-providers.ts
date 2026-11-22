@@ -189,6 +189,20 @@ export const VAULT_PROVIDER_ROSTER: readonly VaultProviderRow[] = [
     doc: APR_BACKFILL,
   },
   {
+    source: "savings:jrdola",
+    runnerKey: "VAULT_JRDOLA",
+    availability: "module",
+    note: "`inverse.finance/api/junior/jdola-staking-history` — daily; v1 rows (to 2026-07-07, incl. the 2026-04-16 slash) are dropped, v2 from 2026-06-23",
+    doc: APR_BACKFILL,
+  },
+  {
+    source: "savings:sinv",
+    runnerKey: "VAULT_SINV",
+    availability: "module",
+    note: "`inverse.finance/api/inv-staking/history` — daily since the v2 vault's 2024-09-17 deployment",
+    doc: APR_BACKFILL,
+  },
+  {
     source: "savings:spark",
     runnerKey: "VAULT_SPARK",
     availability: "module",
@@ -265,6 +279,20 @@ export const VAULT_PROVIDER_ROSTER: readonly VaultProviderRow[] = [
     availability: "module",
     note: "yield timeseries is a fixed 30-day window (params ignored); the TVL route is full-depth",
     doc: APR_BACKFILL,
+  },
+  {
+    source: "savings:ipor-fusion",
+    runnerKey: "VAULT_IPOR",
+    availability: "module",
+    note: "`api.ipor.io/v2/fusion/vault-history/{chain}/{vault}-{all,1y,30d}` — hourly share price + TVL to inception (`-1y` alone cuts vaults older than a year); rate = realized trailing 30 d",
+    doc: "EARN_BACKFILL_2026_10.md §3 · lending-sdks docs/earn/IPOR_FUSION.md",
+  },
+  {
+    source: "savings:etherfi-liquid-op",
+    runnerKey: "VAULT_ETHERFI_LIQUID",
+    availability: "module",
+    note: "`api.sevenseas.capital/dailyData/optimism/{vault}/0/latest` — daily share price + TVL since the 2026-04-02 OP deployment (liquidUSD/ETH/BTC); rate = realized trailing 30 d",
+    doc: "packages/fetchers/vaults/src/etherfiLiquid.ts · ticket 0006 lane E",
   },
 
   // ── no upstream history at all ───────────────────────────────────────────

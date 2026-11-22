@@ -9,6 +9,7 @@ import { NdjsonSink } from "./ndjson.js";
 import { FETCHERS, DECAYING } from "./fetchers.js";
 import { type MarketRegistry, loadMarketRegistry } from "./registry.js";
 import { fetchLenderMetaFromDirAndInitialize } from "@1delta/initializer-sdk";
+import { readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -46,6 +47,30 @@ interface Args {
   dryRun: boolean;
   /** Opt out of `alignToObservation` and keep raw floor-to-resolution labels. */
   keepDayBuckets: boolean;
+  /** `--only`: vault allow-list, see `HistoryContext.onlyVaults`. */
+  onlyVaults?: Set<string>;
+}
+
+/**
+ * `--only <file>` → `<chainId>:<lower address>` set. Takes either an earn
+ * inventory (`{ rows: [{ earnUid: "vault.morpho:8453:0x…" }] }`, as in
+ * data/earn-backfill-2026-10/inventory.json) or a text file of `chain:address`
+ * lines. Lower-cased for MATCHING only — the uid a module emits is unchanged.
+ */
+function loadOnlyVaults(file: string): Set<string> {
+  const raw = readFileSync(file, "utf8");
+  const keys: string[] = [];
+  if (raw.trimStart().startsWith("{")) {
+    const doc = JSON.parse(raw) as { rows?: Array<{ earnUid?: string }> };
+    for (const r of doc.rows ?? []) {
+      const parts = String(r.earnUid ?? "").split(":");
+      if (parts.length === 3) keys.push(`${parts[1]}:${parts[2]}`);
+    }
+  } else {
+    keys.push(...raw.split(/\r?\n/).map((l) => l.trim()).filter((l) => l && !l.startsWith("#")));
+  }
+  if (keys.length === 0) throw new Error(`--only ${file}: no vaults found`);
+  return new Set(keys.map((k) => k.toLowerCase()));
 }
 
 function parseArgs(argv: string[], repoRoot: string): Args {
@@ -58,6 +83,7 @@ function parseArgs(argv: string[], repoRoot: string): Args {
   let days: number | undefined;
   let dryRun = false;
   let keepDayBuckets = false;
+  let onlyVaults: Set<string> | undefined;
 
   const value = (i: number, flag: string): string => {
     const v = argv[i + 1];
@@ -125,6 +151,10 @@ function parseArgs(argv: string[], repoRoot: string): Args {
       case "--keep-day-buckets":
         keepDayBuckets = true;
         break;
+      case "--only":
+        onlyVaults = loadOnlyVaults(path.resolve(value(i, arg)));
+        i += 1;
+        break;
       case "--":
         // pnpm inserts its own `--` ahead of forwarded args, so a bare
         // separator can appear once or twice depending on invocation.
@@ -154,6 +184,7 @@ function parseArgs(argv: string[], repoRoot: string): Args {
     days,
     dryRun,
     keepDayBuckets,
+    onlyVaults,
   };
 }
 
@@ -178,7 +209,7 @@ async function runLender(key: string, args: Args): Promise<void> {
   const keepDayBuckets = args.keepDayBuckets;
   const from = bucketStart(args.from!, args.resolution);
   console.log(
-    `[${key}] ${fmt(from)} → ${fmt(args.to)} @${args.resolution}${args.chainIds ? ` chains=${args.chainIds.join(",")}` : ""}${args.dryRun ? " (dry run)" : ""}`,
+    `[${key}] ${fmt(from)} → ${fmt(args.to)} @${args.resolution}${args.chainIds ? ` chains=${args.chainIds.join(",")}` : ""}${args.onlyVaults ? ` only=${args.onlyVaults.size} vaults` : ""}${args.dryRun ? " (dry run)" : ""}`,
   );
 
   let buffer: HistoryPoint[] = [];
@@ -196,6 +227,7 @@ async function runLender(key: string, args: Args): Promise<void> {
     to: args.to,
     resolution: args.resolution,
     chainIds: args.chainIds,
+    onlyVaults: args.onlyVaults,
     // Family-scoped, not global: leaves are shared across lenders (Aave's leaf
     // is the underlying token, which dozens of Morpho markets also use), so a
     // global lookup resolves almost nothing for those families.

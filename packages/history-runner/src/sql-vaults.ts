@@ -45,6 +45,8 @@ export const PROVIDER_OF: Record<string, string> = {
   VAULT_YIELDBASIS: "savings",
   VAULT_RE: "savings",
   VAULT_SDOLA: "savings",
+  VAULT_JRDOLA: "savings",
+  VAULT_SINV: "savings",
   VAULT_SKY: "savings",
   VAULT_SPARK: "savings",
   VAULT_SFRXUSD: "savings",
@@ -55,6 +57,11 @@ export const PROVIDER_OF: Record<string, string> = {
   VAULT_FALCON: "savings",
   VAULT_TORI: "savings",
   VAULT_LLAMA: "savings",
+  // The same Llama module, for pools pinned to an LST row (provider `lst`,
+  // the Solana LSTs among them) — VAULT_LLAMA would join no live vault.
+  VAULT_LLAMA_LST: "lst",
+  VAULT_IPOR: "savings",
+  VAULT_ETHERFI_LIQUID: "savings",
   VAULT_VENUS_HUB: "savings",
   VAULT_BITFI: "savings",
   // Archive replay (app-fetcher/scripts/replay-vault-history.ts): one key per
@@ -128,6 +135,8 @@ export function toVaultCopyLine(p: HistoryPoint): string | null {
   const row: Record<(typeof VAULT_COLUMNS)[number], unknown> = {
     runner_key: parts[0],
     chain_id: parts[1],
+    // Lower-cased for the join only; the row is written under the address
+    // `*_latest` stores (RESOLVE_DDL), so a base58 Solana key survives.
     address: parts[2]!.toLowerCase(),
     data_ts: p.dataTs,
     source: p.source,
@@ -168,10 +177,13 @@ const RESOLVE_DDL = `-- One resolved row per staged row: the live identity it jo
 CREATE TEMP TABLE _vault_resolved ON COMMIT DROP AS
 SELECT s.*,
        p.provider,
-       CASE WHEN p.provider = 'pendle' THEN lower(pl.vault_address)
-            WHEN p.provider = 'gmx'    THEN lower(gl.vault_address)
-            WHEN p.provider = 'hypercore' THEN lower(hl.vault_address)
-            ELSE lower(vl.vault_address) END AS vault_address,
+       -- The STORED address, verbatim: live rows key Solana base58 as-is, so a
+       -- lower()d copy would land under a key nothing reads. EVM is already
+       -- lower case in *_latest, so this changes nothing there.
+       CASE WHEN p.provider = 'pendle' THEN pl.vault_address
+            WHEN p.provider = 'gmx'    THEN gl.vault_address
+            WHEN p.provider = 'hypercore' THEN hl.vault_address
+            ELSE vl.vault_address END AS vault_address,
        vl.underlying
   FROM _vault_stage s
   LEFT JOIN _vault_provider p ON p.runner_key = s.runner_key

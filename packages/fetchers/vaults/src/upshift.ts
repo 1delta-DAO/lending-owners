@@ -6,9 +6,10 @@ import {
   PacedClient,
   bucketStart,
   makeMarketUid,
+  vaultWanted,
   mapWithConcurrency,
 } from "@lending-owners/core";
-import { decimalString, fractionToPercent, num } from "./shared.js";
+import { apyToAprPercent, decimalString, fractionToPercent, num } from "./shared.js";
 
 /**
  * Upshift vaults — HISTORY_APIS.md "upshift" row.
@@ -37,16 +38,19 @@ import { decimalString, fractionToPercent, num } from "./shared.js";
  */
 
 const LENDER_KEY = "VAULT_UPSHIFT";
-const ROSTER_URL = "https://app.upshift.finance/api/proxy/vaults";
+// The live fetcher's roster (margin-fetcher upshift/fetchPublic.ts). The old
+// `app.upshift.finance/api/proxy/vaults` 307s to itself since ~2026-10 and
+// every run died on "fetch failed".
+const ROSTER_URL = "https://api.augustdigital.io/api/v1/tokenized_vault?load_snapshots=false";
 const HISTORY_API = "https://api.augustdigital.io/api/v1";
 const MAX_N_DAYS = 3000;
 
 const EVM_ADDRESS = /^0x[0-9a-fA-F]{40}$/;
 
 interface RosterVault {
-  chainId: number | null;
+  chain: number | null;
   address: string | null;
-  name: string | null;
+  vault_name: string | null;
 }
 
 interface TimeseriesRow {
@@ -85,17 +89,18 @@ export function createUpshiftVaultHistoryFetcher(
         signal: ctx.signal,
       });
 
-      const roster = await client.getJson<{ data?: RosterVault[] }>(ROSTER_URL);
-      const rows = (roster.data ?? [])
+      const roster = await client.getJson<RosterVault[]>(ROSTER_URL);
+      const rows = (Array.isArray(roster) ? roster : [])
         .map((v) => ({
-          chainId: String(v.chainId ?? "") as ChainId,
+          chainId: String(v.chain ?? "") as ChainId,
           address: (v.address ?? "").toLowerCase(),
-          name: v.name ?? "",
+          name: v.vault_name ?? "",
         }))
         // Positive numeric chain + EVM address ⇒ an EVM row; the listing also
         // carries Solana (-1/101), Stellar (-3) and test chains.
         .filter((v) => Number(v.chainId) > 0 && EVM_ADDRESS.test(v.address))
-        .filter((v) => !ctx.chainIds || ctx.chainIds.includes(v.chainId));
+        .filter((v) => !ctx.chainIds || ctx.chainIds.includes(v.chainId))
+        .filter((v) => vaultWanted(ctx, v.chainId, v.address));
 
       // Address-only history route: an address serving two chains would be
       // ambiguous — skip BOTH sides of a collision rather than guess.
@@ -160,7 +165,8 @@ export function createUpshiftVaultHistoryFetcher(
             chainId: v.chainId,
             dataTs: bucketStart(tsMs, "1d").toISOString(),
             source: "upshift-api",
-            depositRate: apy !== undefined ? fractionToPercent(apy) : undefined,
+            // daily_apy is an APY fraction; the live row stores a nominal APR.
+            depositRate: apy !== undefined ? apyToAprPercent(fractionToPercent(apy)) : undefined,
             totalDepositsUsd: tvl,
             supplyIndex: ratio,
             indexKind: ratio !== undefined ? "assets_per_share" : undefined,

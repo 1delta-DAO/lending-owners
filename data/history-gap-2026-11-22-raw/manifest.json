@@ -1,0 +1,65 @@
+[
+  {
+    "lender": "MORPHO_BLUE",
+    "source": "morpho-api",
+    "from": "2026-11-21T12:00:00.000Z",
+    "to": "2026-11-22T16:00:00.000Z",
+    "resolution": "1h",
+    "runAt": "2026-11-22T14:52:03.704Z",
+    "elapsedMs": 11518,
+    "files": {
+      "MORPHO_BLUE/999/2026-11.ndjson": 11151
+    },
+    "written": 11151,
+    "skippedAsDuplicate": 0
+  },
+  {
+    "lender": "MORPHO_BLUE",
+    "source": "morpho-api",
+    "from": "2026-11-21T12:00:00.000Z",
+    "to": "2026-11-22T16:00:00.000Z",
+    "resolution": "1h",
+    "runAt": "2026-11-22T14:52:11.701Z",
+    "elapsedMs": 5877,
+    "files": {
+      "MORPHO_BLUE/143/2026-11.ndjson": 7722
+    },
+    "written": 7722,
+    "skippedAsDuplicate": 0
+  },
+  {
+    "lender": "MORPHO_BLUE",
+    "source": "morpho-api",
+    "from": "2026-11-21T12:00:00.000Z",
+    "to": "2026-11-22T16:00:00.000Z",
+    "resolution": "1h",
+    "runAt": "2026-11-22T14:52:22.092Z",
+    "elapsedMs": 4330,
+    "files": {
+      "MORPHO_BLUE/747474/2026-11.ndjson": 5859
+    },
+    "written": 5859,
+    "skippedAsDuplicate": 0
+  },
+  {
+    "lender": "EULER",
+    "source": "euler-api",
+    "from": "2026-11-21T12:00:00.000Z",
+    "to": "2026-11-22T16:00:00.000Z",
+    "resolution": "1h",
+    "runAt": "2026-11-22T14:52:56.319Z",
+    "elapsedMs": 312312,
+    "files": {
+      "EULER/8453/2026-11.ndjson": 2133,
+      "EULER/1/2026-11.ndjson": 7884,
+      "EULER/42161/2026-11.ndjson": 999,
+      "EULER/56/2026-11.ndjson": 2511,
+      "EULER/999/2026-11.ndjson": 810,
+      "EULER/143/2026-11.ndjson": 2754,
+      "EULER/43114/2026-11.ndjson": 1026,
+      "EULER/59144/2026-11.ndjson": 621
+    },
+    "written": 18738,
+    "skippedAsDuplicate": 0
+  }
+]

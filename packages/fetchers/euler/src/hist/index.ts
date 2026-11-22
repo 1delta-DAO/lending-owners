@@ -4,6 +4,7 @@ import {
   type HistoryFetcher,
   type HistoryPoint,
   PacedClient,
+  apyToAprPercent,
   bucketStart,
   mapWithConcurrency,
 } from "@lending-owners/core";
@@ -152,9 +153,10 @@ export function createEulerHistoryFetcher(config: EulerHistoryConfig = {}): Hist
               dataTs: bucketStart(tsMs, resolution).toISOString(),
               observedTs: new Date(tsMs).toISOString(),
               source: "euler-api",
-              // Euler already reports percent (8.18 = 8.18 %).
-              depositRate: p.supplyApy ?? undefined,
-              variableBorrowRate: p.borrowApy ?? undefined,
+              // Euler already reports percent (8.18 = 8.18 %), but as APY;
+              // the live cron stores APR.
+              depositRate: p.supplyApy == null ? undefined : apyToAprPercent(p.supplyApy),
+              variableBorrowRate: p.borrowApy == null ? undefined : apyToAprPercent(p.borrowApy),
               totalDeposits: toHuman(p.totalAssets),
               totalDebt: toHuman(p.totalBorrows),
               totalDepositsUsd: p.totalAssetsUsd ?? undefined,

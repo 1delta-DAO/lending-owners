@@ -1,0 +1,145 @@
+-- Generated from AAVE_V3/534352/2026-11.ndjson (30 rows)
+-- Apply with:  psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f <this file>
+--
+-- Safe to re-run: every insert upserts on (market_id, data_ts).
+-- Safe against the markets FK: rows for unknown markets are skipped, not
+-- fatal, and the count is echoed before COMMIT.
+\set ON_ERROR_STOP on
+BEGIN;
+
+DO $$
+BEGIN
+  IF (SELECT relkind FROM pg_class WHERE oid = to_regclass('lending_snapshots')) IS DISTINCT FROM 'v'
+     OR (SELECT relkind FROM pg_class WHERE oid = to_regclass('market_index_snapshots')) IS DISTINCT FROM 'v' THEN
+    RAISE EXCEPTION 'this file writes the compact history layout (yield-tracer 0205); lending_snapshots / market_index_snapshots are not views here';
+  END IF;
+END $$;
+
+CREATE TEMP TABLE _hist_stage (
+  market_uid           text,
+  data_ts              timestamptz,
+  source               text,
+  block_number         bigint,
+  deposit_rate         numeric,
+  variable_borrow_rate numeric,
+  total_deposits       numeric,
+  total_debt           numeric,
+  total_deposits_usd   numeric,
+  total_debt_usd       numeric,
+  utilization          numeric,
+  supply_index         numeric(60,30),
+  borrow_index         numeric(60,30),
+  index_kind           text
+) ON COMMIT DROP;
+
+COPY _hist_stage (market_uid, data_ts, source, block_number, deposit_rate, variable_borrow_rate, total_deposits, total_debt, total_deposits_usd, total_debt_usd, utilization, supply_index, borrow_index, index_kind) FROM stdin;
+AAVE_V3:534352:0x5300000000000000000000000000000000000004	2026-11-21T19:00:00.000Z	archival-rpc	35813204	0.001920250112938206	5.1044974978259665	552.0571191635312	20.758753746816758	928031.2037129008	34896.33691605634	0.037602546957949054	\N	\N	\N
+AAVE_V3:534352:0x06efdbff2a14a7c8e15944d1f4a48f9f95f663a4	2026-11-21T19:00:00.000Z	archival-rpc	35813204	0.059605826133193866	8.223521017815756	241177.409779	174785.154588	241142.80323247082	174760.07466616816	0.7247161114640143	\N	\N	\N
+AAVE_V3:534352:0xf610a9dfb7c89644979b4a0f27063e9e7d7cda32	2026-11-21T19:00:00.000Z	archival-rpc	35813204	0.009729419931818452	5.157219777590896	34.7588588099913	6.558251128307583	72897.66677917475	13754.226167750085	0.18867855139198178	\N	\N	\N
+AAVE_V3:534352:0x01f0a31698c4d065659b9bdc21b3610292a1c506	2026-11-21T19:00:00.000Z	archival-rpc	35813204	0.002053120780995347	5.822742796269002	88.89262528636787	3.14019085718667	165658.27571251447	5851.988296373575	0.03532566224780217	\N	\N	\N
+AAVE_V3:534352:0xd29687c813d741e2f938f4ac377128810e217b1b	2026-11-21T19:00:00.000Z	archival-rpc	35813204	0.000582390210859032	20.045194887507307	398221.2739401631	1157.5860896217323	13340.412676995464	38.779134002328036	0.002906891633809779	\N	\N	\N
+AAVE_V3:534352:0x5300000000000000000000000000000000000004	2026-11-21T20:00:00.000Z	archival-rpc	35813499	0.001920250112938206	5.1044974978259665	552.0571203639286	20.758873735080964	928398.5568495832	34910.35203887418	0.03760276422373874	\N	\N	\N
+AAVE_V3:534352:0x06efdbff2a14a7c8e15944d1f4a48f9f95f663a4	2026-11-21T20:00:00.000Z	archival-rpc	35813499	0.059605826133193866	8.223521017815756	241177.426057	174786.782188	241143.73839412836	174762.367970264	0.7247228111087428	\N	\N	\N
+AAVE_V3:534352:0xf610a9dfb7c89644979b4a0f27063e9e7d7cda32	2026-11-21T20:00:00.000Z	archival-rpc	35813499	0.009729419931818452	5.157219777590896	34.758859192935596	6.558289427374511	72897.66758230081	13754.306490082707	0.18867965116379368	\N	\N	\N
+AAVE_V3:534352:0x01f0a31698c4d065659b9bdc21b3610292a1c506	2026-11-21T20:00:00.000Z	archival-rpc	35813499	0.002053120780995347	5.822742796269002	88.89262549303109	3.1402115618572988	165736.31616206374	5854.783716254963	0.03532589508342828	\N	\N	\N
+AAVE_V3:534352:0xd29687c813d741e2f938f4ac377128810e217b1b	2026-11-21T20:00:00.000Z	archival-rpc	35813499	0.000582390210859032	20.045194887507307	398221.27420277946	1157.6123651680432	13340.412685793113	38.78001423312945	0.002906957614169483	\N	\N	\N
+AAVE_V3:534352:0x5300000000000000000000000000000000000004	2026-11-22T09:00:00.000Z	archival-rpc	35817884	0.001920401249871602	5.104505557490096	552.0599331153779	20.76044668478248	929961.831304178	34971.606993326415	0.03760542187444645	\N	\N	\N
+AAVE_V3:534352:0x06efdbff2a14a7c8e15944d1f4a48f9f95f663a4	2026-11-22T09:00:00.000Z	archival-rpc	35817884	0.05961169229630373	8.223748813396298	241208.946739	174808.119436	241175.25467331952	174783.70223787718	0.7247165654479268	\N	\N	\N
+AAVE_V3:534352:0xf610a9dfb7c89644979b4a0f27063e9e7d7cda32	2026-11-22T09:00:00.000Z	archival-rpc	35817884	0.009730781378396692	5.157241126395382	34.759903834078486	6.558791498109187	73181.46242662938	13808.49486448812	0.18868842472685357	\N	\N	\N
+AAVE_V3:534352:0x01f0a31698c4d065659b9bdc21b3610292a1c506	2026-11-22T09:00:00.000Z	archival-rpc	35817884	0.002053120780995347	5.822742796269002	88.89262820210755	3.140482984825074	166020.3322054143	5865.32358162123	0.03532894738678248	\N	\N	\N
+AAVE_V3:534352:0xd29687c813d741e2f938f4ac377128810e217b1b	2026-11-22T09:00:00.000Z	archival-rpc	35817884	0.000580685890645961	20.045063148647635	398222.0953985251	1153.754457264448	13340.440195850593	38.65077431835901	0.002897263789719693	\N	\N	\N
+AAVE_V3:534352:0x5300000000000000000000000000000000000004	2026-11-22T08:00:00.000Z	archival-rpc	35817296	0.001920401249871602	5.104505557490096	552.059931894373	20.76032463743898	915502.2462851276	34427.64587889047	0.03760520088136211	\N	\N	\N
+AAVE_V3:534352:0x06efdbff2a14a7c8e15944d1f4a48f9f95f663a4	2026-11-22T08:00:00.000Z	archival-rpc	35817296	0.05961169229630373	8.223748813396298	241208.930179	174806.463786	241175.2381156326	174782.04681913837	0.7247097512363119	\N	\N	\N
+AAVE_V3:534352:0xf610a9dfb7c89644979b4a0f27063e9e7d7cda32	2026-11-22T08:00:00.000Z	archival-rpc	35817296	0.009730781378396692	5.157241126395382	34.75990344452644	6.558752541674293	72043.59402706553	13593.71167962128	0.18868730611238466	\N	\N	\N
+AAVE_V3:534352:0x01f0a31698c4d065659b9bdc21b3610292a1c506	2026-11-22T08:00:00.000Z	archival-rpc	35817296	0.002053120780995347	5.822742796269002	88.8926279919141	3.1404619246572487	163438.95192612603	5774.087425748893	0.03532871055339835	\N	\N	\N
+AAVE_V3:534352:0xd29687c813d741e2f938f4ac377128810e217b1b	2026-11-22T08:00:00.000Z	archival-rpc	35817296	0.000580685890645961	20.045063148647635	398222.0951322039	1153.7278221209763	13340.44018692883	38.649882041052706	0.002897196906510061	\N	\N	\N
+AAVE_V3:534352:0x5300000000000000000000000000000000000004	2026-11-22T10:00:00.000Z	archival-rpc	35818485	0.001920645430374353	5.1045185789058865	552.0102092964623	20.760568161677277	946572.3166546716	35599.66603681439	0.03760902934773008	\N	\N	\N
+AAVE_V3:534352:0x06efdbff2a14a7c8e15944d1f4a48f9f95f663a4	2026-11-22T10:00:00.000Z	archival-rpc	35818485	0.05961169229630373	8.223748813396298	241208.963221	174809.767352	241175.2711530173	174785.34992369628	0.7247233478294757	\N	\N	\N
+AAVE_V3:534352:0xf610a9dfb7c89644979b4a0f27063e9e7d7cda32	2026-11-22T10:00:00.000Z	archival-rpc	35818485	0.009730781378396692	5.157241126395382	34.75990422180718	6.558830272433703	74349.3393981186	14028.942509970906	0.18868953811210204	\N	\N	\N
+AAVE_V3:534352:0x01f0a31698c4d065659b9bdc21b3610292a1c506	2026-11-22T10:00:00.000Z	archival-rpc	35818485	0.002053120780995347	5.822742796269002	88.89262841131716	3.1405039465585656	168995.03437547534	5970.456514675542	0.03532918311321684	\N	\N	\N
+AAVE_V3:534352:0xd29687c813d741e2f938f4ac377128810e217b1b	2026-11-22T10:00:00.000Z	archival-rpc	35818485	0.000580685890645961	20.045063148647635	398222.09566359984	1153.780968349614	13340.440204730596	38.65166243971208	0.0028973303614078624	\N	\N	\N
+AAVE_V3:534352:0x5300000000000000000000000000000000000004	2026-11-22T11:00:00.000Z	archival-rpc	35818810	0.001920645430374353	5.1045185789058865	552.010210507763	20.76068923625005	946572.3187317774	35599.873652247785	0.037609248599139986	\N	\N	\N
+AAVE_V3:534352:0x06efdbff2a14a7c8e15944d1f4a48f9f95f663a4	2026-11-22T11:00:00.000Z	archival-rpc	35818810	0.05961169229630373	8.223748813396298	241208.979649	174811.409814	241175.2875787226	174786.9921562772	0.7247301077612462	\N	\N	\N
+AAVE_V3:534352:0xf610a9dfb7c89644979b4a0f27063e9e7d7cda32	2026-11-22T11:00:00.000Z	archival-rpc	35818810	0.009730781378396692	5.157241126395382	34.75990460824882	6.558868918274855	74349.34022469395	14029.025171095109	0.1886906478080029	\N	\N	\N
+AAVE_V3:534352:0x01f0a31698c4d065659b9bdc21b3610292a1c506	2026-11-22T11:00:00.000Z	archival-rpc	35818810	0.002053120780995347	5.822742796269002	88.89262861983231	3.1405248388487563	168995.03477188645	5970.496233304208	0.03532941805872183	\N	\N	\N
+AAVE_V3:534352:0xd29687c813d741e2f938f4ac377128810e217b1b	2026-11-22T11:00:00.000Z	archival-rpc	35818810	0.000580685890645961	20.045063148647635	398222.0959277947	1153.8073920373226	13340.440213581123	38.65254763325031	0.0028973967136332133	\N	\N	\N
+\.
+
+ANALYZE _hist_stage;
+
+INSERT INTO lending_snapshots_data AS t (
+    market_id, data_ts, deposit_rate, variable_borrow_rate,
+    total_deposits, total_debt, total_deposits_usd, total_debt_usd,
+    utilization, source
+)
+SELECT DISTINCT ON (m.id, s.data_ts)
+       m.id, s.data_ts,
+       CASE WHEN abs(s.deposit_rate) >= 1e10 THEN NULL ELSE s.deposit_rate END,
+       CASE WHEN abs(s.variable_borrow_rate) >= 1e10 THEN NULL ELSE s.variable_borrow_rate END,
+       CASE WHEN abs(s.total_deposits) >= 1e22 THEN NULL ELSE s.total_deposits END,
+       CASE WHEN abs(s.total_debt) >= 1e22 THEN NULL ELSE s.total_debt END,
+       CASE WHEN abs(s.total_deposits_usd) >= 1e30 THEN NULL ELSE s.total_deposits_usd END,
+       CASE WHEN abs(s.total_debt_usd) >= 1e30 THEN NULL ELSE s.total_debt_usd END,
+       s.utilization, s.source
+  FROM _hist_stage s
+  JOIN markets m ON m.market_uid = s.market_uid
+ WHERE s.deposit_rate         IS NOT NULL
+    OR s.variable_borrow_rate IS NOT NULL
+    OR s.total_deposits       IS NOT NULL
+    OR s.total_debt           IS NOT NULL
+    OR s.total_deposits_usd   IS NOT NULL
+    OR s.total_debt_usd       IS NOT NULL
+    OR s.utilization          IS NOT NULL
+ ORDER BY m.id, s.data_ts, s.ctid DESC
+ON CONFLICT (market_id, data_ts) DO UPDATE SET
+    deposit_rate         = COALESCE(excluded.deposit_rate,         t.deposit_rate),
+    variable_borrow_rate = COALESCE(excluded.variable_borrow_rate, t.variable_borrow_rate),
+    total_deposits       = COALESCE(excluded.total_deposits,       t.total_deposits),
+    total_debt           = COALESCE(excluded.total_debt,           t.total_debt),
+    total_deposits_usd   = COALESCE(excluded.total_deposits_usd,   t.total_deposits_usd),
+    total_debt_usd       = COALESCE(excluded.total_debt_usd,       t.total_debt_usd),
+    utilization          = COALESCE(excluded.utilization,          t.utilization),
+    -- First-writer provenance: a backfill row merging into a live-cron row must
+    -- not relabel it, or DELETE ... WHERE source <> 'live-cron' would delete
+    -- live measurements. Mirrors the TypeScript ingest path.
+    source               = CASE WHEN t.source = 'live-cron'
+                                THEN 'live-cron'
+                                ELSE excluded.source END
+-- A row the live cron measured is never overwritten by an API's version of
+-- the same hour. Added for the 2026-08-26 → 09-14 fetcher-a gap, where ~30 %
+-- of hours DO exist: without this guard every one of them would have taken
+-- Morpho's / Euler's number in place of our own read. Backfill fills holes;
+-- it does not re-measure.
+ WHERE t.source <> 'live-cron';
+
+INSERT INTO market_index_snapshots_data AS t (
+    market_id, data_ts, block_number, supply_index, borrow_index, index_kind, source
+)
+SELECT DISTINCT ON (m.id, s.data_ts)
+       m.id, s.data_ts, s.block_number, s.supply_index, s.borrow_index,
+       COALESCE(s.index_kind, 'unknown'), s.source
+  FROM _hist_stage s
+  JOIN markets m ON m.market_uid = s.market_uid
+ WHERE s.supply_index IS NOT NULL
+    OR s.borrow_index IS NOT NULL
+ ORDER BY m.id, s.data_ts, s.ctid DESC
+ON CONFLICT (market_id, data_ts) DO UPDATE SET
+    block_number = COALESCE(excluded.block_number, t.block_number),
+    supply_index = COALESCE(excluded.supply_index, t.supply_index),
+    borrow_index = COALESCE(excluded.borrow_index, t.borrow_index),
+    index_kind   = excluded.index_kind,
+    source       = excluded.source
+ WHERE t.source <> 'live-cron';
+
+SELECT
+    (SELECT count(*) FROM _hist_stage)                                     AS staged_rows,
+    (SELECT count(DISTINCT s.market_uid) FROM _hist_stage s
+       WHERE NOT EXISTS (SELECT 1 FROM markets m WHERE m.market_uid = s.market_uid))
+                                                                           AS unknown_markets,
+    (SELECT count(*) FROM _hist_stage s
+       WHERE NOT EXISTS (SELECT 1 FROM markets m WHERE m.market_uid = s.market_uid))
+                                                                           AS rows_skipped
+\gset _hist_
+\echo '  staged=':_hist_staged_rows'  skipped_rows=':_hist_rows_skipped'  unknown_markets=':_hist_unknown_markets
+
+COMMIT;

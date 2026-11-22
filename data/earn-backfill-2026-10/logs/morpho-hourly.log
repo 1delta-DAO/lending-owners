@@ -1,0 +1,13 @@
+
+> lending-owners@0.0.0 fetch:history /home/axtar/lending-owners
+> pnpm --filter @lending-owners/history-runner run start -- -- --lender VAULT_MORPHO --only /home/axtar/lending-owners/data/earn-backfill-2026-10/morpho-no-overlap.txt --from 2026-10-25 --resolution 1h --out /home/axtar/lending-owners/data/earn-backfill-2026-10/history-hourly
+
+
+> @lending-owners/history-runner@0.0.0 start /home/axtar/lending-owners/packages/history-runner
+> tsx --env-file-if-exists=../../.env src/index.ts -- -- --lender VAULT_MORPHO --only /home/axtar/lending-owners/data/earn-backfill-2026-10/morpho-no-overlap.txt --from 2026-10-25 --resolution 1h --out /home/axtar/lending-owners/data/earn-backfill-2026-10/history-hourly
+
+[registry] 16547 market uids loaded
+[VAULT_MORPHO] 2026-10-25 00:00:00 → 2026-10-30 19:07:42 @1h only=10 vaults
+[VAULT_MORPHO] VAULT_MORPHO: 1/10
+[VAULT_MORPHO] VAULT_MORPHO: 10/10
+[VAULT_MORPHO] points=1302 written=1302 duplicate=0 files=4 elapsedMs=45364

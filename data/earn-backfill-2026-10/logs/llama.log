@@ -1,0 +1,17 @@
+
+> lending-owners@0.0.0 fetch:history /home/axtar/lending-owners
+> pnpm --filter @lending-owners/history-runner run start -- -- --lender VAULT_LLAMA --from 2019-01-01 --resolution 1d --out /home/axtar/lending-owners/data/earn-backfill-2026-10/history
+
+
+> @lending-owners/history-runner@0.0.0 start /home/axtar/lending-owners/packages/history-runner
+> tsx --env-file-if-exists=../../.env src/index.ts -- -- --lender VAULT_LLAMA --from 2019-01-01 --resolution 1d --out /home/axtar/lending-owners/data/earn-backfill-2026-10/history
+
+[registry] 16547 market uids loaded
+[VAULT_LLAMA] 2019-01-01 00:00:00 → 2026-10-30 18:59:05 @1d
+[VAULT_LLAMA] VAULT_LLAMA sUSDe: 1/87
+[VAULT_LLAMA] VAULT_LLAMA Bedrock UNIETH: 22/87
+[VAULT_LLAMA] VAULT_LLAMA Nest NOPAL: 42/87
+[VAULT_LLAMA] VAULT_LLAMA YO yoBTC: 63/87
+[VAULT_LLAMA] VAULT_LLAMA Superform superCBBTC: 84/87
+[VAULT_LLAMA] VAULT_LLAMA Superform bizUSDT0: 87/87
+[VAULT_LLAMA] points=24040 written=24040 duplicate=0 files=135 elapsedMs=21531

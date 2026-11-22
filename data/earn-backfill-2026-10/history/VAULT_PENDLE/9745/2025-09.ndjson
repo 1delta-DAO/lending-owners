@@ -1,0 +1,7 @@
+{"marketUid":"VAULT_PENDLE:9745:0x0d7d9abee602c7f0a242ea7e200e47c372acba84","lenderKey":"VAULT_PENDLE","chainId":"9745","dataTs":"2025-09-30T00:00:00.000Z","source":"pendle-api","depositRate":33,"totalDepositsUsd":48469.1966}
+{"marketUid":"VAULT_PENDLE:9745:0x15735f2f53c5cd25a57dff83b11c93eceaf72073","lenderKey":"VAULT_PENDLE","chainId":"9745","dataTs":"2025-09-30T00:00:00.000Z","source":"pendle-api","depositRate":35,"totalDepositsUsd":46771.746}
+{"marketUid":"VAULT_PENDLE:9745:0x18d89b23d2875590c502cd3eac8f448f3ccf9999","lenderKey":"VAULT_PENDLE","chainId":"9745","dataTs":"2025-09-30T00:00:00.000Z","source":"pendle-api","depositRate":9,"totalDepositsUsd":0.1089}
+{"marketUid":"VAULT_PENDLE:9745:0xe06c3b972ba630ccf3392cecdbe070690b4e6b55","lenderKey":"VAULT_PENDLE","chainId":"9745","dataTs":"2025-09-29T00:00:00.000Z","source":"pendle-api","depositRate":8,"totalDepositsUsd":0.1195}
+{"marketUid":"VAULT_PENDLE:9745:0xe06c3b972ba630ccf3392cecdbe070690b4e6b55","lenderKey":"VAULT_PENDLE","chainId":"9745","dataTs":"2025-09-30T00:00:00.000Z","source":"pendle-api","depositRate":8,"totalDepositsUsd":103220.6076}
+{"marketUid":"VAULT_PENDLE:9745:0xfd3eb62302fa3cbc3c7e59e887b92dbbc814285d","lenderKey":"VAULT_PENDLE","chainId":"9745","dataTs":"2025-09-29T00:00:00.000Z","source":"pendle-api","depositRate":8,"totalDepositsUsd":0.0997}
+{"marketUid":"VAULT_PENDLE:9745:0xfd3eb62302fa3cbc3c7e59e887b92dbbc814285d","lenderKey":"VAULT_PENDLE","chainId":"9745","dataTs":"2025-09-30T00:00:00.000Z","source":"pendle-api","depositRate":7.82,"totalDepositsUsd":99759.7671}

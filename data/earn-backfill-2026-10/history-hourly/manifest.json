@@ -1,0 +1,19 @@
+[
+  {
+    "lender": "VAULT_MORPHO",
+    "source": "morpho-api",
+    "from": "2026-10-25T00:00:00.000Z",
+    "to": "2026-10-30T19:07:42.293Z",
+    "resolution": "1h",
+    "runAt": "2026-10-30T19:08:30.879Z",
+    "elapsedMs": 45364,
+    "files": {
+      "VAULT_MORPHO/8453/2026-10.ndjson": 698,
+      "VAULT_MORPHO/1/2026-10.ndjson": 185,
+      "VAULT_MORPHO/143/2026-10.ndjson": 140,
+      "VAULT_MORPHO/5042/2026-10.ndjson": 279
+    },
+    "written": 1302,
+    "skippedAsDuplicate": 0
+  }
+]

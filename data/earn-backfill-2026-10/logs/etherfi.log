@@ -1,0 +1,13 @@
+
+> lending-owners@0.0.0 fetch:history /home/axtar/lending-owners
+> pnpm --filter @lending-owners/history-runner run start -- -- --lender VAULT_ETHERFI_LIQUID --from 2019-01-01 --resolution 1d --out /home/axtar/lending-owners/data/earn-backfill-2026-10/history
+
+
+> @lending-owners/history-runner@0.0.0 start /home/axtar/lending-owners/packages/history-runner
+> tsx --env-file-if-exists=../../.env src/index.ts -- -- --lender VAULT_ETHERFI_LIQUID --from 2019-01-01 --resolution 1d --out /home/axtar/lending-owners/data/earn-backfill-2026-10/history
+
+[registry] 16547 market uids loaded
+[VAULT_ETHERFI_LIQUID] 2019-01-01 00:00:00 → 2026-10-30 19:00:31 @1d
+[VAULT_ETHERFI_LIQUID] VAULT_ETHERFI_LIQUID liquidUSD: 1/3
+[VAULT_ETHERFI_LIQUID] VAULT_ETHERFI_LIQUID liquidBTC: 3/3
+[VAULT_ETHERFI_LIQUID] points=636 written=636 duplicate=0 files=7 elapsedMs=2007
